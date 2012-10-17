@@ -1,0 +1,9 @@
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\bin\Debug\ATLAS Mapper.exe
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\bin\Debug\ATLAS Mapper.pdb
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS_Mapper.MapperForm.resources
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS_Mapper.Properties.Resources.resources
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.exe
+D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.pdb
