@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.btnOpenPort = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,9 +40,10 @@
             this.tbDataBits = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tbStopBits = new System.Windows.Forms.TextBox();
-            this.sPort = new System.IO.Ports.SerialPort(this.components);
             this.rtbDataIn = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnClosePort = new System.Windows.Forms.Button();
+            this.btnClearText = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -153,17 +153,15 @@
             this.tbStopBits.TabIndex = 11;
             this.tbStopBits.Text = "1";
             // 
-            // sPort
-            // 
-            this.sPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.sPort_DataReceived);
-            // 
             // rtbDataIn
             // 
             this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(316, 10);
             this.rtbDataIn.Name = "rtbDataIn";
+            this.rtbDataIn.ReadOnly = true;
             this.rtbDataIn.Size = new System.Drawing.Size(239, 326);
             this.rtbDataIn.TabIndex = 13;
             this.rtbDataIn.Text = "";
@@ -188,11 +186,34 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Serial Port";
             // 
+            // btnClosePort
+            // 
+            this.btnClosePort.Enabled = false;
+            this.btnClosePort.Location = new System.Drawing.Point(60, 242);
+            this.btnClosePort.Name = "btnClosePort";
+            this.btnClosePort.Size = new System.Drawing.Size(75, 23);
+            this.btnClosePort.TabIndex = 15;
+            this.btnClosePort.Text = "Close Port";
+            this.btnClosePort.UseVisualStyleBackColor = true;
+            this.btnClosePort.Click += new System.EventHandler(this.btnClosePort_Click);
+            // 
+            // btnClearText
+            // 
+            this.btnClearText.Location = new System.Drawing.Point(235, 313);
+            this.btnClearText.Name = "btnClearText";
+            this.btnClearText.Size = new System.Drawing.Size(75, 23);
+            this.btnClearText.TabIndex = 16;
+            this.btnClearText.Text = "Clear";
+            this.btnClearText.UseVisualStyleBackColor = true;
+            this.btnClearText.Click += new System.EventHandler(this.btnClearText_Click);
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(567, 348);
+            this.Controls.Add(this.btnClearText);
+            this.Controls.Add(this.btnClosePort);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.rtbDataIn);
             this.Controls.Add(this.label2);
@@ -221,9 +242,10 @@
         private System.Windows.Forms.TextBox tbDataBits;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbStopBits;
-        private System.IO.Ports.SerialPort sPort;
         private System.Windows.Forms.RichTextBox rtbDataIn;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnClosePort;
+        private System.Windows.Forms.Button btnClearText;
     }
 }
 
