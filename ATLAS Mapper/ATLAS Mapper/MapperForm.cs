@@ -14,7 +14,9 @@ namespace ATLAS_Mapper
 {
     public partial class MapperForm : Form
     {
-        SerialPort sPort;
+        bool keyWHandled = false, keySHandled = false, keyAHandled = false, keyDHandled = false;
+        bool acceptKeys = false;
+        private SerialPort sPort;
 
         public MapperForm()
         {
@@ -36,8 +38,8 @@ namespace ATLAS_Mapper
                 sPort.StopBits = StopBits.One;
                 sPort.DataBits = 8;
                 sPort.Handshake = Handshake.None;
-                sPort.DataReceived += new SerialDataReceivedEventHandler(realSP_DataReceived);
-                sPort.ErrorReceived += new SerialErrorReceivedEventHandler(realSP_ErrorReceived);
+                sPort.DataReceived += new SerialDataReceivedEventHandler(sPort_DataReceived);
+                sPort.ErrorReceived += new SerialErrorReceivedEventHandler(sPort_ErrorReceived);
                 sPort.Open();
                 rtbDataIn.AppendText("  **  Connected to  " + sPort.PortName + "  **\r\n");
 
@@ -54,9 +56,9 @@ namespace ATLAS_Mapper
             try
             {
                 sPort.Close();
+                rtbDataIn.Text += "   **  Disconnected from " + sPort.PortName + "  **   \r\n";
                 sPort.Dispose();
                 sPort = new SerialPort();
-                rtbDataIn.Text += "   **  Disconnected from " + sPort.PortName + "  **   \r\n";
             }
             catch (Exception)
             {
@@ -70,9 +72,22 @@ namespace ATLAS_Mapper
         {
             rtbDataIn.Clear();
         }
+        private void btnStartStop_Click(object sender, EventArgs e)
+        {
+            if (btnStartStop.Text == "Start")
+            {
+                acceptKeys = true;
+                btnStartStop.Text = "Stop";
+            }
+            else if (btnStartStop.Text == "Stop")
+            {
+                acceptKeys = false;
+                btnStartStop.Text = "Start";
+            }
+        }
 
         // This event gets fired on a seperate thread.
-        private void realSP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void sPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
@@ -87,7 +102,7 @@ namespace ATLAS_Mapper
         }
 
         // This event gets fired on a seperate thread.
-        private void realSP_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        private void sPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             this.BeginInvoke(new MethodInvoker(delegate()
                 { rtbDataIn.AppendText("  ***  ERROR RECEIVED " + e.ToString() + "  ***\r\n"); }));
@@ -97,6 +112,74 @@ namespace ATLAS_Mapper
         {
             if (sPort.IsOpen)
                 sPort.Close();
+        }
+
+        private void MapperForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (acceptKeys && sPort.IsOpen)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.W:
+                        if (!keyWHandled)
+                        {
+                            sPort.Write("F");           // Forward
+                            keyWHandled = true;
+                        }
+                        break;
+                    case Keys.S:
+                        if (!keySHandled)
+                        {
+                            sPort.Write("B");           // Back
+                            keySHandled = true;
+                        }
+                        break;
+                    case Keys.A:
+                        if (!keyAHandled)
+                        {
+                            sPort.Write("L");           // Left
+                            keyAHandled = true;
+                        }
+                        break;
+                    case Keys.D:
+                        if (!keyDHandled)
+                        {
+                            sPort.Write("R");           // Right
+                            keyDHandled = true;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void MapperForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (acceptKeys && sPort.IsOpen)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.W:
+                        keyWHandled = false;
+                        sPort.Write("H");           // Halt
+                        break;
+                    case Keys.S:
+                        keySHandled = false;
+                        sPort.Write("H");           // Halt
+                        break;
+                    case Keys.A:
+                        keyAHandled = false;
+                        sPort.Write("S");           // Straight
+                        break;
+                    case Keys.D:
+                        keyDHandled = false;
+                        sPort.Write("S");           // Straight
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

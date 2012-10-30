@@ -44,6 +44,15 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnClosePort = new System.Windows.Forms.Button();
             this.btnClearText = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbDirection = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbSensorRight = new System.Windows.Forms.TextBox();
+            this.tbSensorLeft = new System.Windows.Forms.TextBox();
+            this.tbSensorFront = new System.Windows.Forms.TextBox();
+            this.btnStartStop = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,14 +164,13 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(316, 10);
             this.rtbDataIn.Name = "rtbDataIn";
             this.rtbDataIn.ReadOnly = true;
-            this.rtbDataIn.Size = new System.Drawing.Size(239, 326);
+            this.rtbDataIn.Size = new System.Drawing.Size(227, 326);
             this.rtbDataIn.TabIndex = 13;
             this.rtbDataIn.Text = "";
             // 
@@ -207,20 +215,114 @@
             this.btnClearText.UseVisualStyleBackColor = true;
             this.btnClearText.Click += new System.EventHandler(this.btnClearText_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(627, 171);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Driving:";
+            // 
+            // tbDirection
+            // 
+            this.tbDirection.BackColor = System.Drawing.SystemColors.Window;
+            this.tbDirection.Location = new System.Drawing.Point(676, 168);
+            this.tbDirection.Name = "tbDirection";
+            this.tbDirection.ReadOnly = true;
+            this.tbDirection.Size = new System.Drawing.Size(100, 20);
+            this.tbDirection.TabIndex = 23;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(705, 13);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(31, 13);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Front";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(613, 71);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(25, 13);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Left";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(806, 71);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(32, 13);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Right";
+            // 
+            // tbSensorRight
+            // 
+            this.tbSensorRight.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSensorRight.Location = new System.Drawing.Point(791, 87);
+            this.tbSensorRight.Name = "tbSensorRight";
+            this.tbSensorRight.ReadOnly = true;
+            this.tbSensorRight.Size = new System.Drawing.Size(62, 20);
+            this.tbSensorRight.TabIndex = 19;
+            // 
+            // tbSensorLeft
+            // 
+            this.tbSensorLeft.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSensorLeft.Location = new System.Drawing.Point(594, 87);
+            this.tbSensorLeft.Name = "tbSensorLeft";
+            this.tbSensorLeft.ReadOnly = true;
+            this.tbSensorLeft.Size = new System.Drawing.Size(62, 20);
+            this.tbSensorLeft.TabIndex = 18;
+            // 
+            // tbSensorFront
+            // 
+            this.tbSensorFront.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSensorFront.Location = new System.Drawing.Point(689, 29);
+            this.tbSensorFront.Name = "tbSensorFront";
+            this.tbSensorFront.ReadOnly = true;
+            this.tbSensorFront.Size = new System.Drawing.Size(62, 20);
+            this.tbSensorFront.TabIndex = 17;
+            // 
+            // btnStartStop
+            // 
+            this.btnStartStop.Location = new System.Drawing.Point(689, 313);
+            this.btnStartStop.Name = "btnStartStop";
+            this.btnStartStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStartStop.TabIndex = 25;
+            this.btnStartStop.Text = "Start";
+            this.btnStartStop.UseVisualStyleBackColor = true;
+            this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 348);
+            this.ClientSize = new System.Drawing.Size(889, 348);
+            this.Controls.Add(this.btnStartStop);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.tbDirection);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.tbSensorRight);
+            this.Controls.Add(this.tbSensorLeft);
+            this.Controls.Add(this.tbSensorFront);
             this.Controls.Add(this.btnClearText);
             this.Controls.Add(this.btnClosePort);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.rtbDataIn);
             this.Controls.Add(this.label2);
+            this.KeyPreview = true;
             this.Name = "MapperForm";
             this.Text = "ATLAS Mapper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapperForm_FormClosing);
             this.Load += new System.EventHandler(this.MapperForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapperForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapperForm_KeyUp);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -246,6 +348,15 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnClosePort;
         private System.Windows.Forms.Button btnClearText;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbDirection;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbSensorRight;
+        private System.Windows.Forms.TextBox tbSensorLeft;
+        private System.Windows.Forms.TextBox tbSensorFront;
+        private System.Windows.Forms.Button btnStartStop;
     }
 }
 
