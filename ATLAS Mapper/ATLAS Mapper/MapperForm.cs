@@ -18,6 +18,8 @@ namespace ATLAS_Mapper
             keyAHandled = false, keyDHandled = false;
         bool acceptKeys = false;
         private SerialPort sPort;
+        private volatile string driveDirection;
+        private volatile string turnDirection;
 
         public MapperForm()
         {
@@ -27,6 +29,8 @@ namespace ATLAS_Mapper
         private void MapperForm_Load(object sender, EventArgs e)
         {
             sPort = new SerialPort();
+            driveDirection = "Halted";
+            turnDirection = "Straight";
         }
 
         private void btnOpenPort_Click(object sender, EventArgs e)
@@ -75,15 +79,15 @@ namespace ATLAS_Mapper
         }
         private void btnStartStop_Click(object sender, EventArgs e)
         {
-            if (btnStartStop.Text == "Start")
+            if (btnStartStop.Text == "Start Driving")
             {
                 acceptKeys = true;
-                btnStartStop.Text = "Stop";
+                btnStartStop.Text = "Stop Driving";
             }
-            else if (btnStartStop.Text == "Stop")
+            else if (btnStartStop.Text == "Stop Driving")
             {
                 acceptKeys = false;
-                btnStartStop.Text = "Start";
+                btnStartStop.Text = "Start Driving";
             }
         }
         private void btnRequestUpdate_Click(object sender, EventArgs e)
@@ -111,18 +115,39 @@ namespace ATLAS_Mapper
                         if (data[1] == 'f')
                             this.BeginInvoke(new MethodInvoker(delegate()
                                 { tbSensorFront.Text = data.Substring(2); }));
-                        if (data[1] == 'l')
+                        else if (data[1] == 'l')
                             this.BeginInvoke(new MethodInvoker(delegate()
                                 { tbSensorLeft.Text = data.Substring(2); }));
-                        if (data[1] == 'r')
+                        else if (data[1] == 'r')
                             this.BeginInvoke(new MethodInvoker(delegate()
                                 { tbSensorRight.Text = data.Substring(2); }));
+                        break;
+                    case 'd':
+                        if (data[1] == 'f')
+                            driveDirection = "Forward";
+                        else if (data[1] == 'b')
+                            driveDirection = "Reverse";
+                        else if (data[1] == 'h')
+                            driveDirection = "Halted";
+                        this.BeginInvoke(new MethodInvoker(delegate()
+                            { tbDirection.Text = turnDirection + " " + driveDirection; }));
+                        break;
+                    case 't':
+                        if (data[1] == 'l')
+                            turnDirection = "Left";
+                        else if (data[1] == 'r')
+                            turnDirection = "Right";
+                        else if (data[1] == 's')
+                            turnDirection = "Straight";
+                        this.BeginInvoke(new MethodInvoker(delegate()
+                            { tbDirection.Text = turnDirection + " " + driveDirection; }));
                         break;
                     default:
                         this.BeginInvoke(new MethodInvoker(delegate()
                             { rtbDataIn.AppendText(data); }));
                         break;
                 }
+                
             }
             catch (Exception)
             {
@@ -191,19 +216,19 @@ namespace ATLAS_Mapper
                 {
                     case Keys.W:
                         keyWHandled = false;
-                        sPort.Write("H");           // Halt
+                        sPort.Write("h");           // Halt
                         break;
                     case Keys.S:
                         keySHandled = false;
-                        sPort.Write("H");           // Halt
+                        sPort.Write("h");           // Halt
                         break;
                     case Keys.A:
                         keyAHandled = false;
-                        sPort.Write("S");           // Straight
+                        sPort.Write("s");           // Straight
                         break;
                     case Keys.D:
                         keyDHandled = false;
-                        sPort.Write("S");           // Straight
+                        sPort.Write("s");           // Straight
                         break;
                     default:
                         break;
