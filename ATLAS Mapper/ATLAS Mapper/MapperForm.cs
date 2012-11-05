@@ -14,7 +14,8 @@ namespace ATLAS_Mapper
 {
     public partial class MapperForm : Form
     {
-        bool keyWHandled = false, keySHandled = false, keyAHandled = false, keyDHandled = false;
+        bool keyWHandled = false, keySHandled = false,
+            keyAHandled = false, keyDHandled = false;
         bool acceptKeys = false;
         private SerialPort sPort;
 
@@ -85,6 +86,17 @@ namespace ATLAS_Mapper
                 btnStartStop.Text = "Start";
             }
         }
+        private void btnRequestUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                sPort.Write("u");
+            }
+            catch (Exception)
+            {
+                // prevent crash
+            }
+        }
 
         // This event gets fired on a seperate thread.
         private void sPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -92,8 +104,25 @@ namespace ATLAS_Mapper
             try
             {
                 string data = sPort.ReadLine();
-                this.BeginInvoke(new MethodInvoker(delegate()
-                    { rtbDataIn.AppendText(data); }));
+
+                switch (data[0])
+                {
+                    case 's':
+                        if (data[1] == 'f')
+                            this.BeginInvoke(new MethodInvoker(delegate()
+                                { tbSensorFront.Text = data.Substring(2); }));
+                        if (data[1] == 'l')
+                            this.BeginInvoke(new MethodInvoker(delegate()
+                                { tbSensorLeft.Text = data.Substring(2); }));
+                        if (data[1] == 'r')
+                            this.BeginInvoke(new MethodInvoker(delegate()
+                                { tbSensorRight.Text = data.Substring(2); }));
+                        break;
+                    default:
+                        this.BeginInvoke(new MethodInvoker(delegate()
+                            { rtbDataIn.AppendText(data); }));
+                        break;
+                }
             }
             catch (Exception)
             {
@@ -123,28 +152,28 @@ namespace ATLAS_Mapper
                     case Keys.W:
                         if (!keyWHandled)
                         {
-                            sPort.Write("F");           // Forward
+                            sPort.Write("f");           // Forward
                             keyWHandled = true;
                         }
                         break;
                     case Keys.S:
                         if (!keySHandled)
                         {
-                            sPort.Write("B");           // Back
+                            sPort.Write("b");           // Back
                             keySHandled = true;
                         }
                         break;
                     case Keys.A:
                         if (!keyAHandled)
                         {
-                            sPort.Write("L");           // Left
+                            sPort.Write("l");           // Left
                             keyAHandled = true;
                         }
                         break;
                     case Keys.D:
                         if (!keyDHandled)
                         {
-                            sPort.Write("R");           // Right
+                            sPort.Write("r");           // Right
                             keyDHandled = true;
                         }
                         break;

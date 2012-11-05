@@ -53,6 +53,7 @@
             this.tbSensorLeft = new System.Windows.Forms.TextBox();
             this.tbSensorFront = new System.Windows.Forms.TextBox();
             this.btnStartStop = new System.Windows.Forms.Button();
+            this.btnRequestUpdate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -289,19 +290,30 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(689, 313);
+            this.btnStartStop.Location = new System.Drawing.Point(681, 313);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStartStop.Size = new System.Drawing.Size(88, 23);
             this.btnStartStop.TabIndex = 25;
-            this.btnStartStop.Text = "Start";
+            this.btnStartStop.Text = "Start Driving";
             this.btnStartStop.UseVisualStyleBackColor = true;
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
+            // 
+            // btnRequestUpdate
+            // 
+            this.btnRequestUpdate.Location = new System.Drawing.Point(791, 313);
+            this.btnRequestUpdate.Name = "btnRequestUpdate";
+            this.btnRequestUpdate.Size = new System.Drawing.Size(86, 23);
+            this.btnRequestUpdate.TabIndex = 26;
+            this.btnRequestUpdate.Text = "Toggle Update";
+            this.btnRequestUpdate.UseVisualStyleBackColor = true;
+            this.btnRequestUpdate.Click += new System.EventHandler(this.btnRequestUpdate_Click);
             // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 348);
+            this.Controls.Add(this.btnRequestUpdate);
             this.Controls.Add(this.btnStartStop);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.tbDirection);
@@ -357,6 +369,7 @@
         private System.Windows.Forms.TextBox tbSensorLeft;
         private System.Windows.Forms.TextBox tbSensorFront;
         private System.Windows.Forms.Button btnStartStop;
+        private System.Windows.Forms.Button btnRequestUpdate;
     }
 }
 
