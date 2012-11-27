@@ -114,13 +114,13 @@ namespace ATLAS_Mapper
                     case 's':
                         if (data[1] == 'f')
                             this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorFront.Text = data.Substring(2); }));
+                                { tbSensorFront.Text = (Convert.ToDouble(data.Substring(2)) / 57.89).ToString(); }));
                         else if (data[1] == 'l')
                             this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorLeft.Text = data.Substring(2); }));
+                                { tbSensorLeft.Text = (Convert.ToDouble(data.Substring(2)) / 57.89).ToString(); }));
                         else if (data[1] == 'r')
                             this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorRight.Text = data.Substring(2); }));
+                                { tbSensorRight.Text = (Convert.ToDouble(data.Substring(2)) / 57.89).ToString(); }));
                         break;
                     case 'd':
                         if (data[1] == 'f')
