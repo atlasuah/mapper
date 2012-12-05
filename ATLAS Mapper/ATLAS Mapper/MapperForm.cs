@@ -17,6 +17,7 @@ namespace ATLAS_Mapper
         bool keyWHandled = false, keySHandled = false,
             keyAHandled = false, keyDHandled = false;
         bool acceptKeys = false;
+        double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
         private volatile string driveDirection;
         private volatile string turnDirection;
@@ -90,6 +91,19 @@ namespace ATLAS_Mapper
                 btnStartStop.Text = "Start Driving";
             }
         }
+        private void btnUnits_Click(object sender, EventArgs e)
+        {
+            if (btnUnits.Text == "cm")
+            {
+                convFact = 147.04;
+                btnUnits.Text = "inches";
+            }
+            else if (btnUnits.Text == "inches")
+            {
+                convFact = 57.89;
+                btnUnits.Text = "cm";
+            }
+        }
         private void btnRequestUpdate_Click(object sender, EventArgs e)
         {
             try
@@ -108,19 +122,19 @@ namespace ATLAS_Mapper
             try
             {
                 string data = sPort.ReadLine();
-
+                
                 switch (data[0])
                 {
                     case 's':
                         if (data[1] == 'f')
                             this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorFront.Text = data.Substring(2); }));
+                                { tbSensorFront.Text = (Double.Parse(data.Substring(2)) / convFact).ToString("F2"); }));
                         else if (data[1] == 'l')
                             this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorLeft.Text = data.Substring(2); }));
+                                { tbSensorLeft.Text = (Double.Parse(data.Substring(2)) / convFact).ToString("F2"); }));
                         else if (data[1] == 'r')
                             this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorRight.Text = data.Substring(2); }));
+                                { tbSensorRight.Text = (Double.Parse(data.Substring(2)) / convFact).ToString("F2"); }));
                         break;
                     case 'd':
                         if (data[1] == 'f')
@@ -234,6 +248,12 @@ namespace ATLAS_Mapper
                         break;
                 }
             }
+        }
+
+        private void rtbDataIn_TextChanged(object sender, EventArgs e)
+        {
+            rtbDataIn.SelectionStart = rtbDataIn.Text.Length; //Set the current caret position to the end
+            rtbDataIn.ScrollToCaret(); //Now scroll it automatically
         }
     }
 }

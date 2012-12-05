@@ -54,6 +54,8 @@
             this.tbSensorFront = new System.Windows.Forms.TextBox();
             this.btnStartStop = new System.Windows.Forms.Button();
             this.btnRequestUpdate = new System.Windows.Forms.Button();
+            this.btnUnits = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -174,6 +176,7 @@
             this.rtbDataIn.Size = new System.Drawing.Size(227, 326);
             this.rtbDataIn.TabIndex = 13;
             this.rtbDataIn.Text = "";
+            this.rtbDataIn.TextChanged += new System.EventHandler(this.rtbDataIn_TextChanged);
             // 
             // groupBox1
             // 
@@ -308,11 +311,32 @@
             this.btnRequestUpdate.UseVisualStyleBackColor = true;
             this.btnRequestUpdate.Click += new System.EventHandler(this.btnRequestUpdate_Click);
             // 
+            // btnUnits
+            // 
+            this.btnUnits.Location = new System.Drawing.Point(691, 103);
+            this.btnUnits.Name = "btnUnits";
+            this.btnUnits.Size = new System.Drawing.Size(60, 23);
+            this.btnUnits.TabIndex = 27;
+            this.btnUnits.Text = "cm";
+            this.btnUnits.UseVisualStyleBackColor = true;
+            this.btnUnits.Click += new System.EventHandler(this.btnUnits_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(705, 87);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(31, 13);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "Units";
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 348);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.btnUnits);
             this.Controls.Add(this.btnRequestUpdate);
             this.Controls.Add(this.btnStartStop);
             this.Controls.Add(this.label7);
@@ -370,6 +394,8 @@
         private System.Windows.Forms.TextBox tbSensorFront;
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.Button btnRequestUpdate;
+        private System.Windows.Forms.Button btnUnits;
+        private System.Windows.Forms.Label label11;
     }
 }
 
