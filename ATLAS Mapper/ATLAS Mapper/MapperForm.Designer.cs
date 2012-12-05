@@ -110,7 +110,7 @@
             this.tbBaudRate.Name = "tbBaudRate";
             this.tbBaudRate.Size = new System.Drawing.Size(67, 20);
             this.tbBaudRate.TabIndex = 5;
-            this.tbBaudRate.Text = "9600";
+            this.tbBaudRate.Text = "57600";
             // 
             // label4
             // 
