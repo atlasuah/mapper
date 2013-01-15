@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO.Ports;
 using System.Diagnostics;
+using SlimDX.DirectInput;
 
 namespace ATLAS_Mapper
 {
@@ -21,6 +22,24 @@ namespace ATLAS_Mapper
         private SerialPort sPort;
         private volatile string driveDirection;
         private volatile string turnDirection;
+        private volatile bool joystickActive = false;
+        private int jsRangeUpper = 1000,
+                    jsRangeLower = -1000,
+                    jsUpdateDelay = 20,
+                    jsPrevX = 0,
+                    jsPrevY = 0,
+                    jsCurrX = 0,
+                    jsCurrY = 0,
+                    jsTolX = 500,               // Tolerance for Turning
+                    jsTolY = 500,               // Tolerance for Driving
+                    jsScaleX = 100,
+                    jsScaleY = 100;
+        private bool jsNegX = false,
+                     jsNegY = false;
+        public Thread jsThread;
+        private Joystick jStick;
+        private DirectInput dInput;
+        private JoystickState jsState;
 
         public MapperForm()
         {
@@ -30,8 +49,11 @@ namespace ATLAS_Mapper
         private void MapperForm_Load(object sender, EventArgs e)
         {
             sPort = new SerialPort();
+            dInput = new DirectInput();
+            jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
             driveDirection = "Halted";
             turnDirection = "Straight";
+            btnStartStop.Enabled = false;
         }
 
         private void btnOpenPort_Click(object sender, EventArgs e)
@@ -82,12 +104,18 @@ namespace ATLAS_Mapper
         {
             if (btnStartStop.Text == "Start Driving")
             {
-                acceptKeys = true;
+                //acceptKeys = true;
+                joystickActive = true;
+                if (jsThread.ThreadState == System.Threading.ThreadState.Aborted)
+                    jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
+                jsThread.Start();
                 btnStartStop.Text = "Stop Driving";
             }
             else if (btnStartStop.Text == "Stop Driving")
             {
-                acceptKeys = false;
+                //acceptKeys = false;
+                joystickActive = false;
+                jsThread.Abort();
                 btnStartStop.Text = "Start Driving";
             }
         }
@@ -114,6 +142,78 @@ namespace ATLAS_Mapper
             {
                 // prevent crash
             }
+        }
+        private void btnAcquireJs_Click(object sender, EventArgs e)
+        {
+            // Search for device
+            foreach (DeviceInstance device in dInput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly))
+            {
+                try
+                {
+                    jStick = new Joystick(dInput, device.InstanceGuid);
+                    break;
+                }
+                catch (DirectInputException){}
+            }
+
+            if (jStick == null)
+                MessageBox.Show("Joystick Error", "Failed to acquire joystick.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            foreach (DeviceObjectInstance deviceObject in jStick.GetObjects())
+            {
+                if ((deviceObject.ObjectType & ObjectDeviceType.Axis) != 0)
+                    jStick.GetObjectPropertiesById((int)deviceObject.ObjectType).SetRange(jsRangeLower, jsRangeUpper);
+            }
+            jStick.Acquire();
+            btnStartStop.Enabled = true;
+        }
+
+        // Joystick Update Thread
+        private void UpdateJoystick()
+        {
+            try
+            {
+                while (joystickActive)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        jsState = jStick.GetCurrentState();
+                        jsCurrY = (jsState.Y * -1);
+                        jsCurrX = jsState.X;
+                        jsNegX = (jsCurrX < 0);
+                        jsNegY = (jsCurrY < 0);
+
+                        jsCurrY = Math.Abs(jsCurrY);
+                        jsCurrX = Math.Abs(jsCurrX);
+
+                        if (jsCurrY < jsTolY)
+                            jsCurrY = 0;
+                        else
+                            jsCurrY = (jsCurrY - jsTolY) / jsScaleY;
+
+                        if (jsCurrX < jsTolX)
+                            jsCurrX = 0;
+                        else
+                            jsCurrX = (jsCurrX - jsTolX) / jsScaleX;
+
+                        if (jsNegY)
+                            jsCurrY *= -1;
+                        if (jsNegX)
+                            jsCurrX *= -1;
+
+                        if (jsCurrY != jsPrevY)
+                            tbDrive.Text = "d" + jsCurrY;
+                        if (jsCurrX != jsPrevX)
+                            tbTurn.Text = "t" + jsCurrX;
+
+                        jsPrevX = jsCurrX;
+                        jsPrevY = jsCurrY;
+                    });
+                    
+                    Thread.Sleep(jsUpdateDelay);
+                }
+            }
+            catch (ThreadAbortException){}
         }
 
         // This event gets fired on a seperate thread.
@@ -180,6 +280,11 @@ namespace ATLAS_Mapper
         {
             if (sPort.IsOpen)
                 sPort.Close();
+            try
+            {
+                jsThread.Abort();
+            }
+            catch (Exception) { }
         }
 
         private void MapperForm_KeyDown(object sender, KeyEventArgs e)
@@ -221,7 +326,6 @@ namespace ATLAS_Mapper
                 }
             }
         }
-
         private void MapperForm_KeyUp(object sender, KeyEventArgs e)
         {
             if (acceptKeys && sPort.IsOpen)

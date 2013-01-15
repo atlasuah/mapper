@@ -56,6 +56,9 @@
             this.btnRequestUpdate = new System.Windows.Forms.Button();
             this.btnUnits = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
+            this.btnAcquireJs = new System.Windows.Forms.Button();
+            this.tbDrive = new System.Windows.Forms.TextBox();
+            this.tbTurn = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -167,8 +170,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(316, 10);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -293,9 +296,9 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(681, 313);
+            this.btnStartStop.Location = new System.Drawing.Point(676, 313);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(88, 23);
+            this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
             this.btnStartStop.Text = "Start Driving";
             this.btnStartStop.UseVisualStyleBackColor = true;
@@ -330,11 +333,38 @@
             this.label11.TabIndex = 28;
             this.label11.Text = "Units";
             // 
+            // btnAcquireJs
+            // 
+            this.btnAcquireJs.Location = new System.Drawing.Point(676, 284);
+            this.btnAcquireJs.Name = "btnAcquireJs";
+            this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
+            this.btnAcquireJs.TabIndex = 29;
+            this.btnAcquireJs.Text = "Acquire Joystick";
+            this.btnAcquireJs.UseVisualStyleBackColor = true;
+            this.btnAcquireJs.Click += new System.EventHandler(this.btnAcquireJs_Click);
+            // 
+            // tbDrive
+            // 
+            this.tbDrive.Location = new System.Drawing.Point(570, 284);
+            this.tbDrive.Name = "tbDrive";
+            this.tbDrive.Size = new System.Drawing.Size(54, 20);
+            this.tbDrive.TabIndex = 30;
+            // 
+            // tbTurn
+            // 
+            this.tbTurn.Location = new System.Drawing.Point(570, 311);
+            this.tbTurn.Name = "tbTurn";
+            this.tbTurn.Size = new System.Drawing.Size(54, 20);
+            this.tbTurn.TabIndex = 31;
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 348);
+            this.Controls.Add(this.tbTurn);
+            this.Controls.Add(this.tbDrive);
+            this.Controls.Add(this.btnAcquireJs);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.btnUnits);
             this.Controls.Add(this.btnRequestUpdate);
@@ -396,6 +426,9 @@
         private System.Windows.Forms.Button btnRequestUpdate;
         private System.Windows.Forms.Button btnUnits;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnAcquireJs;
+        private System.Windows.Forms.TextBox tbDrive;
+        private System.Windows.Forms.TextBox tbTurn;
     }
 }
 
