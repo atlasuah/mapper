@@ -202,9 +202,15 @@ namespace ATLAS_Mapper
                             jsCurrX *= -1;
 
                         if (jsCurrY != jsPrevY)
+                        {
+                            sPort.Write("d" + jsCurrY);
                             tbDrive.Text = "d" + jsCurrY;
+                        }
                         if (jsCurrX != jsPrevX)
+                        {
+                            sPort.Write("t" + jsCurrY);
                             tbTurn.Text = "t" + jsCurrX;
+                        }
 
                         jsPrevX = jsCurrX;
                         jsPrevY = jsCurrY;
