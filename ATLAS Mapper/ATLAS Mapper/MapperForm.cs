@@ -30,10 +30,14 @@ namespace ATLAS_Mapper
                     jsPrevY = 0,
                     jsCurrX = 0,
                     jsCurrY = 0,
-                    jsTolX = 500,               // Tolerance for Turning
-                    jsTolY = 500,               // Tolerance for Driving
-                    jsScaleX = 100,
-                    jsScaleY = 100;
+                    jsTolX = 250,               // Tolerance for Turning
+                    jsTolY = 250,               // Tolerance for Driving
+                    jsScaleX = 75,
+                    jsScaleY = 75;
+        private char jsSignX = '+',
+                     jsSignY = '+';
+        private string jsCharX = "",
+                       jsCharY = "";
         private bool jsNegX = false,
                      jsNegY = false;
         public Thread jsThread;
@@ -196,20 +200,47 @@ namespace ATLAS_Mapper
                         else
                             jsCurrX = (jsCurrX - jsTolX) / jsScaleX;
 
+
+                        if (jsCurrY == 10)
+                        {
+                            jsCharY = "T";
+                        }
+                        else
+                            jsCharY = jsCurrY.ToString("0;0;0");
+
                         if (jsNegY)
+                        {
                             jsCurrY *= -1;
+                            jsSignY = '-';
+                        }
+                        else
+                            jsSignY = '+';
+
+
+                        if (jsCurrX == 10)
+                        {
+                            jsCharX = "T";
+                        }
+                        else
+                            jsCharX = jsCurrX.ToString("0;0;0");
+
                         if (jsNegX)
+                        {
                             jsCurrX *= -1;
+                            jsSignX = '-';
+                        }
+                        else
+                            jsSignX = '+';
 
                         if (jsCurrY != jsPrevY)
                         {
-                            sPort.Write("d" + jsCurrY);
-                            tbDrive.Text = "d" + jsCurrY;
+                            sPort.Write("d" + jsSignY + jsCharY);
+                            tbDrive.Text = "d" + jsCurrY.ToString("+00;-00;0");
                         }
                         if (jsCurrX != jsPrevX)
                         {
-                            sPort.Write("t" + jsCurrY);
-                            tbTurn.Text = "t" + jsCurrX;
+                            sPort.Write("t" + jsSignX + jsCharX);
+                            tbTurn.Text = "t" + jsCurrX.ToString("+00;-00;0");
                         }
 
                         jsPrevX = jsCurrX;
@@ -364,6 +395,18 @@ namespace ATLAS_Mapper
         {
             rtbDataIn.SelectionStart = rtbDataIn.Text.Length; //Set the current caret position to the end
             rtbDataIn.ScrollToCaret(); //Now scroll it automatically
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                sPort.Write("b");
+            }
+            catch (Exception)
+            {
+                // prevent crash
+            }
         }
     }
 }

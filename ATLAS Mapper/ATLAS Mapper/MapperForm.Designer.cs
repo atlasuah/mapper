@@ -59,6 +59,7 @@
             this.btnAcquireJs = new System.Windows.Forms.Button();
             this.tbDrive = new System.Windows.Forms.TextBox();
             this.tbTurn = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -170,8 +171,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(316, 10);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -349,6 +350,7 @@
             this.tbDrive.Name = "tbDrive";
             this.tbDrive.Size = new System.Drawing.Size(54, 20);
             this.tbDrive.TabIndex = 30;
+            this.tbDrive.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tbTurn
             // 
@@ -356,12 +358,24 @@
             this.tbTurn.Name = "tbTurn";
             this.tbTurn.Size = new System.Drawing.Size(54, 20);
             this.tbTurn.TabIndex = 31;
+            this.tbTurn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(549, 234);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 38);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "Debug Output";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 348);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tbTurn);
             this.Controls.Add(this.tbDrive);
             this.Controls.Add(this.btnAcquireJs);
@@ -429,6 +443,7 @@
         private System.Windows.Forms.Button btnAcquireJs;
         private System.Windows.Forms.TextBox tbDrive;
         private System.Windows.Forms.TextBox tbTurn;
+        private System.Windows.Forms.Button button1;
     }
 }
 
