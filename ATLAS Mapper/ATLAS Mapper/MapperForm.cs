@@ -232,14 +232,10 @@ namespace ATLAS_Mapper
                         else
                             jsSignX = '+';
 
-                        if (jsCurrY != jsPrevY)
+                        if (jsCurrY != jsPrevY || jsCurrX != jsPrevX)
                         {
-                            sPort.Write("d" + jsSignY + jsCharY);
+                            sPort.Write("d" + jsSignY + jsCharY + jsSignX + jsCharX);
                             tbDrive.Text = "d" + jsCurrY.ToString("+00;-00;0");
-                        }
-                        if (jsCurrX != jsPrevX)
-                        {
-                            sPort.Write("t" + jsSignX + jsCharX);
                             tbTurn.Text = "t" + jsCurrX.ToString("+00;-00;0");
                         }
 
