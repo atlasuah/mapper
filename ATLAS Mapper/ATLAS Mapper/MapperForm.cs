@@ -22,10 +22,11 @@ namespace ATLAS_Mapper
         private SerialPort sPort;
         private volatile string driveDirection;
         private volatile string turnDirection;
+        private volatile int sendCmdCount = 8;
         private volatile bool joystickActive = false;
-        private int jsRangeUpper = 1000,
-                    jsRangeLower = -1000,
-                    jsUpdateDelay = 20,
+        private int jsRangeUpper = 940,
+                    jsRangeLower = -940,
+                    jsUpdateDelay = 60,
                     jsPrevX = 0,
                     jsPrevY = 0,
                     jsCurrX = 0,
@@ -175,6 +176,8 @@ namespace ATLAS_Mapper
         // Joystick Update Thread
         private void UpdateJoystick()
         {
+            string sendCmd = "";
+
             try
             {
                 while (joystickActive)
@@ -200,13 +203,7 @@ namespace ATLAS_Mapper
                         else
                             jsCurrX = (jsCurrX - jsTolX) / jsScaleX;
 
-
-                        if (jsCurrY == 10)
-                        {
-                            jsCharY = "T";
-                        }
-                        else
-                            jsCharY = jsCurrY.ToString("0;0;0");
+                        jsCharY = jsCurrY.ToString("0;0;0");
 
                         if (jsNegY)
                         {
@@ -216,13 +213,7 @@ namespace ATLAS_Mapper
                         else
                             jsSignY = '+';
 
-
-                        if (jsCurrX == 10)
-                        {
-                            jsCharX = "T";
-                        }
-                        else
-                            jsCharX = jsCurrX.ToString("0;0;0");
+                        jsCharX = jsCurrX.ToString("0;0;0");
 
                         if (jsNegX)
                         {
@@ -234,9 +225,13 @@ namespace ATLAS_Mapper
 
                         if (jsCurrY != jsPrevY || jsCurrX != jsPrevX)
                         {
-                            sPort.Write("d" + jsSignY + jsCharY + jsSignX + jsCharX);
-                            tbDrive.Text = "d" + jsCurrY.ToString("+00;-00;0");
-                            tbTurn.Text = "t" + jsCurrX.ToString("+00;-00;0");
+                            sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
+                            tbSentCmd.Text = sendCmd;
+                            SendData(sendCmd);
+
+                            tbDrive.Text = "d" + jsCurrY.ToString("+0;-0;0");
+                            tbTurn.Text = "t" + jsCurrX.ToString("+0;-0;0");
+                            //rtbDataIn.AppendText(sendCmd);
                         }
 
                         jsPrevX = jsCurrX;
@@ -247,6 +242,14 @@ namespace ATLAS_Mapper
                 }
             }
             catch (ThreadAbortException){}
+        }
+
+        private void SendData(string pData)
+        {
+            string sendData = "";
+            for (int i = 0; i < sendCmdCount; i++)
+                sendData += pData;
+            sPort.Write(sendData);
         }
 
         // This event gets fired on a seperate thread.

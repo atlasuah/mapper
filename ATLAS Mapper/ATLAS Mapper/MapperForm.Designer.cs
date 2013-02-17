@@ -60,6 +60,8 @@
             this.tbDrive = new System.Windows.Forms.TextBox();
             this.tbTurn = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.tbSentCmd = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -171,8 +173,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(316, 10);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -370,11 +372,29 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // tbSentCmd
+            // 
+            this.tbSentCmd.Location = new System.Drawing.Point(777, 244);
+            this.tbSentCmd.Name = "tbSentCmd";
+            this.tbSentCmd.Size = new System.Drawing.Size(100, 20);
+            this.tbSentCmd.TabIndex = 33;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(716, 248);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(55, 13);
+            this.label12.TabIndex = 34;
+            this.label12.Text = "Last Sent:";
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 348);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.tbSentCmd);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tbTurn);
             this.Controls.Add(this.tbDrive);
@@ -444,6 +464,8 @@
         private System.Windows.Forms.TextBox tbDrive;
         private System.Windows.Forms.TextBox tbTurn;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox tbSentCmd;
+        private System.Windows.Forms.Label label12;
     }
 }
 
