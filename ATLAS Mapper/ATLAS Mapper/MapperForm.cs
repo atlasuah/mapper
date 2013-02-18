@@ -26,15 +26,15 @@ namespace ATLAS_Mapper
         private volatile bool joystickActive = false;
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
-                    jsUpdateDelay = 60,
-                    jsPrevX = 0,
-                    jsPrevY = 0,
+                    jsUpdateDelay = 30,
+                    //jsPrevX = 0,
+                    //jsPrevY = 0,
                     jsCurrX = 0,
                     jsCurrY = 0,
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 75;
+                    jsScaleY = 100;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
@@ -223,8 +223,8 @@ namespace ATLAS_Mapper
                         else
                             jsSignX = '+';
 
-                        if (jsCurrY != jsPrevY || jsCurrX != jsPrevX)
-                        {
+                       // if (jsCurrY != jsPrevY || jsCurrX != jsPrevX)
+                        //{
                             sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
                             tbSentCmd.Text = sendCmd;
                             SendData(sendCmd);
@@ -232,10 +232,10 @@ namespace ATLAS_Mapper
                             tbDrive.Text = "d" + jsCurrY.ToString("+0;-0;0");
                             tbTurn.Text = "t" + jsCurrX.ToString("+0;-0;0");
                             //rtbDataIn.AppendText(sendCmd);
-                        }
+                        //}
 
-                        jsPrevX = jsCurrX;
-                        jsPrevY = jsCurrY;
+                        //jsPrevX = jsCurrX;
+                        //jsPrevY = jsCurrY;
                     });
                     
                     Thread.Sleep(jsUpdateDelay);
