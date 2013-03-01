@@ -25,10 +25,10 @@ namespace ATLAS_Mapper
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
-        private int mapScale = 10;         // Larger number = smaller scale
+        private int mapScale = 1;         // Larger number = smaller scale
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
-                    jsUpdateDelay = 30,
+                    jsUpdateDelay = 150,
                     jsCurrX = 0,
                     jsCurrY = 0,
                     jsTolX = 250,               // Tolerance for Turning
@@ -270,8 +270,9 @@ namespace ATLAS_Mapper
                         this.BeginInvoke(new MethodInvoker(delegate()
                             {
                                 driveDir = Convert.ToInt16(data.Substring(1));
-                                driveCnt = Convert.ToInt16(sPort.ReadLine());
-                                UpdateMap(driveDir, driveCnt);
+                                //driveCnt = Convert.ToInt16(sPort.ReadLine());
+                                tbSensorFront.Text = data;
+                                UpdateMap(driveDir, 5);
                             }));
                         break;
                     case 's':
@@ -298,10 +299,11 @@ namespace ATLAS_Mapper
             }
         }
 
-        private void UpdateMap(int pDir, int pCounts)
+        private void UpdateMap(int rDir, int pCounts)
         {
-            newRoverPosX += (int)(Math.Cos(pDir) * pCounts / mapScale);
-            newRoverPosY += (int)(Math.Sin(pDir) * pCounts / mapScale);
+            int pDir = rDir * -1 + 90;
+            newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
+            newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
 
             if (pbMap.Image == null)
             {
