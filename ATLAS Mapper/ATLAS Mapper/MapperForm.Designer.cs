@@ -62,7 +62,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.compassDirection = new System.Windows.Forms.TextBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -408,23 +407,11 @@
             this.compassDirection.Size = new System.Drawing.Size(60, 20);
             this.compassDirection.TabIndex = 39;
             // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(240, 406);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 40;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(942, 688);
-            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.compassDirection);
             this.Controls.Add(this.label7);
@@ -491,7 +478,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox compassDirection;
-        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 

@@ -18,8 +18,7 @@ namespace ATLAS_Mapper
         double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;
-        private volatile bool joystickActive = false,
-                              serialDataToggle = false;
+        private volatile bool joystickActive = false;
         private int curRoverPosX = 200,
                     curRoverPosY = 200,
                     newRoverPosX = 200,
@@ -29,7 +28,7 @@ namespace ATLAS_Mapper
         private int mapScale = 10;         // Larger number = smaller scale
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
-                    jsUpdateDelay = 300,    // WAS: 150
+                    jsUpdateDelay = 100,    // WAS: 150
                     jsCurrX = 0,
                     jsCurrY = 0,
                     jsTolX = 250,               // Tolerance for Turning
@@ -264,46 +263,22 @@ namespace ATLAS_Mapper
             try
             {
                 string data = sPort.ReadLine();
-                
-                switch (data[0])
+
+                var parts = data.Split('_');    //  <------- Blake's face when he sees this.
+
+                driveCnt = Convert.ToInt16(parts[3]);
+                driveDir = Convert.ToInt16(parts[4]);
+
+                this.BeginInvoke(new MethodInvoker(delegate()
                 {
-                    case 'e':
-                        this.BeginInvoke(new MethodInvoker(delegate()
-                            {
-                                driveCnt = Convert.ToInt16(data.Substring(1));
-                                encoderDelta.Text = driveCnt.ToString();
-                            }));
-                        break;
-                    case 'd':
-                        this.BeginInvoke(new MethodInvoker(delegate()
-                            {
-                                driveDir = Convert.ToInt16(data.Substring(1));
-                                //driveCnt = Convert.ToInt16(sPort.ReadLine());
-                                compassDirection.Text = driveDir.ToString();
-                                //UpdateMap(driveDir, driveCnt);
-                                //radioButton1.Checked = false;
-                            }));
-                        break;
-                    case 's':
-                        if (data[1] == 'f')
-                            this.BeginInvoke(new MethodInvoker(delegate()
-                                {
-                                    //radioButton1.Checked = true;
-                                    tbSensorFront.Text = (Double.Parse(data.Substring(2)) / convFact).ToString("F2");
-                                }));
-                        else if (data[1] == 'l')
-                            this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorLeft.Text = (Double.Parse(data.Substring(2)) / convFact).ToString("F2"); }));
-                        else if (data[1] == 'r')
-                            this.BeginInvoke(new MethodInvoker(delegate()
-                                { tbSensorRight.Text = (Double.Parse(data.Substring(2)) / convFact).ToString("F2"); }));
-                        break;
-                    default:
-                        this.BeginInvoke(new MethodInvoker(delegate()
-                            { rtbDataIn.AppendText(data); }));
-                        break;
-                }
-                
+                    tbSensorFront.Text = (Double.Parse(parts[0]) / convFact).ToString("F2");
+                    tbSensorLeft.Text = (Double.Parse(parts[1]) / convFact).ToString("F2");
+                    tbSensorRight.Text = (Double.Parse(parts[2]) / convFact).ToString("F2");
+                    encoderDelta.Text = driveCnt.ToString();
+                    compassDirection.Text = driveDir.ToString();
+
+                    UpdateMap(driveDir, driveCnt);      // Upd8 da Map
+                }));
             }
             catch (Exception)
             {
