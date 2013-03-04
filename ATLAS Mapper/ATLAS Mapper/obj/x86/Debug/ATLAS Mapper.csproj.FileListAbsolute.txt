@@ -9,11 +9,8 @@ D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Ma
 D:\Documents\School Crap\UAH\Senior Design\Mapper Software\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.pdb
 E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\bin\Debug\ATLAS Mapper.exe
 E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\bin\Debug\ATLAS Mapper.pdb
-E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ResolveAssemblyReference.cache
 E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS_Mapper.MapperForm.resources
 E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS_Mapper.Properties.Resources.resources
-E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\GenerateResource.read.1.tlog
-E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\GenerateResource.write.1.tlog
 E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.exe
 E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.pdb
 C:\Users\Bob\Documents\School Crap\Senior Design\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.exe
@@ -25,3 +22,5 @@ C:\Users\Bob\Documents\School Crap\Senior Design\mapper\ATLAS Mapper\ATLAS Mappe
 C:\Users\Bob\Documents\School Crap\Senior Design\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS_Mapper.Properties.Resources.resources
 C:\Users\Bob\Documents\School Crap\Senior Design\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Bob\Documents\School Crap\Senior Design\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.csprojResolveAssemblyReference.cache
+E:\_Personal\GitHub\atlas-mapper\mapper\ATLAS Mapper\ATLAS Mapper\obj\x86\Debug\ATLAS Mapper.csproj.GenerateResource.Cache

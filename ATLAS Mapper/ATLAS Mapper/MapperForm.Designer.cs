@@ -58,6 +58,11 @@
             this.label12 = new System.Windows.Forms.Label();
             this.pbMap = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.encoderDelta = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.compassDirection = new System.Windows.Forms.TextBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -94,7 +99,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(280, 442);
+            this.label2.Location = new System.Drawing.Point(280, 352);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 4;
@@ -172,10 +177,10 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbDataIn.Location = new System.Drawing.Point(348, 438);
+            this.rtbDataIn.Location = new System.Drawing.Point(348, 348);
             this.rtbDataIn.Name = "rtbDataIn";
             this.rtbDataIn.ReadOnly = true;
             this.rtbDataIn.Size = new System.Drawing.Size(282, 330);
@@ -198,7 +203,7 @@
             this.groupBox1.Controls.Add(this.tbParity);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnClosePort);
-            this.groupBox1.Location = new System.Drawing.Point(12, 443);
+            this.groupBox1.Location = new System.Drawing.Point(12, 353);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(201, 230);
             this.groupBox1.TabIndex = 14;
@@ -219,7 +224,7 @@
             // btnClearText
             // 
             this.btnClearText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClearText.Location = new System.Drawing.Point(267, 743);
+            this.btnClearText.Location = new System.Drawing.Point(267, 653);
             this.btnClearText.Name = "btnClearText";
             this.btnClearText.Size = new System.Drawing.Size(75, 23);
             this.btnClearText.TabIndex = 16;
@@ -284,7 +289,7 @@
             // btnStartStop
             // 
             this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartStop.Location = new System.Drawing.Point(729, 743);
+            this.btnStartStop.Location = new System.Drawing.Point(729, 653);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -314,7 +319,7 @@
             // btnAcquireJs
             // 
             this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(729, 714);
+            this.btnAcquireJs.Location = new System.Drawing.Point(729, 624);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -325,7 +330,7 @@
             // tbSentCmd
             // 
             this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSentCmd.Location = new System.Drawing.Point(830, 674);
+            this.tbSentCmd.Location = new System.Drawing.Point(830, 584);
             this.tbSentCmd.Name = "tbSentCmd";
             this.tbSentCmd.Size = new System.Drawing.Size(100, 20);
             this.tbSentCmd.TabIndex = 33;
@@ -334,7 +339,7 @@
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(769, 678);
+            this.label12.Location = new System.Drawing.Point(769, 588);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(55, 13);
             this.label12.TabIndex = 34;
@@ -342,14 +347,14 @@
             // 
             // pbMap
             // 
-            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbMap.BackColor = System.Drawing.SystemColors.Window;
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
             this.pbMap.Name = "pbMap";
-            this.pbMap.Size = new System.Drawing.Size(918, 408);
+            this.pbMap.Size = new System.Drawing.Size(918, 318);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
             // 
@@ -364,18 +369,66 @@
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(659, 443);
+            this.groupBox2.Location = new System.Drawing.Point(659, 353);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(271, 164);
             this.groupBox2.TabIndex = 36;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sonar Data";
             // 
+            // encoderDelta
+            // 
+            this.encoderDelta.Location = new System.Drawing.Point(669, 546);
+            this.encoderDelta.Name = "encoderDelta";
+            this.encoderDelta.Size = new System.Drawing.Size(60, 20);
+            this.encoderDelta.TabIndex = 37;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(662, 530);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 13);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "Encoder Delta";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(759, 530);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(95, 13);
+            this.label13.TabIndex = 38;
+            this.label13.Text = "Compass Direction";
+            // 
+            // compassDirection
+            // 
+            this.compassDirection.Location = new System.Drawing.Point(779, 546);
+            this.compassDirection.Name = "compassDirection";
+            this.compassDirection.Size = new System.Drawing.Size(60, 20);
+            this.compassDirection.TabIndex = 39;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(240, 406);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(85, 17);
+            this.radioButton1.TabIndex = 40;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "radioButton1";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(942, 778);
+            this.ClientSize = new System.Drawing.Size(942, 688);
+            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.compassDirection);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.encoderDelta);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pbMap);
             this.Controls.Add(this.label12);
@@ -387,7 +440,7 @@
             this.Controls.Add(this.rtbDataIn);
             this.Controls.Add(this.label2);
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(958, 816);
+            this.MinimumSize = new System.Drawing.Size(958, 726);
             this.Name = "MapperForm";
             this.Text = "ATLAS Mapper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapperForm_FormClosing);
@@ -434,6 +487,11 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.PictureBox pbMap;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox encoderDelta;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox compassDirection;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 
