@@ -98,7 +98,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(280, 352);
+            this.label2.Location = new System.Drawing.Point(280, 394);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 4;
@@ -176,13 +176,13 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbDataIn.Location = new System.Drawing.Point(348, 348);
+            this.rtbDataIn.Location = new System.Drawing.Point(348, 391);
             this.rtbDataIn.Name = "rtbDataIn";
             this.rtbDataIn.ReadOnly = true;
-            this.rtbDataIn.Size = new System.Drawing.Size(282, 330);
+            this.rtbDataIn.Size = new System.Drawing.Size(282, 287);
             this.rtbDataIn.TabIndex = 13;
             this.rtbDataIn.Text = "";
             this.rtbDataIn.TextChanged += new System.EventHandler(this.rtbDataIn_TextChanged);
@@ -202,7 +202,7 @@
             this.groupBox1.Controls.Add(this.tbParity);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnClosePort);
-            this.groupBox1.Location = new System.Drawing.Point(12, 353);
+            this.groupBox1.Location = new System.Drawing.Point(12, 391);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(201, 230);
             this.groupBox1.TabIndex = 14;
@@ -288,7 +288,7 @@
             // btnStartStop
             // 
             this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartStop.Location = new System.Drawing.Point(729, 653);
+            this.btnStartStop.Location = new System.Drawing.Point(636, 653);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -318,7 +318,7 @@
             // btnAcquireJs
             // 
             this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(729, 624);
+            this.btnAcquireJs.Location = new System.Drawing.Point(636, 624);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -329,7 +329,7 @@
             // tbSentCmd
             // 
             this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSentCmd.Location = new System.Drawing.Point(830, 584);
+            this.tbSentCmd.Location = new System.Drawing.Point(830, 655);
             this.tbSentCmd.Name = "tbSentCmd";
             this.tbSentCmd.Size = new System.Drawing.Size(100, 20);
             this.tbSentCmd.TabIndex = 33;
@@ -338,7 +338,7 @@
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(769, 588);
+            this.label12.Location = new System.Drawing.Point(769, 659);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(55, 13);
             this.label12.TabIndex = 34;
@@ -346,14 +346,14 @@
             // 
             // pbMap
             // 
-            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.pbMap.BackColor = System.Drawing.SystemColors.Window;
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
             this.pbMap.Name = "pbMap";
-            this.pbMap.Size = new System.Drawing.Size(918, 318);
+            this.pbMap.Size = new System.Drawing.Size(918, 358);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
             // 
@@ -368,7 +368,7 @@
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(659, 353);
+            this.groupBox2.Location = new System.Drawing.Point(659, 391);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(271, 164);
             this.groupBox2.TabIndex = 36;
@@ -377,15 +377,17 @@
             // 
             // encoderDelta
             // 
-            this.encoderDelta.Location = new System.Drawing.Point(669, 546);
+            this.encoderDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.encoderDelta.Location = new System.Drawing.Point(720, 588);
             this.encoderDelta.Name = "encoderDelta";
             this.encoderDelta.Size = new System.Drawing.Size(60, 20);
             this.encoderDelta.TabIndex = 37;
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(662, 530);
+            this.label7.Location = new System.Drawing.Point(713, 572);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 13);
             this.label7.TabIndex = 29;
@@ -393,8 +395,9 @@
             // 
             // label13
             // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(759, 530);
+            this.label13.Location = new System.Drawing.Point(810, 572);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(95, 13);
             this.label13.TabIndex = 38;
@@ -402,7 +405,8 @@
             // 
             // compassDirection
             // 
-            this.compassDirection.Location = new System.Drawing.Point(779, 546);
+            this.compassDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.compassDirection.Location = new System.Drawing.Point(830, 588);
             this.compassDirection.Name = "compassDirection";
             this.compassDirection.Size = new System.Drawing.Size(60, 20);
             this.compassDirection.TabIndex = 39;

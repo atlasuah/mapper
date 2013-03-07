@@ -87,7 +87,7 @@ namespace ATLAS_Mapper
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "Unable to open COM port:\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "Unable to open COM port:\r\n" + ex.Message, "Port Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnClosePort_Click(object sender, EventArgs e)
@@ -99,10 +99,7 @@ namespace ATLAS_Mapper
                 sPort.Dispose();
                 sPort = new SerialPort();
             }
-            catch (Exception)
-            {
-                // prevent crash
-            }
+            catch (Exception){}
 
             btnOpenPort.Enabled = true;
             btnClosePort.Enabled = false;
@@ -115,7 +112,6 @@ namespace ATLAS_Mapper
         {
             if (btnStartStop.Text == "Start Driving")
             {
-                //acceptKeys = true;
                 joystickActive = true;
                 if (jsThread.ThreadState == System.Threading.ThreadState.Aborted)
                     jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
@@ -124,7 +120,6 @@ namespace ATLAS_Mapper
             }
             else if (btnStartStop.Text == "Stop Driving")
             {
-                //acceptKeys = false;
                 joystickActive = false;
                 jsThread.Abort();
                 btnStartStop.Text = "Start Driving";
@@ -141,17 +136,6 @@ namespace ATLAS_Mapper
             {
                 convFact = 57.89;
                 btnUnits.Text = "cm";
-            }
-        }
-        private void btnRequestUpdate_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                sPort.Write("u");
-            }
-            catch (Exception)
-            {
-                // prevent crash
             }
         }
         private void btnAcquireJs_Click(object sender, EventArgs e)
@@ -234,9 +218,6 @@ namespace ATLAS_Mapper
                         sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
                         tbSentCmd.Text = sendCmd;
                         SendData(sendCmd);
-
-                        //tbDrive.Text = "d" + jsCurrY.ToString("+0;-0;0");
-                        //tbTurn.Text = "t" + jsCurrX.ToString("+0;-0;0");
                     });
                     
                     Thread.Sleep(jsUpdateDelay);
@@ -280,10 +261,7 @@ namespace ATLAS_Mapper
                     UpdateMap(driveDir, driveCnt);      // Upd8 da Map
                 }));
             }
-            catch (Exception)
-            {
-                // prevent crash
-            }
+            catch (Exception){}
         }
 
         private void UpdateMap(int rDir, int pCounts)
@@ -304,8 +282,6 @@ namespace ATLAS_Mapper
             using (Graphics g = Graphics.FromImage(pbMap.Image))
             {
                 g.DrawLine(Pens.Black, curRoverPosX, curRoverPosY, newRoverPosX, newRoverPosY);
-                //rtbDataIn.AppendText("driveDir: " + pDir + "\r\ndriveCnt: " + pCounts + "\r\n");
-                //rtbDataIn.AppendText("newX: " + newRoverPosX + "\r\nnewY: " + newRoverPosY + "\r\n");
             }
 
             curRoverPosX = newRoverPosX;
@@ -321,7 +297,7 @@ namespace ATLAS_Mapper
             {
                 jsThread.Abort();
             }
-            catch (Exception) { }
+            catch (Exception){}
         }
         private void sPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
