@@ -15,6 +15,7 @@ namespace ATLAS_Mapper
 {
     public partial class MapperForm : Form
     {
+        private const int HEART_RATE = 60;
         double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;
@@ -25,10 +26,10 @@ namespace ATLAS_Mapper
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
-        private int mapScale = 10;         // Larger number = smaller scale
+        private int mapScale = 150;         // Larger number = smaller map
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
-                    jsUpdateDelay = 100,    // WAS: 150
+                    //jsUpdateDelay = 100,    // WAS: 150
                     jsCurrX = 0,
                     jsCurrY = 0,
                     jsTolX = 250,               // Tolerance for Turning
@@ -219,8 +220,8 @@ namespace ATLAS_Mapper
                         tbSentCmd.Text = sendCmd;
                         SendData(sendCmd);
                     });
-                    
-                    Thread.Sleep(jsUpdateDelay);
+
+                    Thread.Sleep(HEART_RATE);
                 }
             }
             catch (ThreadAbortException){}
