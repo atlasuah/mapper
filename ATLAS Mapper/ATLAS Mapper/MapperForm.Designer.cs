@@ -356,6 +356,12 @@
             this.pbMap.Size = new System.Drawing.Size(918, 358);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
+            this.pbMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseClick);
+            this.pbMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseDown);
+            this.pbMap.MouseEnter += new System.EventHandler(this.pbMap_MouseEnter);
+            this.pbMap.MouseLeave += new System.EventHandler(this.pbMap_MouseLeave);
+            this.pbMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseMove);
+            this.pbMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseUp);
             // 
             // groupBox2
             // 
@@ -415,7 +421,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(942, 688);
+            this.ClientSize = new System.Drawing.Size(950, 699);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.compassDirection);
             this.Controls.Add(this.label7);
@@ -433,9 +439,12 @@
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(958, 726);
             this.Name = "MapperForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ATLAS Mapper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapperForm_FormClosing);
             this.Load += new System.EventHandler(this.MapperForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapperForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapperForm_KeyUp);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).EndInit();

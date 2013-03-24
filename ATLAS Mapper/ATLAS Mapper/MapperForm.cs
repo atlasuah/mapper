@@ -47,9 +47,30 @@ namespace ATLAS_Mapper
         private DirectInput dInput;
         private JoystickState jsState;
 
+        // Mapping Variables
+        Bitmap mapBitmap;
+        private List<Point> listRoverPoints;
+        private int mapShiftX = 0,
+                    mapShiftY = 0,
+                    prevMapShiftX = 0,
+                    prevMapShiftY = 0,
+                    prevMapScaleShiftX = 0,
+                    prevMapScaleShiftY = 0;
+        private int prevMouseX = 0,
+                    prevMouseY = 0;
+        private float mapZoom = 1;
+        private bool mouseDown = false;
+
+        // Will be removed once data comes from Rover. Only used for testing mapping stuff right now.
+        private bool firstPoint = true,
+                     drawNewPoint = false;
+        float oldPosX = 0,
+            oldPosY = 0;
+
         public MapperForm()
         {
             InitializeComponent();
+            this.MouseWheel += new MouseEventHandler(pbMap_MouseWheel);
         }
 
         private void MapperForm_Load(object sender, EventArgs e)
@@ -57,6 +78,7 @@ namespace ATLAS_Mapper
             sPort = new SerialPort();
             dInput = new DirectInput();
             jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
+            listRoverPoints = new List<Point>();
             btnStartStop.Enabled = false;
 
             try
@@ -276,7 +298,7 @@ namespace ATLAS_Mapper
                 Bitmap bmp = new Bitmap(pbMap.Width, pbMap.Height);
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    g.Clear(Color.White);
+                    g.Clear(Color.Gray);
                 }
                 pbMap.Image = bmp;
             }
@@ -285,9 +307,38 @@ namespace ATLAS_Mapper
                 g.DrawLine(Pens.Black, curRoverPosX, curRoverPosY, newRoverPosX, newRoverPosY);
             }
 
+            listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));         // Not sure if this will work.
+            //DrawMap();
+
             curRoverPosX = newRoverPosX;
             curRoverPosY = newRoverPosY;
             pbMap.Invalidate();
+        }
+        private void DrawMap()
+        {
+            if (listRoverPoints.Count > 0)
+            {
+                try
+                {
+                    mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
+                    using (Graphics g = Graphics.FromImage(mapBitmap))
+                    {
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        for (int i = 0; i < (listRoverPoints.Count - 1); i++)
+                        {
+                            g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
+                                (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                                (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                                (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
+                                (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
+                        }
+                    }
+                    pbMap.Image = mapBitmap;
+                    oldPosX = (listRoverPoints[listRoverPoints.Count - 1].X + mapShiftX) * mapZoom;
+                    oldPosY = (listRoverPoints[listRoverPoints.Count - 1].Y + mapShiftY) * mapZoom;
+                }
+                catch (Exception) { }
+            }
         }
 
         private void MapperForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -309,6 +360,97 @@ namespace ATLAS_Mapper
         {
             rtbDataIn.SelectionStart = rtbDataIn.Text.Length; //Set the current caret position to the end
             rtbDataIn.ScrollToCaret(); //Now scroll it automatically
+        }
+
+        private void pbMap_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            prevMouseX = (int)(e.X / mapZoom);
+            prevMouseY = (int)(e.Y / mapZoom);
+            if (!drawNewPoint)
+                Cursor = Cursors.SizeAll;
+        }
+        private void pbMap_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+            prevMapShiftX = mapShiftX;
+            prevMapShiftY = mapShiftY;
+            Cursor = Cursors.Default;
+        }
+        private void pbMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown && !drawNewPoint)
+            {
+                mapShiftX = (int)((prevMapShiftX - (prevMouseX - (e.X / mapZoom))));
+                mapShiftY = (int)((prevMapShiftY - (prevMouseY - (e.Y / mapZoom))));
+                DrawMap();
+            }
+        }
+        private void pbMap_MouseWheel(object sender, MouseEventArgs e)
+        {
+            // Re-centers the map after adjusting the scale
+            prevMapScaleShiftX = (int)(((pbMap.Width / 2) - ((pbMap.Width / 2) / mapZoom)));
+            prevMapScaleShiftY = (int)(((pbMap.Height / 2) - ((pbMap.Height / 2) / mapZoom)));
+            if (e.Delta > 0)
+            {
+                mapZoom *= 1.25F;
+                mapShiftX += (-1 * (int)(((pbMap.Width / 2) - ((pbMap.Width / 2) / mapZoom)))) + prevMapScaleShiftX;
+                mapShiftY += (-1 * (int)(((pbMap.Height / 2) - ((pbMap.Height / 2) / mapZoom)))) + prevMapScaleShiftY;
+            }
+            else
+            {
+                mapZoom /= 1.25F;
+                mapShiftX -= (int)(((pbMap.Width / 2) - ((pbMap.Width / 2) / mapZoom))) - prevMapScaleShiftX;
+                mapShiftY -= (int)(((pbMap.Height / 2) - ((pbMap.Height / 2) / mapZoom))) - prevMapScaleShiftY;
+            }
+
+            prevMapShiftX = mapShiftX;
+            prevMapShiftY = mapShiftY;
+            DrawMap();
+        }
+        private void pbMap_MouseEnter(object sender, EventArgs e)
+        {
+            pbMap.Focus();
+        }
+        private void pbMap_MouseLeave(object sender, EventArgs e)
+        {
+            pbMap.Parent.Focus();
+        }
+
+        private void MapperForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+                drawNewPoint = true;
+        }
+        private void MapperForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+                drawNewPoint = false;
+        }
+
+        // Will be removed once encoder/direction data comes from the Rover. Only for testing.
+        private void pbMap_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!firstPoint && drawNewPoint)
+            {
+                oldPosX = (float)(e.X - (mapShiftX * mapZoom)) / mapZoom;
+                oldPosY = (float)(e.Y - (mapShiftY * mapZoom)) / mapZoom;
+                listRoverPoints.Add(new Point((int)oldPosX, (int)oldPosY));
+
+                oldPosX = e.X;
+                oldPosY = e.Y;
+
+                DrawMap();
+            }
+            else if (drawNewPoint)
+            {
+                oldPosX = (float)(e.X - (mapShiftX * mapZoom)) / mapZoom;
+                oldPosY = (float)(e.Y - (mapShiftY * mapZoom)) / mapZoom;
+                listRoverPoints.Add(new Point((int)oldPosX, (int)oldPosY));
+                oldPosX = e.X;
+                oldPosY = e.Y;
+                firstPoint = false;
+            }
         }
     }
 }
