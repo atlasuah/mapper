@@ -26,7 +26,7 @@ namespace ATLAS_Mapper
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
-        private int mapScale = 150;         // Larger number = smaller map
+        private int mapScale = 50;         // Larger number = smaller map
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
                     //jsUpdateDelay = 100,    // WAS: 150
@@ -293,26 +293,26 @@ namespace ATLAS_Mapper
             newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
             newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
 
-            if (pbMap.Image == null)
-            {
-                Bitmap bmp = new Bitmap(pbMap.Width, pbMap.Height);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.Clear(Color.Gray);
-                }
-                pbMap.Image = bmp;
-            }
-            using (Graphics g = Graphics.FromImage(pbMap.Image))
-            {
-                g.DrawLine(Pens.Black, curRoverPosX, curRoverPosY, newRoverPosX, newRoverPosY);
-            }
+            //if (pbMap.Image == null)
+            //{
+            //    Bitmap bmp = new Bitmap(pbMap.Width, pbMap.Height);
+            //    using (Graphics g = Graphics.FromImage(bmp))
+            //    {
+            //        g.Clear(Color.Gray);
+            //    }
+            //    pbMap.Image = bmp;
+            //}
+            //using (Graphics g = Graphics.FromImage(pbMap.Image))
+            //{
+            //    g.DrawLine(Pens.Black, curRoverPosX, curRoverPosY, newRoverPosX, newRoverPosY);
+            //}
 
             listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));         // Not sure if this will work.
-            //DrawMap();
+            DrawMap();
 
             curRoverPosX = newRoverPosX;
             curRoverPosY = newRoverPosY;
-            pbMap.Invalidate();
+            //pbMap.Invalidate();
         }
         private void DrawMap()
         {
@@ -326,11 +326,15 @@ namespace ATLAS_Mapper
                         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         for (int i = 0; i < (listRoverPoints.Count - 1); i++)
                         {
-                            g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
+                            //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
+                            //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                            //    (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                            //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
+                            //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
+                            g.FillRectangle(Brushes.Black,
                                 (listRoverPoints[i].X + mapShiftX) * mapZoom,
                                 (listRoverPoints[i].Y + mapShiftY) * mapZoom,
-                                (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
-                                (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
+                                1, 1);
                         }
                     }
                     pbMap.Image = mapBitmap;
