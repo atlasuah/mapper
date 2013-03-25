@@ -26,7 +26,7 @@ namespace ATLAS_Mapper
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
-        private int mapScale = 50;         // Larger number = smaller map
+        private int mapScale = 10;         // Larger number = smaller map
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
                     //jsUpdateDelay = 100,    // WAS: 150
