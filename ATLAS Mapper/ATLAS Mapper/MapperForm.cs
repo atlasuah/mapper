@@ -18,18 +18,21 @@ namespace ATLAS_Mapper
         private const int HEART_RATE = 60;
         double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
-        private volatile int sendCmdCount = 8;
+        private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
+
+        // Rover Variables
         private int curRoverPosX = 200,
                     curRoverPosY = 200,
                     newRoverPosX = 200,
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
-        private int mapScale = 10;         // Larger number = smaller map
+        private int prevDriveDir = 0;
+
+        // Joystick Variables
         private int jsRangeUpper = 940,
                     jsRangeLower = -940,
-                    //jsUpdateDelay = 100,    // WAS: 150
                     jsCurrX = 0,
                     jsCurrY = 0,
                     jsTolX = 250,               // Tolerance for Turning
@@ -48,6 +51,7 @@ namespace ATLAS_Mapper
         private JoystickState jsState;
 
         // Mapping Variables
+        private int mapScale = 1;         // Larger number = smaller map
         Bitmap mapBitmap;
         private List<Point> listRoverPoints;
         private int mapShiftX = 0,
@@ -65,7 +69,7 @@ namespace ATLAS_Mapper
         private bool firstPoint = true,
                      drawNewPoint = false;
         float oldPosX = 0,
-            oldPosY = 0;
+              oldPosY = 0;
 
         public MapperForm()
         {
@@ -188,7 +192,7 @@ namespace ATLAS_Mapper
             }
         }
 
-        // Joystick Update Thread
+        // Joystick Update Thread. Controls heart beat
         private void UpdateJoystick()
         {
             string sendCmd = "";
@@ -268,7 +272,7 @@ namespace ATLAS_Mapper
             {
                 string data = sPort.ReadLine();
 
-                var parts = data.Split('_');    //  <------- Blake's face when he sees this.
+                var parts = data.Split('_');
 
                 driveCnt = Convert.ToInt16(parts[3]);
                 driveDir = Convert.ToInt16(parts[4]);
@@ -279,9 +283,9 @@ namespace ATLAS_Mapper
                     tbSensorLeft.Text = (Double.Parse(parts[1]) / convFact).ToString("F2");
                     tbSensorRight.Text = (Double.Parse(parts[2]) / convFact).ToString("F2");
                     encoderDelta.Text = driveCnt.ToString();
-                    compassDirection.Text = driveDir.ToString();
+                    compassDirection.Text = (driveDir * -1).ToString();
 
-                    UpdateMap(driveDir, driveCnt);      // Upd8 da Map
+                    UpdateMap(driveDir, driveCnt);
                 }));
             }
             catch (Exception){}
@@ -289,29 +293,24 @@ namespace ATLAS_Mapper
 
         private void UpdateMap(int rDir, int pCounts)
         {
-            int pDir = rDir * -1 + 90;
+            int pDir = rDir * -1;
+
+            if (Math.Abs(prevDriveDir - pDir) > 15)
+            {
+                rtbDataIn.AppendText("\r\n  *** Compass value exceeded delta threshold ***");
+                rtbDataIn.AppendText("\r\nPrevious = " + prevDriveDir);
+                rtbDataIn.AppendText("\r\nCurrent  = " + pDir);
+            }
+
             newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
             newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
 
-            //if (pbMap.Image == null)
-            //{
-            //    Bitmap bmp = new Bitmap(pbMap.Width, pbMap.Height);
-            //    using (Graphics g = Graphics.FromImage(bmp))
-            //    {
-            //        g.Clear(Color.Gray);
-            //    }
-            //    pbMap.Image = bmp;
-            //}
-            //using (Graphics g = Graphics.FromImage(pbMap.Image))
-            //{
-            //    g.DrawLine(Pens.Black, curRoverPosX, curRoverPosY, newRoverPosX, newRoverPosY);
-            //}
-
-            listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));         // Not sure if this will work.
+            listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));
             DrawMap();
 
             curRoverPosX = newRoverPosX;
             curRoverPosY = newRoverPosY;
+            prevDriveDir = pDir;
             //pbMap.Invalidate();
         }
         private void DrawMap()
@@ -323,7 +322,7 @@ namespace ATLAS_Mapper
                     mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
                     using (Graphics g = Graphics.FromImage(mapBitmap))
                     {
-                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         for (int i = 0; i < (listRoverPoints.Count - 1); i++)
                         {
                             //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),

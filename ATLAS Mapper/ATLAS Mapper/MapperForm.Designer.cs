@@ -150,6 +150,7 @@
             // 
             // tbDataBits
             // 
+            this.tbDataBits.Enabled = false;
             this.tbDataBits.Location = new System.Drawing.Point(104, 104);
             this.tbDataBits.Name = "tbDataBits";
             this.tbDataBits.Size = new System.Drawing.Size(38, 20);
