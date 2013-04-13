@@ -17,6 +17,7 @@ namespace ATLAS_Mapper
     {
         private const int HEART_RATE = 60;
         double convFact = 57.89;     // Defaults to cm
+        private const double gyroOffsetZ = 0.5;
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
@@ -28,6 +29,12 @@ namespace ATLAS_Mapper
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
+        private double accelX = 0,
+                    accelY = 0,
+                    accelZ = 0,
+                    gyroX = 0,
+                    gyroY = 0,
+                    gyroZ = 0;
         private int prevDriveDir = 0;
 
         // Joystick Variables
@@ -276,6 +283,12 @@ namespace ATLAS_Mapper
 
                 driveCnt = Convert.ToInt16(parts[3]);
                 driveDir = Convert.ToInt16(parts[4]);
+                accelX = Convert.ToInt16(parts[5]);
+                accelY = Convert.ToInt16(parts[6]);
+                accelZ = Convert.ToInt16(parts[7]);
+                gyroX = Convert.ToInt16(parts[8]) / 131.0;
+                gyroY = Convert.ToInt16(parts[9]) / 131.0;
+                gyroZ = (Convert.ToInt16(parts[10]) / 131.0) + gyroOffsetZ;     // BLAKE: Use this joker!
 
                 this.BeginInvoke(new MethodInvoker(delegate()
                 {
@@ -284,6 +297,12 @@ namespace ATLAS_Mapper
                     tbSensorRight.Text = (Double.Parse(parts[2]) / convFact).ToString("F2");
                     encoderDelta.Text = driveCnt.ToString();
                     compassDirection.Text = (driveDir * -1).ToString();
+                    accelBoxX.Text = accelX.ToString();
+                    accelBoxY.Text = accelY.ToString();
+                    accelBoxZ.Text = accelZ.ToString();
+                    gyroBoxX.Text = gyroX.ToString();
+                    gyroBoxY.Text = gyroY.ToString();
+                    gyroBoxZ.Text = gyroZ.ToString();
 
                     UpdateMap(driveDir, driveCnt);
                 }));

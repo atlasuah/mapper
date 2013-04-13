@@ -57,14 +57,30 @@
             this.tbSentCmd = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.pbMap = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.sonarGroupBox = new System.Windows.Forms.GroupBox();
             this.encoderDelta = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.compassDirection = new System.Windows.Forms.TextBox();
+            this.accelGroupBox = new System.Windows.Forms.GroupBox();
+            this.accelBoxY = new System.Windows.Forms.TextBox();
+            this.accelBoxX = new System.Windows.Forms.TextBox();
+            this.accelBoxZ = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.gyroGroupBox = new System.Windows.Forms.GroupBox();
+            this.gyroBoxY = new System.Windows.Forms.TextBox();
+            this.gyroBoxX = new System.Windows.Forms.TextBox();
+            this.gyroBoxZ = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.sonarGroupBox.SuspendLayout();
+            this.accelGroupBox.SuspendLayout();
+            this.gyroGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbPort
@@ -177,8 +193,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(348, 391);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -244,7 +260,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 74);
+            this.label9.Location = new System.Drawing.Point(40, 26);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(25, 13);
             this.label9.TabIndex = 21;
@@ -253,7 +269,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(218, 74);
+            this.label10.Location = new System.Drawing.Point(200, 26);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(32, 13);
             this.label10.TabIndex = 20;
@@ -262,7 +278,7 @@
             // tbSensorRight
             // 
             this.tbSensorRight.BackColor = System.Drawing.SystemColors.Window;
-            this.tbSensorRight.Location = new System.Drawing.Point(203, 90);
+            this.tbSensorRight.Location = new System.Drawing.Point(185, 42);
             this.tbSensorRight.Name = "tbSensorRight";
             this.tbSensorRight.ReadOnly = true;
             this.tbSensorRight.Size = new System.Drawing.Size(62, 20);
@@ -271,7 +287,7 @@
             // tbSensorLeft
             // 
             this.tbSensorLeft.BackColor = System.Drawing.SystemColors.Window;
-            this.tbSensorLeft.Location = new System.Drawing.Point(6, 90);
+            this.tbSensorLeft.Location = new System.Drawing.Point(21, 42);
             this.tbSensorLeft.Name = "tbSensorLeft";
             this.tbSensorLeft.ReadOnly = true;
             this.tbSensorLeft.Size = new System.Drawing.Size(62, 20);
@@ -288,8 +304,9 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartStop.Location = new System.Drawing.Point(636, 653);
+            this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnStartStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStartStop.Location = new System.Drawing.Point(116, 654);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -299,7 +316,7 @@
             // 
             // btnUnits
             // 
-            this.btnUnits.Location = new System.Drawing.Point(103, 106);
+            this.btnUnits.Location = new System.Drawing.Point(101, 75);
             this.btnUnits.Name = "btnUnits";
             this.btnUnits.Size = new System.Drawing.Size(60, 23);
             this.btnUnits.TabIndex = 27;
@@ -310,7 +327,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(117, 90);
+            this.label11.Location = new System.Drawing.Point(115, 59);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(31, 13);
             this.label11.TabIndex = 28;
@@ -318,8 +335,8 @@
             // 
             // btnAcquireJs
             // 
-            this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(636, 624);
+            this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAcquireJs.Location = new System.Drawing.Point(9, 654);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -329,17 +346,17 @@
             // 
             // tbSentCmd
             // 
-            this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSentCmd.Location = new System.Drawing.Point(830, 655);
+            this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tbSentCmd.Location = new System.Drawing.Point(227, 627);
             this.tbSentCmd.Name = "tbSentCmd";
             this.tbSentCmd.Size = new System.Drawing.Size(100, 20);
             this.tbSentCmd.TabIndex = 33;
             // 
             // label12
             // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(769, 659);
+            this.label12.Location = new System.Drawing.Point(166, 631);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(55, 13);
             this.label12.TabIndex = 34;
@@ -347,9 +364,9 @@
             // 
             // pbMap
             // 
-            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbMap.BackColor = System.Drawing.SystemColors.Window;
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
@@ -364,28 +381,28 @@
             this.pbMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseMove);
             this.pbMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseUp);
             // 
-            // groupBox2
+            // sonarGroupBox
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.btnUnits);
-            this.groupBox2.Controls.Add(this.tbSensorFront);
-            this.groupBox2.Controls.Add(this.tbSensorLeft);
-            this.groupBox2.Controls.Add(this.tbSensorRight);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(659, 391);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(271, 164);
-            this.groupBox2.TabIndex = 36;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Sonar Data";
+            this.sonarGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sonarGroupBox.Controls.Add(this.btnUnits);
+            this.sonarGroupBox.Controls.Add(this.tbSensorFront);
+            this.sonarGroupBox.Controls.Add(this.tbSensorLeft);
+            this.sonarGroupBox.Controls.Add(this.tbSensorRight);
+            this.sonarGroupBox.Controls.Add(this.label10);
+            this.sonarGroupBox.Controls.Add(this.label11);
+            this.sonarGroupBox.Controls.Add(this.label9);
+            this.sonarGroupBox.Controls.Add(this.label8);
+            this.sonarGroupBox.Location = new System.Drawing.Point(659, 391);
+            this.sonarGroupBox.Name = "sonarGroupBox";
+            this.sonarGroupBox.Size = new System.Drawing.Size(271, 106);
+            this.sonarGroupBox.TabIndex = 36;
+            this.sonarGroupBox.TabStop = false;
+            this.sonarGroupBox.Text = "Sonar Data";
             // 
             // encoderDelta
             // 
             this.encoderDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.encoderDelta.Location = new System.Drawing.Point(720, 588);
+            this.encoderDelta.Location = new System.Drawing.Point(761, 589);
             this.encoderDelta.Name = "encoderDelta";
             this.encoderDelta.Size = new System.Drawing.Size(60, 20);
             this.encoderDelta.TabIndex = 37;
@@ -394,7 +411,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(713, 572);
+            this.label7.Location = new System.Drawing.Point(754, 573);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 13);
             this.label7.TabIndex = 29;
@@ -404,30 +421,172 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(810, 572);
+            this.label13.Location = new System.Drawing.Point(766, 618);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(95, 13);
+            this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 38;
-            this.label13.Text = "Compass Direction";
+            this.label13.Text = "Compass";
             // 
             // compassDirection
             // 
             this.compassDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.compassDirection.Location = new System.Drawing.Point(830, 588);
+            this.compassDirection.Location = new System.Drawing.Point(760, 634);
             this.compassDirection.Name = "compassDirection";
             this.compassDirection.Size = new System.Drawing.Size(60, 20);
             this.compassDirection.TabIndex = 39;
+            // 
+            // accelGroupBox
+            // 
+            this.accelGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.accelGroupBox.Controls.Add(this.accelBoxY);
+            this.accelGroupBox.Controls.Add(this.accelBoxX);
+            this.accelGroupBox.Controls.Add(this.accelBoxZ);
+            this.accelGroupBox.Controls.Add(this.label15);
+            this.accelGroupBox.Controls.Add(this.label14);
+            this.accelGroupBox.Controls.Add(this.label16);
+            this.accelGroupBox.Location = new System.Drawing.Point(659, 573);
+            this.accelGroupBox.Name = "accelGroupBox";
+            this.accelGroupBox.Size = new System.Drawing.Size(95, 103);
+            this.accelGroupBox.TabIndex = 37;
+            this.accelGroupBox.TabStop = false;
+            this.accelGroupBox.Text = "Accelerometer";
+            // 
+            // accelBoxY
+            // 
+            this.accelBoxY.BackColor = System.Drawing.SystemColors.Window;
+            this.accelBoxY.Location = new System.Drawing.Point(21, 45);
+            this.accelBoxY.Name = "accelBoxY";
+            this.accelBoxY.ReadOnly = true;
+            this.accelBoxY.Size = new System.Drawing.Size(62, 20);
+            this.accelBoxY.TabIndex = 17;
+            // 
+            // accelBoxX
+            // 
+            this.accelBoxX.BackColor = System.Drawing.SystemColors.Window;
+            this.accelBoxX.Location = new System.Drawing.Point(21, 19);
+            this.accelBoxX.Name = "accelBoxX";
+            this.accelBoxX.ReadOnly = true;
+            this.accelBoxX.Size = new System.Drawing.Size(62, 20);
+            this.accelBoxX.TabIndex = 18;
+            // 
+            // accelBoxZ
+            // 
+            this.accelBoxZ.BackColor = System.Drawing.SystemColors.Window;
+            this.accelBoxZ.Location = new System.Drawing.Point(21, 71);
+            this.accelBoxZ.Name = "accelBoxZ";
+            this.accelBoxZ.ReadOnly = true;
+            this.accelBoxZ.Size = new System.Drawing.Size(62, 20);
+            this.accelBoxZ.TabIndex = 19;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 74);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(14, 13);
+            this.label15.TabIndex = 21;
+            this.label15.Text = "Z";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 48);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(14, 13);
+            this.label14.TabIndex = 21;
+            this.label14.Text = "Y";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 22);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(14, 13);
+            this.label16.TabIndex = 21;
+            this.label16.Text = "X";
+            // 
+            // gyroGroupBox
+            // 
+            this.gyroGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.gyroGroupBox.Controls.Add(this.gyroBoxY);
+            this.gyroGroupBox.Controls.Add(this.gyroBoxX);
+            this.gyroGroupBox.Controls.Add(this.gyroBoxZ);
+            this.gyroGroupBox.Controls.Add(this.label17);
+            this.gyroGroupBox.Controls.Add(this.label18);
+            this.gyroGroupBox.Controls.Add(this.label19);
+            this.gyroGroupBox.Location = new System.Drawing.Point(835, 573);
+            this.gyroGroupBox.Name = "gyroGroupBox";
+            this.gyroGroupBox.Size = new System.Drawing.Size(95, 103);
+            this.gyroGroupBox.TabIndex = 38;
+            this.gyroGroupBox.TabStop = false;
+            this.gyroGroupBox.Text = "Gyroscope";
+            // 
+            // gyroBoxY
+            // 
+            this.gyroBoxY.BackColor = System.Drawing.SystemColors.Window;
+            this.gyroBoxY.Location = new System.Drawing.Point(21, 45);
+            this.gyroBoxY.Name = "gyroBoxY";
+            this.gyroBoxY.ReadOnly = true;
+            this.gyroBoxY.Size = new System.Drawing.Size(62, 20);
+            this.gyroBoxY.TabIndex = 17;
+            // 
+            // gyroBoxX
+            // 
+            this.gyroBoxX.BackColor = System.Drawing.SystemColors.Window;
+            this.gyroBoxX.Location = new System.Drawing.Point(21, 19);
+            this.gyroBoxX.Name = "gyroBoxX";
+            this.gyroBoxX.ReadOnly = true;
+            this.gyroBoxX.Size = new System.Drawing.Size(62, 20);
+            this.gyroBoxX.TabIndex = 18;
+            // 
+            // gyroBoxZ
+            // 
+            this.gyroBoxZ.BackColor = System.Drawing.SystemColors.Window;
+            this.gyroBoxZ.Location = new System.Drawing.Point(21, 71);
+            this.gyroBoxZ.Name = "gyroBoxZ";
+            this.gyroBoxZ.ReadOnly = true;
+            this.gyroBoxZ.Size = new System.Drawing.Size(62, 20);
+            this.gyroBoxZ.TabIndex = 19;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 74);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(14, 13);
+            this.label17.TabIndex = 21;
+            this.label17.Text = "Z";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 48);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(14, 13);
+            this.label18.TabIndex = 21;
+            this.label18.Text = "Y";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 22);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(14, 13);
+            this.label19.TabIndex = 21;
+            this.label19.Text = "X";
             // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 699);
+            this.Controls.Add(this.gyroGroupBox);
+            this.Controls.Add(this.accelGroupBox);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.compassDirection);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.encoderDelta);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.sonarGroupBox);
             this.Controls.Add(this.pbMap);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.tbSentCmd);
@@ -449,8 +608,12 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.sonarGroupBox.ResumeLayout(false);
+            this.sonarGroupBox.PerformLayout();
+            this.accelGroupBox.ResumeLayout(false);
+            this.accelGroupBox.PerformLayout();
+            this.gyroGroupBox.ResumeLayout(false);
+            this.gyroGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -487,11 +650,25 @@
         private System.Windows.Forms.TextBox tbSentCmd;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.PictureBox pbMap;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox sonarGroupBox;
         private System.Windows.Forms.TextBox encoderDelta;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox compassDirection;
+        private System.Windows.Forms.GroupBox accelGroupBox;
+        private System.Windows.Forms.TextBox accelBoxY;
+        private System.Windows.Forms.TextBox accelBoxX;
+        private System.Windows.Forms.TextBox accelBoxZ;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox gyroGroupBox;
+        private System.Windows.Forms.TextBox gyroBoxY;
+        private System.Windows.Forms.TextBox gyroBoxX;
+        private System.Windows.Forms.TextBox gyroBoxZ;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
     }
 }
 
