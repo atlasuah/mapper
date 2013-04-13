@@ -100,6 +100,10 @@ namespace ATLAS_Mapper
             listRoverGyroPoints = new List<Point>();
             btnStartStop.Enabled = false;
 
+            // Initialize the bitmap for the PictureBox
+            mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
+            pbMap.Image = mapBitmap;
+
             try
             {
                 btnAcquireJs_Click(sender, e);
@@ -300,7 +304,10 @@ namespace ATLAS_Mapper
 
                 // Assign initial value for gyroscope to initial compass heading
                 if (initialData)
+                {
                     roverGyroDir = driveDir;
+                    initialData = false;
+                }
 
                 // Adjust gyro values based on HEART_BEAT.
                 gyroZ *= ((double)(HEART_RATE) / 1000);
@@ -509,6 +516,24 @@ namespace ATLAS_Mapper
                 oldPosY = e.Y;
                 firstPoint = false;
             }
+        }
+
+        private void btnClearMap_Click(object sender, EventArgs e)
+        {
+            listRoverGyroPoints.Clear();
+            listRoverPoints.Clear();
+            Bitmap tmpImg = new Bitmap(pbMap.Width, pbMap.Height);
+            pbMap.Image = tmpImg;
+        }
+
+        private void btnSaveMap_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Bitmap Image|*.bmp";
+            saveDialog.Title = "Save an Image File";
+            saveDialog.FileName = "Map.bmp";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+                pbMap.Image.Save(saveDialog.FileName);
         }
     }
 }
