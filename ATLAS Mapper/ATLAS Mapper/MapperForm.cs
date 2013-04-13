@@ -16,8 +16,8 @@ namespace ATLAS_Mapper
     public partial class MapperForm : Form
     {
         private const int HEART_RATE = 60;
+        private const double GYRO_OFFSET_Z = 0.5;
         double convFact = 57.89;     // Defaults to cm
-        private const double gyroOffsetZ = 0.5;
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
@@ -36,6 +36,11 @@ namespace ATLAS_Mapper
                     gyroY = 0,
                     gyroZ = 0;
         private int prevDriveDir = 0;
+        private int curRoverGyroPosX = 200,
+                    curRoverGyroPosY = 200,
+                    newRoverGyroPosX = 200,
+                    newRoverGyroPosY = 200;
+        private double roverGyroDir = 0;
 
         // Joystick Variables
         private int jsRangeUpper = 940,
@@ -61,6 +66,7 @@ namespace ATLAS_Mapper
         private int mapScale = 1;         // Larger number = smaller map
         Bitmap mapBitmap;
         private List<Point> listRoverPoints;
+        private List<Point> listRoverGyroPoints;
         private int mapShiftX = 0,
                     mapShiftY = 0,
                     prevMapShiftX = 0,
@@ -90,6 +96,7 @@ namespace ATLAS_Mapper
             dInput = new DirectInput();
             jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
             listRoverPoints = new List<Point>();
+            listRoverGyroPoints = new List<Point>();
             btnStartStop.Enabled = false;
 
             try
@@ -288,7 +295,11 @@ namespace ATLAS_Mapper
                 accelZ = Convert.ToInt16(parts[7]);
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
-                gyroZ = (Convert.ToInt16(parts[10]) / 131.0) + gyroOffsetZ;     // BLAKE: Use this joker!
+                gyroZ = (Convert.ToInt16(parts[10]) / 131.0) + GYRO_OFFSET_Z;     // BLAKE: Use this joker!
+
+                // Adjust gyro values based on HEART_BEAT.
+                gyroZ *= (HEART_RATE / 1000);
+                roverGyroDir += (int)gyroZ;
 
                 this.BeginInvoke(new MethodInvoker(delegate()
                 {
@@ -324,7 +335,11 @@ namespace ATLAS_Mapper
             newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
             newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
 
+            newRoverGyroPosX += (int)(Math.Cos(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
+            newRoverGyroPosY += (int)(Math.Sin(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
+            
             listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));
+            listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
             DrawMap();
 
             curRoverPosX = newRoverPosX;
@@ -342,6 +357,8 @@ namespace ATLAS_Mapper
                     using (Graphics g = Graphics.FromImage(mapBitmap))
                     {
                         //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                        // Draw the COMPASS position
                         for (int i = 0; i < (listRoverPoints.Count - 1); i++)
                         {
                             //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
@@ -352,6 +369,20 @@ namespace ATLAS_Mapper
                             g.FillRectangle(Brushes.Black,
                                 (listRoverPoints[i].X + mapShiftX) * mapZoom,
                                 (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                                1, 1);
+                        }
+
+                        // Draw the GYRO position
+                        for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
+                        {
+                            //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
+                            //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                            //    (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                            //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
+                            //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
+                            g.FillRectangle(Brushes.Orange,
+                                (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
+                                (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
                                 1, 1);
                         }
                     }
