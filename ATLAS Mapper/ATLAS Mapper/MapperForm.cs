@@ -21,6 +21,7 @@ namespace ATLAS_Mapper
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
+        private volatile bool initialData = true;
 
         // Rover Variables
         private int curRoverPosX = 200,
@@ -297,6 +298,10 @@ namespace ATLAS_Mapper
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
                 gyroZ = ((Convert.ToInt16(parts[10]) / 131.0) + GYRO_OFFSET_Z) * -1;     // BLAKE: Use this joker!
 
+                // Assign initial value for gyroscope to initial compass heading
+                if (initialData)
+                    roverGyroDir = driveDir;
+
                 // Adjust gyro values based on HEART_BEAT.
                 gyroZ *= ((double)(HEART_RATE) / 1000);
                 roverGyroDir += gyroZ;
@@ -369,7 +374,7 @@ namespace ATLAS_Mapper
                             g.FillRectangle(Brushes.Black,
                                 (listRoverPoints[i].X + mapShiftX) * mapZoom,
                                 (listRoverPoints[i].Y + mapShiftY) * mapZoom,
-                                3, 3);
+                                2, 2);
                         }
 
                         // Draw the GYRO position
@@ -383,7 +388,7 @@ namespace ATLAS_Mapper
                             g.FillRectangle(Brushes.Blue,
                                 (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
                                 (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
-                                3, 3);
+                                2, 2);
                         }
                     }
                     pbMap.Image = mapBitmap;
