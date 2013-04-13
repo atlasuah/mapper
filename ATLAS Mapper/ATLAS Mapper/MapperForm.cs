@@ -295,10 +295,10 @@ namespace ATLAS_Mapper
                 accelZ = Convert.ToInt16(parts[7]);
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
-                gyroZ = (Convert.ToInt16(parts[10]) / 131.0) + GYRO_OFFSET_Z;     // BLAKE: Use this joker!
+                gyroZ = ((Convert.ToInt16(parts[10]) / 131.0) + GYRO_OFFSET_Z) * -1;     // BLAKE: Use this joker!
 
                 // Adjust gyro values based on HEART_BEAT.
-                gyroZ *= (HEART_RATE / 1000);
+                gyroZ *= ((double)(HEART_RATE) / 1000);
                 roverGyroDir += gyroZ;
 
                 this.BeginInvoke(new MethodInvoker(delegate()
@@ -369,7 +369,7 @@ namespace ATLAS_Mapper
                             g.FillRectangle(Brushes.Black,
                                 (listRoverPoints[i].X + mapShiftX) * mapZoom,
                                 (listRoverPoints[i].Y + mapShiftY) * mapZoom,
-                                1, 1);
+                                3, 3);
                         }
 
                         // Draw the GYRO position
@@ -380,10 +380,10 @@ namespace ATLAS_Mapper
                             //    (listRoverPoints[i].Y + mapShiftY) * mapZoom,
                             //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
                             //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
-                            g.FillRectangle(Brushes.Orange,
+                            g.FillRectangle(Brushes.Blue,
                                 (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
                                 (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
-                                1, 1);
+                                3, 3);
                         }
                     }
                     pbMap.Image = mapBitmap;
