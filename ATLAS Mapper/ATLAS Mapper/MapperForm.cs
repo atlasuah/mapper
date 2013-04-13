@@ -51,7 +51,7 @@ namespace ATLAS_Mapper
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 100;
+                    jsScaleY = 75;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
@@ -307,6 +307,7 @@ namespace ATLAS_Mapper
                 {
                     roverGyroDir = driveDir;
                     initialData = false;
+                    roverGyroDir = driveDir * -1;
                 }
 
                 // Adjust gyro values based on HEART_BEAT.
