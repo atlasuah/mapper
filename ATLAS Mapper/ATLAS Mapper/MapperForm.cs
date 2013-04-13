@@ -299,7 +299,7 @@ namespace ATLAS_Mapper
 
                 // Adjust gyro values based on HEART_BEAT.
                 gyroZ *= (HEART_RATE / 1000);
-                roverGyroDir += (int)gyroZ;
+                roverGyroDir += gyroZ;
 
                 this.BeginInvoke(new MethodInvoker(delegate()
                 {
