@@ -266,7 +266,7 @@ namespace ATLAS_Mapper
                         else
                             jsSignX = '+';
 
-                        sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
+                        //sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
                         sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + "0>";
                         tbSentCmd.Text = sendCmd;
 
