@@ -16,7 +16,7 @@ namespace ATLAS_Mapper
     public partial class MapperForm : Form
     {
         private const int HEART_RATE = 60;
-        private const double GYRO_OFFSET_Z = 0.5;
+        private const double GYRO_OFFSET_Z = 0.47;
         double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
@@ -27,7 +27,7 @@ namespace ATLAS_Mapper
         private int packetSentCount = 0;
         private int packetRecvCount = 0;
         private int totalEncoderCnt = 0;
-
+        
         // Rover Variables
         private int curRoverPosX = 200,
                     curRoverPosY = 200,
@@ -60,9 +60,11 @@ namespace ATLAS_Mapper
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
-                       jsCharY = "";
+                       jsCharY = "",
+                       tempCharY = "0";
         private bool jsNegX = false,
-                     jsNegY = false;
+                     jsNegY = false,
+                     autoDistance = false;
         public Thread jsThread;
         private Joystick jStick;
         private DirectInput dInput;
@@ -267,7 +269,8 @@ namespace ATLAS_Mapper
                             jsSignX = '+';
 
                         //sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
-                        sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + "0>";
+                        //sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + "0>";
+                        sendCmd = "<d" + "+" + tempCharY + "t" + jsSignX + "0>";
                         tbSentCmd.Text = sendCmd;
 
                         // Check if recieved response from Rover
@@ -316,7 +319,7 @@ namespace ATLAS_Mapper
                 accelZ = Convert.ToInt16(parts[7]);
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
-                gyroZ = ((Convert.ToInt16(parts[10]) / 131.0) + GYRO_OFFSET_Z) * -1;     // BLAKE: Use this joker!
+                gyroZ = ((Convert.ToInt16(parts[10]) / 131.0) * -1);     // BLAKE: Use this joker!
 
                 // Assign initial value for gyroscope to initial compass heading
                 if (initialData)
@@ -347,6 +350,14 @@ namespace ATLAS_Mapper
                     gyroBoxX.Text = gyroX.ToString();
                     gyroBoxY.Text = gyroY.ToString();
                     gyroBoxZ.Text = gyroZ.ToString();
+
+                    if (totalEncoderCnt > Convert.ToInt16(distanceToGo.Text) * 268 * 12)
+                    {
+                        tempCharY = "0";
+                        encoderCounts.Text = totalEncoderCnt.ToString();
+                        distanceTraveled.Text = ((double)(totalEncoderCnt / 268.0)).ToString();
+                        totalEncoderCnt = 0;
+                    }
 
                     UpdateMap(driveDir, driveCnt);
                 }));
@@ -559,6 +570,17 @@ namespace ATLAS_Mapper
             saveDialog.FileName = "Map.bmp";
             if (saveDialog.ShowDialog() == DialogResult.OK)
                 pbMap.Image.Save(saveDialog.FileName);
+        }
+
+        private void goTheDistance(object sender, EventArgs e)
+        {
+            totalEncoderCnt = 0;
+            tempCharY =  "4";
+        }
+
+        private void distanceToGo_TextChanged(object sender, EventArgs e)
+        {
+            goDistanceButton.Text = "Go " + distanceToGo.Text + " Feet";
         }
     }
 }

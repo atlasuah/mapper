@@ -79,6 +79,11 @@
             this.btnClearMap = new System.Windows.Forms.Button();
             this.btnSaveMap = new System.Windows.Forms.Button();
             this.tbTotalEncCnt = new System.Windows.Forms.TextBox();
+            this.goDistanceButton = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.distanceToGo = new System.Windows.Forms.TextBox();
+            this.distanceTraveled = new System.Windows.Forms.TextBox();
+            this.encoderCounts = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
             this.sonarGroupBox.SuspendLayout();
@@ -92,7 +97,7 @@
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(38, 20);
             this.tbPort.TabIndex = 0;
-            this.tbPort.Text = "5";
+            this.tbPort.Text = "107";
             // 
             // btnOpenPort
             // 
@@ -196,8 +201,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(348, 391);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -367,9 +372,9 @@
             // 
             // pbMap
             // 
-            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbMap.BackColor = System.Drawing.SystemColors.Window;
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
@@ -580,6 +585,7 @@
             // 
             // btnClearMap
             // 
+            this.btnClearMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClearMap.Location = new System.Drawing.Point(855, 123);
             this.btnClearMap.Name = "btnClearMap";
             this.btnClearMap.Size = new System.Drawing.Size(75, 23);
@@ -590,6 +596,7 @@
             // 
             // btnSaveMap
             // 
+            this.btnSaveMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveMap.Location = new System.Drawing.Point(855, 165);
             this.btnSaveMap.Name = "btnSaveMap";
             this.btnSaveMap.Size = new System.Drawing.Size(75, 23);
@@ -606,11 +613,64 @@
             this.tbTotalEncCnt.Size = new System.Drawing.Size(61, 20);
             this.tbTotalEncCnt.TabIndex = 42;
             // 
+            // goDistanceButton
+            // 
+            this.goDistanceButton.Location = new System.Drawing.Point(227, 514);
+            this.goDistanceButton.Name = "goDistanceButton";
+            this.goDistanceButton.Size = new System.Drawing.Size(75, 23);
+            this.goDistanceButton.TabIndex = 43;
+            this.goDistanceButton.Text = "Go 25 Feet";
+            this.goDistanceButton.UseVisualStyleBackColor = true;
+            this.goDistanceButton.Click += new System.EventHandler(this.goTheDistance);
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(224, 469);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(76, 13);
+            this.label20.TabIndex = 44;
+            this.label20.Text = "Distance to go";
+            // 
+            // distanceToGo
+            // 
+            this.distanceToGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.distanceToGo.Location = new System.Drawing.Point(234, 487);
+            this.distanceToGo.Name = "distanceToGo";
+            this.distanceToGo.Size = new System.Drawing.Size(61, 20);
+            this.distanceToGo.TabIndex = 45;
+            this.distanceToGo.Text = "25";
+            this.distanceToGo.TextChanged += new System.EventHandler(this.distanceToGo_TextChanged);
+            // 
+            // distanceTraveled
+            // 
+            this.distanceTraveled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.distanceTraveled.Location = new System.Drawing.Point(234, 543);
+            this.distanceTraveled.Name = "distanceTraveled";
+            this.distanceTraveled.Size = new System.Drawing.Size(61, 20);
+            this.distanceTraveled.TabIndex = 42;
+            this.distanceTraveled.Text = "0";
+            // 
+            // encoderCounts
+            // 
+            this.encoderCounts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.encoderCounts.Location = new System.Drawing.Point(234, 566);
+            this.encoderCounts.Name = "encoderCounts";
+            this.encoderCounts.Size = new System.Drawing.Size(61, 20);
+            this.encoderCounts.TabIndex = 42;
+            this.encoderCounts.Text = "0";
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 699);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.distanceToGo);
+            this.Controls.Add(this.goDistanceButton);
+            this.Controls.Add(this.encoderCounts);
+            this.Controls.Add(this.distanceTraveled);
             this.Controls.Add(this.tbTotalEncCnt);
             this.Controls.Add(this.btnSaveMap);
             this.Controls.Add(this.btnClearMap);
@@ -706,6 +766,11 @@
         private System.Windows.Forms.Button btnClearMap;
         private System.Windows.Forms.Button btnSaveMap;
         private System.Windows.Forms.TextBox tbTotalEncCnt;
+        private System.Windows.Forms.Button goDistanceButton;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox distanceToGo;
+        private System.Windows.Forms.TextBox distanceTraveled;
+        private System.Windows.Forms.TextBox encoderCounts;
     }
 }
 
