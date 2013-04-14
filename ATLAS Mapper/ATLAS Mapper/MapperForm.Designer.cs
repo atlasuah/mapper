@@ -78,6 +78,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.btnClearMap = new System.Windows.Forms.Button();
             this.btnSaveMap = new System.Windows.Forms.Button();
+            this.tbTotalEncCnt = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
             this.sonarGroupBox.SuspendLayout();
@@ -406,7 +407,7 @@
             this.encoderDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.encoderDelta.Location = new System.Drawing.Point(761, 589);
             this.encoderDelta.Name = "encoderDelta";
-            this.encoderDelta.Size = new System.Drawing.Size(60, 20);
+            this.encoderDelta.Size = new System.Drawing.Size(61, 20);
             this.encoderDelta.TabIndex = 37;
             // 
             // label7
@@ -423,7 +424,7 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(766, 618);
+            this.label13.Location = new System.Drawing.Point(766, 642);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 38;
@@ -432,9 +433,9 @@
             // compassDirection
             // 
             this.compassDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.compassDirection.Location = new System.Drawing.Point(760, 634);
+            this.compassDirection.Location = new System.Drawing.Point(761, 658);
             this.compassDirection.Name = "compassDirection";
-            this.compassDirection.Size = new System.Drawing.Size(60, 20);
+            this.compassDirection.Size = new System.Drawing.Size(61, 20);
             this.compassDirection.TabIndex = 39;
             // 
             // accelGroupBox
@@ -597,11 +598,20 @@
             this.btnSaveMap.UseVisualStyleBackColor = true;
             this.btnSaveMap.Click += new System.EventHandler(this.btnSaveMap_Click);
             // 
+            // tbTotalEncCnt
+            // 
+            this.tbTotalEncCnt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTotalEncCnt.Location = new System.Drawing.Point(761, 615);
+            this.tbTotalEncCnt.Name = "tbTotalEncCnt";
+            this.tbTotalEncCnt.Size = new System.Drawing.Size(61, 20);
+            this.tbTotalEncCnt.TabIndex = 42;
+            // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 699);
+            this.Controls.Add(this.tbTotalEncCnt);
             this.Controls.Add(this.btnSaveMap);
             this.Controls.Add(this.btnClearMap);
             this.Controls.Add(this.gyroGroupBox);
@@ -695,6 +705,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button btnClearMap;
         private System.Windows.Forms.Button btnSaveMap;
+        private System.Windows.Forms.TextBox tbTotalEncCnt;
     }
 }
 

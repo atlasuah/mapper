@@ -22,6 +22,11 @@ namespace ATLAS_Mapper
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
         private volatile bool initialData = true;
+        private volatile bool recvAck = true;
+        private int packetDropCount = 0;
+        private int packetSentCount = 0;
+        private int packetRecvCount = 0;
+        private int totalEncoderCnt = 0;
 
         // Rover Variables
         private int curRoverPosX = 200,
@@ -51,7 +56,7 @@ namespace ATLAS_Mapper
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 75;
+                    jsScaleY = 90;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
@@ -262,8 +267,19 @@ namespace ATLAS_Mapper
                             jsSignX = '+';
 
                         sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
+                        sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + "0>";
                         tbSentCmd.Text = sendCmd;
+
+                        // Check if recieved response from Rover
+                        if (recvAck == false)
+                        {
+                            packetDropCount++;
+                            rtbDataIn.AppendText("\n    ** Dropped Packet **  (" + packetRecvCount + "/" + packetSentCount + ")");
+                        }
+
                         SendData(sendCmd);
+                        recvAck = false;
+                        packetSentCount++;
                     });
 
                     Thread.Sleep(HEART_RATE);
@@ -314,12 +330,16 @@ namespace ATLAS_Mapper
                 gyroZ *= ((double)(HEART_RATE) / 1000);
                 roverGyroDir += gyroZ;
 
+                // Update total counts
+                totalEncoderCnt += driveCnt;
+
                 this.BeginInvoke(new MethodInvoker(delegate()
                 {
                     tbSensorFront.Text = (Double.Parse(parts[0]) / convFact).ToString("F2");
                     tbSensorLeft.Text = (Double.Parse(parts[1]) / convFact).ToString("F2");
                     tbSensorRight.Text = (Double.Parse(parts[2]) / convFact).ToString("F2");
                     encoderDelta.Text = driveCnt.ToString();
+                    tbTotalEncCnt.Text = totalEncoderCnt.ToString();
                     compassDirection.Text = (driveDir * -1).ToString();
                     accelBoxX.Text = accelX.ToString();
                     accelBoxY.Text = accelY.ToString();
@@ -330,6 +350,9 @@ namespace ATLAS_Mapper
 
                     UpdateMap(driveDir, driveCnt);
                 }));
+
+                recvAck = true;
+                packetRecvCount++;
             }
             catch (Exception){}
         }
@@ -338,12 +361,13 @@ namespace ATLAS_Mapper
         {
             int pDir = rDir * -1;
 
-            if (Math.Abs(prevDriveDir - pDir) > 15)
-            {
-                rtbDataIn.AppendText("\r\n  *** Compass value exceeded delta threshold ***");
-                rtbDataIn.AppendText("\r\nPrevious = " + prevDriveDir);
-                rtbDataIn.AppendText("\r\nCurrent  = " + pDir);
-            }
+            // Debugging for compass errors
+            //if (Math.Abs(prevDriveDir - pDir) > 15)
+            //{
+            //    rtbDataIn.AppendText("\r\n  *** Compass value exceeded delta threshold ***");
+            //    rtbDataIn.AppendText("\r\nPrevious = " + prevDriveDir);
+            //    rtbDataIn.AppendText("\r\nCurrent  = " + pDir);
+            //}
 
             newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
             newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
