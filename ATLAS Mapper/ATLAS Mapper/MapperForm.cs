@@ -16,7 +16,7 @@ namespace ATLAS_Mapper
     public partial class MapperForm : Form
     {
         private const int HEART_RATE = 60;
-        private const double GYRO_OFFSET_Z = 0.5;
+        private const double GYRO_OFFSET_Z = 0.0;
         double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
