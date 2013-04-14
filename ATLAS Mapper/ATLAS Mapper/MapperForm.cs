@@ -266,8 +266,7 @@ namespace ATLAS_Mapper
                         else
                             jsSignX = '+';
 
-                        //sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
-                        sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + "0>";
+                        sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
                         tbSentCmd.Text = sendCmd;
 
                         // Check if recieved response from Rover
