@@ -441,6 +441,15 @@ namespace ATLAS_Mapper
                                 (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
                                 2, 2);
                         }
+
+                        // Draw the SONAR points
+                        for (int i = 0; i < (listSonarPoints.Count - 1); i++)
+                        {
+                            g.FillRectangle(Brushes.Black,
+                                (listSonarPoints[i].X + mapShiftX) * mapZoom,
+                                (listSonarPoints[i].Y + mapShiftY) * mapZoom,
+                                2, 2);
+                        }
                     }
                     pbMap.Image = mapBitmap;
                     oldPosX = (listRoverPoints[listRoverPoints.Count - 1].X + mapShiftX) * mapZoom;
