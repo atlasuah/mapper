@@ -16,7 +16,7 @@ namespace ATLAS_Mapper
     public partial class MapperForm : Form
     {
         private const int HEART_RATE = 60;
-        private const double GYRO_OFFSET_Z = 0.0;
+        private const double GYRO_OFFSET_Z = 0.013;
         double convFact = 57.89;     // Defaults to cm
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
@@ -56,7 +56,7 @@ namespace ATLAS_Mapper
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 90;
+                    jsScaleY = 75;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
@@ -273,7 +273,7 @@ namespace ATLAS_Mapper
                         if (recvAck == false)
                         {
                             packetDropCount++;
-                            rtbDataIn.AppendText("\n    ** Dropped Packet **  (" + packetRecvCount + "/" + packetSentCount + ")");
+                           // rtbDataIn.AppendText("\n    ** Dropped Packet **  (" + packetRecvCount + "/" + packetSentCount + ")");
                         }
 
                         SendData(sendCmd);
@@ -315,8 +315,10 @@ namespace ATLAS_Mapper
                 accelZ = Convert.ToInt16(parts[7]);
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
-                gyroZ = ((Convert.ToInt16(parts[10]) / 131.0) + GYRO_OFFSET_Z) * -1;     // BLAKE: Use this joker!
-
+                //if (jsCurrX != 0)
+                    gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;     // BLAKE: Use this joker!
+                //else
+                //    gyroZ = 0.0;
                 // Assign initial value for gyroscope to initial compass heading
                 if (initialData)
                 {
@@ -325,8 +327,14 @@ namespace ATLAS_Mapper
                     roverGyroDir = driveDir * -1;
                 }
 
+                if (gyroZ >= 3.0)
+                {
+                    this.BeginInvoke(new MethodInvoker(delegate()
+                    { rtbDataIn.AppendText("  GyroZ = " + gyroZ.ToString() + "\r\n"); }));
+                }
                 // Adjust gyro values based on HEART_BEAT.
                 gyroZ *= ((double)(HEART_RATE) / 1000);
+                gyroZ += GYRO_OFFSET_Z;
                 roverGyroDir += gyroZ;
 
                 // Update total counts
@@ -395,11 +403,11 @@ namespace ATLAS_Mapper
                         //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
                         // Draw the COMPASS position
-                        for (int i = 0; i < (listRoverPoints.Count - 1); i++)
+                 /*       for (int i = 0; i < (listRoverPoints.Count - 1); i++)
                         {
                             //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
                             //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
-                            //    (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                            //    (listRoverPoints[i].Y + mapShiftY) * mapZoo
                             //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
                             //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
                             g.FillRectangle(Brushes.Black,
@@ -407,7 +415,7 @@ namespace ATLAS_Mapper
                                 (listRoverPoints[i].Y + mapShiftY) * mapZoom,
                                 2, 2);
                         }
-
+                        */
                         // Draw the GYRO position
                         for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
                         {
