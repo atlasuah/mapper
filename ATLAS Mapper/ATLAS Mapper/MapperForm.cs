@@ -41,6 +41,9 @@ namespace ATLAS_Mapper
                     gyroX = 0,
                     gyroY = 0,
                     gyroZ = 0;
+        private double sonarLeft = 0.0,
+                       sonarRight = 0.0,
+                       sonarFront = 0.0;
         private int prevDriveDir = 0;
         private int curRoverGyroPosX = 200,
                     curRoverGyroPosY = 200,
@@ -73,6 +76,7 @@ namespace ATLAS_Mapper
         Bitmap mapBitmap;
         private List<Point> listRoverPoints;
         private List<Point> listRoverGyroPoints;
+        private List<Point> listSonarPoints;
         private int mapShiftX = 0,
                     mapShiftY = 0,
                     prevMapShiftX = 0,
@@ -308,6 +312,9 @@ namespace ATLAS_Mapper
 
                 var parts = data.Split('_');
 
+                sonarFront = Convert.ToDouble(parts[0]);
+                sonarLeft = Convert.ToDouble(parts[1]);
+                sonarRight = Convert.ToDouble(parts[2]);
                 driveCnt = Convert.ToInt16(parts[3]);
                 driveDir = Convert.ToInt16(parts[4]);
                 accelX = Convert.ToInt16(parts[5]);
@@ -316,7 +323,7 @@ namespace ATLAS_Mapper
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
                 //if (jsCurrX != 0)
-                    gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;     // BLAKE: Use this joker!
+                    gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;
                 //else
                 //    gyroZ = 0.0;
                 // Assign initial value for gyroscope to initial compass heading
@@ -367,29 +374,34 @@ namespace ATLAS_Mapper
         private void UpdateMap(int rDir, int pCounts)
         {
             int pDir = rDir * -1;
-
-            // Debugging for compass errors
-            //if (Math.Abs(prevDriveDir - pDir) > 15)
-            //{
-            //    rtbDataIn.AppendText("\r\n  *** Compass value exceeded delta threshold ***");
-            //    rtbDataIn.AppendText("\r\nPrevious = " + prevDriveDir);
-            //    rtbDataIn.AppendText("\r\nCurrent  = " + pDir);
-            //}
+            int tmpSonarX = 0,
+                tmpSonarY = 0;
 
             newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
             newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
 
             newRoverGyroPosX += (int)(Math.Cos(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
             newRoverGyroPosY += (int)(Math.Sin(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
-            
+
             listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
+
+            // Scale issue here? sonar data is in centimeters.          <------------------------------------------------
+            tmpSonarX = (int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarLeft / mapScale);
+            tmpSonarY = (int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarLeft / mapScale);
+            listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
+            tmpSonarX = (int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarRight / mapScale);
+            tmpSonarY = (int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarRight / mapScale);
+            listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
+            tmpSonarX = (int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront / mapScale);
+            tmpSonarY = (int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront / mapScale);
+            listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
+            
             DrawMap();
 
             curRoverPosX = newRoverPosX;
             curRoverPosY = newRoverPosY;
             prevDriveDir = pDir;
-            //pbMap.Invalidate();
         }
         private void DrawMap()
         {
