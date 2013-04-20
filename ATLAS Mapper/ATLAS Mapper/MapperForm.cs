@@ -20,6 +20,9 @@ namespace ATLAS_Mapper
         private const double GYRO_OFFSET_Z = 0.013;
         private const double SONAR_CONVERSION = (5.0 / 1024.0);
         private const int COUNT_CONVERSION = 268;
+        private const double CONVERSION_FEET_TO_METER = 3.28084;
+        private const float ZOOM_MAX = 0.060f;
+        private const float ZOOM_MIN = 0.001f;
 
         private double convFact = (5.0 / 512.0);     // Defaults to inches
         private SerialPort sPort;
@@ -95,14 +98,8 @@ namespace ATLAS_Mapper
                     prevMapScaleShiftY = 0;
         private int prevMouseX = 0,
                     prevMouseY = 0;
-        private float mapZoom = 1;
+        private float mapZoom = 0.04f;
         private bool mouseDown = false;
-
-        // Will be removed once data comes from Rover. Only used for testing mapping stuff right now.
-        private bool firstPoint = true,
-                     drawNewPoint = false;
-        float oldPosX = 0,
-              oldPosY = 0;
 
         public MapperForm()
         {
@@ -132,6 +129,8 @@ namespace ATLAS_Mapper
                     btnAcquireJs.Enabled = false;
             }
             catch (Exception){}
+
+            DrawMap();
         }
 
         private void btnOpenPort_Click(object sender, EventArgs e)
@@ -448,16 +447,16 @@ namespace ATLAS_Mapper
             listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
-            // Scale issue here? sonar data is in centimeters.          <------------------------------------------------
-            tmpSonarX = (int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale);
-            tmpSonarY = (int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale);
+            // Calculate te sonar points
+            tmpSonarX = newRoverPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
+            tmpSonarY = newRoverPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = (int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale);
-            tmpSonarY = (int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale);
+            tmpSonarX = newRoverPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
+            tmpSonarY = newRoverPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = (int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale);
-            tmpSonarY = (int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale);
-            listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
+            tmpSonarX = newRoverPosX + ((int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
+            tmpSonarY = newRoverPosY + ((int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
+            //listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             
             DrawMap();
 
@@ -468,58 +467,68 @@ namespace ATLAS_Mapper
 
         private void DrawMap()
         {
-            if (listRoverPoints.Count > 0)
+            try
             {
-                try
+                mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
+                using (Graphics g = Graphics.FromImage(mapBitmap))
                 {
-                    mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
-                    using (Graphics g = Graphics.FromImage(mapBitmap))
+                    //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    // Draw the COMPASS position
+                /*       for (int i = 0; i < (listRoverPoints.Count - 1); i++)
                     {
-                        //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                        // Draw the COMPASS position
-                 /*       for (int i = 0; i < (listRoverPoints.Count - 1); i++)
-                        {
-                            //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
-                            //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
-                            //    (listRoverPoints[i].Y + mapShiftY) * mapZoo
-                            //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
-                            //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
-                            g.FillRectangle(Brushes.Black,
-                                (listRoverPoints[i].X + mapShiftX) * mapZoom,
-                                (listRoverPoints[i].Y + mapShiftY) * mapZoom,
-                                2, 2);
-                        }
-                        */
-                        // Draw the GYRO position
-                        for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
-                        {
-                            //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
-                            //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
-                            //    (listRoverPoints[i].Y + mapShiftY) * mapZoom,
-                            //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
-                            //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
-                            g.FillRectangle(Brushes.Blue,
-                                (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
-                                (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
-                                2, 2);
-                        }
-
-                        // Draw the SONAR points
-                        //for (int i = 0; i < (listSonarPoints.Count - 1); i++)
-                        //{
-                        //    g.FillRectangle(Brushes.Black,
-                        //        (listSonarPoints[i].X + mapShiftX) * mapZoom,
-                        //        (listSonarPoints[i].Y + mapShiftY) * mapZoom,
-                        //        2, 2);
-                        //}
+                        //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
+                        //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                        //    (listRoverPoints[i].Y + mapShiftY) * mapZoo
+                        //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
+                        //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
+                        g.FillRectangle(Brushes.Black,
+                            (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                            (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                            2, 2);
                     }
-                    pbMap.Image = mapBitmap;
-                    oldPosX = (listRoverPoints[listRoverPoints.Count - 1].X + mapShiftX) * mapZoom;
-                    oldPosY = (listRoverPoints[listRoverPoints.Count - 1].Y + mapShiftY) * mapZoom;
+                    */
+                    // Draw the GYRO position
+                    for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
+                    {
+                        g.FillRectangle(Brushes.Blue,
+                            (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
+                            (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
+                            2, 2);
+                    }
+
+                    // Draw the SONAR points
+                    for (int i = 0; i < (listSonarPoints.Count - 1); i++)
+                    {
+                        g.FillRectangle(Brushes.Black,
+                            (listSonarPoints[i].X + mapShiftX) * mapZoom,
+                            (listSonarPoints[i].Y + mapShiftY) * mapZoom,
+                            2, 2);
+                    }
+
+                    // Draw the scale legend
+                    g.DrawLine(new Pen(Color.Brown, 2),
+                        (pbMap.Width - 35),
+                        (pbMap.Height - 30),
+                        (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
+                        (pbMap.Height - 30));
+                    g.DrawLine(new Pen(Color.Brown, 2),
+                        (pbMap.Width - 35),
+                        (pbMap.Height - 35),
+                        (pbMap.Width - 35),
+                        (pbMap.Height - 25));
+                    g.DrawLine(new Pen(Color.Brown, 2),
+                        (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
+                        (pbMap.Height - 35),
+                        (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
+                        (pbMap.Height - 25));
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                    g.DrawString("1 Meter", new Font("Arial", 12.0f, FontStyle.Bold),
+                        Brushes.Brown, pbMap.Width - 95, pbMap.Height - 23);
                 }
-                catch (Exception) { }
+                pbMap.Image = mapBitmap;
             }
+            catch (Exception) { }
         }
 
         private void MapperForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -548,8 +557,7 @@ namespace ATLAS_Mapper
             mouseDown = true;
             prevMouseX = (int)(e.X / mapZoom);
             prevMouseY = (int)(e.Y / mapZoom);
-            if (!drawNewPoint)
-                Cursor = Cursors.SizeAll;
+            Cursor = Cursors.SizeAll;
         }
         private void pbMap_MouseUp(object sender, MouseEventArgs e)
         {
@@ -560,7 +568,7 @@ namespace ATLAS_Mapper
         }
         private void pbMap_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown && !drawNewPoint)
+            if (mouseDown)
             {
                 mapShiftX = (int)((prevMapShiftX - (prevMouseX - (e.X / mapZoom))));
                 mapShiftY = (int)((prevMapShiftY - (prevMouseY - (e.Y / mapZoom))));
@@ -575,12 +583,16 @@ namespace ATLAS_Mapper
             if (e.Delta > 0)
             {
                 mapZoom *= 1.25F;
+                if (mapZoom > ZOOM_MAX)
+                    mapZoom = ZOOM_MAX;
                 mapShiftX += (-1 * (int)(((pbMap.Width / 2) - ((pbMap.Width / 2) / mapZoom)))) + prevMapScaleShiftX;
                 mapShiftY += (-1 * (int)(((pbMap.Height / 2) - ((pbMap.Height / 2) / mapZoom)))) + prevMapScaleShiftY;
             }
             else
             {
                 mapZoom /= 1.25F;
+                if (mapZoom < ZOOM_MIN)
+                    mapZoom = ZOOM_MIN;
                 mapShiftX -= (int)(((pbMap.Width / 2) - ((pbMap.Width / 2) / mapZoom))) - prevMapScaleShiftX;
                 mapShiftY -= (int)(((pbMap.Height / 2) - ((pbMap.Height / 2) / mapZoom))) - prevMapScaleShiftY;
             }
@@ -600,38 +612,9 @@ namespace ATLAS_Mapper
 
         private void MapperForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey)
-                drawNewPoint = true;
         }
         private void MapperForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey)
-                drawNewPoint = false;
-        }
-
-        // Will be removed once encoder/direction data comes from the Rover. Only for testing.
-        private void pbMap_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (!firstPoint && drawNewPoint)
-            {
-                oldPosX = (float)(e.X - (mapShiftX * mapZoom)) / mapZoom;
-                oldPosY = (float)(e.Y - (mapShiftY * mapZoom)) / mapZoom;
-                listRoverPoints.Add(new Point((int)oldPosX, (int)oldPosY));
-
-                oldPosX = e.X;
-                oldPosY = e.Y;
-
-                DrawMap();
-            }
-            else if (drawNewPoint)
-            {
-                oldPosX = (float)(e.X - (mapShiftX * mapZoom)) / mapZoom;
-                oldPosY = (float)(e.Y - (mapShiftY * mapZoom)) / mapZoom;
-                listRoverPoints.Add(new Point((int)oldPosX, (int)oldPosY));
-                oldPosX = e.X;
-                oldPosY = e.Y;
-                firstPoint = false;
-            }
         }
 
         private void btnClearMap_Click(object sender, EventArgs e)
@@ -651,6 +634,11 @@ namespace ATLAS_Mapper
             saveDialog.FileName = "Map.bmp";
             if (saveDialog.ShowDialog() == DialogResult.OK)
                 pbMap.Image.Save(saveDialog.FileName);
+        }
+
+        private void MapperForm_Resize(object sender, EventArgs e)
+        {
+            DrawMap();
         }
     }
 }

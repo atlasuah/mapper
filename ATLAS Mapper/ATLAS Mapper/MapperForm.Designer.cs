@@ -196,8 +196,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(348, 446);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -367,9 +367,9 @@
             // 
             // pbMap
             // 
-            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.pbMap.BackColor = System.Drawing.SystemColors.Window;
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
@@ -377,7 +377,6 @@
             this.pbMap.Size = new System.Drawing.Size(824, 417);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
-            this.pbMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseClick);
             this.pbMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseDown);
             this.pbMap.MouseEnter += new System.EventHandler(this.pbMap_MouseEnter);
             this.pbMap.MouseLeave += new System.EventHandler(this.pbMap_MouseLeave);
@@ -641,6 +640,7 @@
             this.Load += new System.EventHandler(this.MapperForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapperForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapperForm_KeyUp);
+            this.Resize += new System.EventHandler(this.MapperForm_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).EndInit();
