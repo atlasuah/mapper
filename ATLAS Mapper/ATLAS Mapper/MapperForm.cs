@@ -16,7 +16,7 @@ namespace ATLAS_Mapper
 {
     public partial class MapperForm : Form
     {
-        private const int HEART_RATE = 60;
+        private const int HEART_RATE = 40;
         private const double GYRO_OFFSET_Z = 0.013;
         private const double SONAR_CONVERSION = (5.0 / 1024.0);
         private const int COUNT_CONVERSION = 268;
@@ -71,7 +71,7 @@ namespace ATLAS_Mapper
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 95;
+                    jsScaleY = 102;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
