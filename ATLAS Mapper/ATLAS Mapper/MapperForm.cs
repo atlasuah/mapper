@@ -18,7 +18,10 @@ namespace ATLAS_Mapper
     {
         private const int HEART_RATE = 60;
         private const double GYRO_OFFSET_Z = 0.013;
-        double convFact = 57.89;     // Defaults to cm
+        private const double SONAR_CONVERSION = (5.0 / 1024.0);
+        private const int COUNT_CONVERSION = 268;
+
+        private double convFact = (5.0 / 512.0);     // Defaults to inches
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
@@ -40,12 +43,13 @@ namespace ATLAS_Mapper
                     newRoverPosY = 200,
                     driveDir = 0,
                     driveCnt = 0;
-        private double accelX = 0,
-                    accelY = 0,
-                    accelZ = 0,
-                    gyroX = 0,
-                    gyroY = 0,
-                    gyroZ = 0;
+        private double accelX = 0.0,
+                    accelY = 0.0,
+                    accelZ = 0.0,
+                    gyroX = 0.0,
+                    gyroY = 0.0,
+                    gyroZ = 0.0,
+                    gyroZprev = 0.0;
         private double gyroZOffset = 0.0;
         private double sonarLeft = 0.0,
                        sonarRight = 0.0,
@@ -193,12 +197,12 @@ namespace ATLAS_Mapper
         {
             if (btnUnits.Text == "cm")
             {
-                convFact = 147.04;
+                //convFact = 147.04;
                 btnUnits.Text = "inches";
             }
             else if (btnUnits.Text == "inches")
             {
-                convFact = 57.89;
+                //convFact = 57.89;
                 btnUnits.Text = "cm";
             }
         }
@@ -317,9 +321,9 @@ namespace ATLAS_Mapper
                 string data = sPort.ReadLine();
                 var parts = data.Split('_');
 
-                sonarFront = Convert.ToDouble(parts[0]);
-                sonarLeft = Convert.ToDouble(parts[1]);
-                sonarRight = Convert.ToDouble(parts[2]);
+                sonarFront = Convert.ToDouble(parts[0]) * SONAR_CONVERSION / convFact;
+                sonarLeft = Convert.ToDouble(parts[1]) * SONAR_CONVERSION / convFact;
+                sonarRight = Convert.ToDouble(parts[2]) * SONAR_CONVERSION / convFact;
                 driveCnt = Convert.ToInt16(parts[3]);
                 driveDir = Convert.ToInt16(parts[4]);
                 accelX = Convert.ToInt16(parts[5]);
@@ -339,15 +343,8 @@ namespace ATLAS_Mapper
                     roverGyroDir = driveDir * -1;
                 }
 
-                // Throw out the bugged data from gyro if recieved
-                if (gyroZ >= 3.0)
-                {
-                    this.BeginInvoke(new MethodInvoker(delegate()
-                    { rtbDataIn.AppendText("  GyroZ = " + gyroZ.ToString() + "\r\n"); }));
-                }
                 // Adjust gyro values based on HEART_BEAT.
                 gyroZ *= ((double)(HEART_RATE) / 1000);
-                gyroZ = Math.Round(gyroZ, 4);
 
                 // Calibrate the gyro offset value
                 if (calibrating)
@@ -394,9 +391,21 @@ namespace ATLAS_Mapper
                 else
                 {
                     //gyroZ += GYRO_OFFSET_Z;
-                    gyroZ += gyroZOffset;
+                    gyroZ -= gyroZOffset;
+                    gyroZ = Math.Round(gyroZ, 5);
                 }
 
+                // Throw out the bugged data from gyro if recieved
+                if (Math.Abs(gyroZ) >= 3.0)
+                {
+                    gyroZ = gyroZprev;
+                    this.BeginInvoke(new MethodInvoker(delegate()
+                    { rtbDataIn.AppendText("  GyroZ = " + gyroZ.ToString() + "\r\n"); }));
+                }
+                else
+                {
+                    gyroZprev = gyroZ;
+                }
                 roverGyroDir += gyroZ;
 
                 // Update total counts
@@ -404,9 +413,9 @@ namespace ATLAS_Mapper
 
                 this.BeginInvoke(new MethodInvoker(delegate()
                 {
-                    tbSensorFront.Text = (Double.Parse(parts[0]) / convFact).ToString("F2");
-                    tbSensorLeft.Text = (Double.Parse(parts[1]) / convFact).ToString("F2");
-                    tbSensorRight.Text = (Double.Parse(parts[2]) / convFact).ToString("F2");
+                    tbSensorFront.Text = sonarFront.ToString("F2");
+                    tbSensorLeft.Text = sonarLeft.ToString("F2");
+                    tbSensorRight.Text = sonarRight.ToString("F2");
                     encoderDelta.Text = driveCnt.ToString();
                     tbTotalEncCnt.Text = totalEncoderCnt.ToString();
                     compassDirection.Text = (driveDir * -1).ToString();
@@ -440,14 +449,14 @@ namespace ATLAS_Mapper
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
             // Scale issue here? sonar data is in centimeters.          <------------------------------------------------
-            tmpSonarX = (int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarLeft / mapScale);
-            tmpSonarY = (int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarLeft / mapScale);
+            tmpSonarX = (int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale);
+            tmpSonarY = (int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale);
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = (int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarRight / mapScale);
-            tmpSonarY = (int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarRight / mapScale);
+            tmpSonarX = (int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale);
+            tmpSonarY = (int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale);
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = (int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront / mapScale);
-            tmpSonarY = (int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront / mapScale);
+            tmpSonarX = (int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale);
+            tmpSonarY = (int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale);
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             
             DrawMap();
@@ -456,6 +465,7 @@ namespace ATLAS_Mapper
             curRoverPosY = newRoverPosY;
             prevDriveDir = pDir;
         }
+
         private void DrawMap()
         {
             if (listRoverPoints.Count > 0)
@@ -496,13 +506,13 @@ namespace ATLAS_Mapper
                         }
 
                         // Draw the SONAR points
-                        for (int i = 0; i < (listSonarPoints.Count - 1); i++)
-                        {
-                            g.FillRectangle(Brushes.Black,
-                                (listSonarPoints[i].X + mapShiftX) * mapZoom,
-                                (listSonarPoints[i].Y + mapShiftY) * mapZoom,
-                                2, 2);
-                        }
+                        //for (int i = 0; i < (listSonarPoints.Count - 1); i++)
+                        //{
+                        //    g.FillRectangle(Brushes.Black,
+                        //        (listSonarPoints[i].X + mapShiftX) * mapZoom,
+                        //        (listSonarPoints[i].Y + mapShiftY) * mapZoom,
+                        //        2, 2);
+                        //}
                     }
                     pbMap.Image = mapBitmap;
                     oldPosX = (listRoverPoints[listRoverPoints.Count - 1].X + mapShiftX) * mapZoom;
