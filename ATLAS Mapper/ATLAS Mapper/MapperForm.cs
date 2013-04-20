@@ -71,7 +71,7 @@ namespace ATLAS_Mapper
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 85;
+                    jsScaleY = 95;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
@@ -84,7 +84,7 @@ namespace ATLAS_Mapper
         private JoystickState jsState;
 
         // Mapping Variables
-        private const double SONAR_DISTANCE_MAX = 200;
+        private const double SONAR_DISTANCE_MAX = 150;
         Bitmap mapBitmap;
         private List<Point> listRoverPoints;
         private List<Point> listRoverGyroPoints;
@@ -452,13 +452,13 @@ namespace ATLAS_Mapper
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
             // Calculate the sonar points
-            if (sonarLeft < SONAR_DISTANCE_MAX)
+            if (sonarLeft < SONAR_DISTANCE_MAX && jsCurrY != 0)
             {
                 tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION));
                 tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION));
                 listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             }
-            if (sonarRight < SONAR_DISTANCE_MAX)
+            if (sonarRight < SONAR_DISTANCE_MAX && jsCurrY != 0)
             {
                 tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION));
                 tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION));
