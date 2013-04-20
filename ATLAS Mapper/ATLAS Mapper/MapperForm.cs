@@ -23,10 +23,15 @@ namespace ATLAS_Mapper
         private volatile bool joystickActive = false;
         private volatile bool initialData = true;
         private volatile bool recvAck = true;
+        private volatile bool calibrating = false;
         private int packetDropCount = 0;
         private int packetSentCount = 0;
         private int packetRecvCount = 0;
         private int totalEncoderCnt = 0;
+
+        private int calibrationCount = 0;
+        private int maxCalibrations = 5;
+        private List<double> calibrationValue;
 
         // Rover Variables
         private int curRoverPosX = 200,
@@ -172,6 +177,7 @@ namespace ATLAS_Mapper
                     jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
                 jsThread.Start();
                 btnStartStop.Text = "Stop Driving";
+                calibrating = true;
             }
             else if (btnStartStop.Text == "Stop Driving")
             {
@@ -270,7 +276,11 @@ namespace ATLAS_Mapper
                         else
                             jsSignX = '+';
 
-                        sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
+                        if (!calibrating)
+                            sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
+                        else
+                            sendCmd = "<d+0t+0>";
+
                         tbSentCmd.Text = sendCmd;
 
                         // Check if recieved response from Rover
@@ -322,8 +332,10 @@ namespace ATLAS_Mapper
                 accelZ = Convert.ToInt16(parts[7]);
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
-                //if (jsCurrX != 0)
-                    gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;
+                
+                gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;
+
+
                 //else
                 //    gyroZ = 0.0;
                 // Assign initial value for gyroscope to initial compass heading
@@ -341,7 +353,29 @@ namespace ATLAS_Mapper
                 }
                 // Adjust gyro values based on HEART_BEAT.
                 gyroZ *= ((double)(HEART_RATE) / 1000);
-                gyroZ += GYRO_OFFSET_Z;
+                gyroZ = Math.Round(gyroZ, 4);
+
+                if (calibrating)
+                {
+                    if (calibrationCount < maxCalibrations)
+                    {
+                        calibrationValue.Add(gyroZ);
+                        calibrationCount++;
+                    }
+                    else
+                    {
+                        double calAverage = 0;
+                        foreach (double p in calibrationValue)
+                        {
+                            calAverage += p;
+                        }
+                        calAverage /= maxCalibrations;
+
+                    }
+                }
+                else
+                    gyroZ += GYRO_OFFSET_Z;
+
                 roverGyroDir += gyroZ;
 
                 // Update total counts

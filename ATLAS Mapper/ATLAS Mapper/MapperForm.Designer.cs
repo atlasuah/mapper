@@ -117,7 +117,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(280, 394);
+            this.label2.Location = new System.Drawing.Point(280, 446);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 4;
@@ -199,10 +199,10 @@
             this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbDataIn.Location = new System.Drawing.Point(348, 391);
+            this.rtbDataIn.Location = new System.Drawing.Point(348, 446);
             this.rtbDataIn.Name = "rtbDataIn";
             this.rtbDataIn.ReadOnly = true;
-            this.rtbDataIn.Size = new System.Drawing.Size(282, 287);
+            this.rtbDataIn.Size = new System.Drawing.Size(282, 232);
             this.rtbDataIn.TabIndex = 13;
             this.rtbDataIn.Text = "";
             this.rtbDataIn.TextChanged += new System.EventHandler(this.rtbDataIn_TextChanged);
@@ -222,7 +222,7 @@
             this.groupBox1.Controls.Add(this.tbParity);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnClosePort);
-            this.groupBox1.Location = new System.Drawing.Point(12, 391);
+            this.groupBox1.Location = new System.Drawing.Point(12, 446);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(201, 230);
             this.groupBox1.TabIndex = 14;
@@ -309,7 +309,7 @@
             // 
             this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnStartStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartStop.Location = new System.Drawing.Point(116, 654);
+            this.btnStartStop.Location = new System.Drawing.Point(227, 527);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -339,7 +339,7 @@
             // btnAcquireJs
             // 
             this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(9, 654);
+            this.btnAcquireJs.Location = new System.Drawing.Point(227, 491);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -350,7 +350,7 @@
             // tbSentCmd
             // 
             this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbSentCmd.Location = new System.Drawing.Point(227, 627);
+            this.tbSentCmd.Location = new System.Drawing.Point(228, 618);
             this.tbSentCmd.Name = "tbSentCmd";
             this.tbSentCmd.Size = new System.Drawing.Size(100, 20);
             this.tbSentCmd.TabIndex = 33;
@@ -359,11 +359,11 @@
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(166, 631);
+            this.label12.Location = new System.Drawing.Point(251, 599);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(55, 13);
+            this.label12.Size = new System.Drawing.Size(52, 13);
             this.label12.TabIndex = 34;
-            this.label12.Text = "Last Sent:";
+            this.label12.Text = "Last Sent";
             // 
             // pbMap
             // 
@@ -374,7 +374,7 @@
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
             this.pbMap.Name = "pbMap";
-            this.pbMap.Size = new System.Drawing.Size(824, 358);
+            this.pbMap.Size = new System.Drawing.Size(824, 417);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
             this.pbMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseClick);
@@ -395,7 +395,7 @@
             this.sonarGroupBox.Controls.Add(this.label11);
             this.sonarGroupBox.Controls.Add(this.label9);
             this.sonarGroupBox.Controls.Add(this.label8);
-            this.sonarGroupBox.Location = new System.Drawing.Point(659, 391);
+            this.sonarGroupBox.Location = new System.Drawing.Point(659, 446);
             this.sonarGroupBox.Name = "sonarGroupBox";
             this.sonarGroupBox.Size = new System.Drawing.Size(271, 106);
             this.sonarGroupBox.TabIndex = 36;
