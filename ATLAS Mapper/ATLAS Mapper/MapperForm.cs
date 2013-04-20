@@ -22,7 +22,7 @@ namespace ATLAS_Mapper
         private const int COUNT_CONVERSION = 268;
         private const double CONVERSION_FEET_TO_METER = 3.28084;
         private const float ZOOM_MAX = 0.060f;
-        private const float ZOOM_MIN = 0.001f;
+        private const float ZOOM_MIN = 0.0005f;
 
         private double convFact = (5.0 / 512.0);     // Defaults to inches
         private SerialPort sPort;
@@ -30,7 +30,6 @@ namespace ATLAS_Mapper
         private volatile bool joystickActive = false;
         private volatile bool initialData = true;
         private volatile bool calibrating = false;
-        private int packetDropCount = 0;
         private int packetSentCount = 0;
         private int packetRecvCount = 0;
         private int totalEncoderCnt = 0;
@@ -85,14 +84,11 @@ namespace ATLAS_Mapper
         private JoystickState jsState;
 
         // Mapping Variables
-        private bool drawAllPoints = true;      // Whether or not to redraw all points on the Map
-        private int mapScale = 1;         // Larger number = smaller map
+        private const double SONAR_DISTANCE_MAX = 200;
         Bitmap mapBitmap;
         private List<Point> listRoverPoints;
         private List<Point> listRoverGyroPoints;
         private List<Point> listSonarPoints;
-        private Point newRoverPoint;
-        private List<Point> listNewSonarPoints;
         private int mapShiftX = 0,
                     mapShiftY = 0,
                     prevMapShiftX = 0,
@@ -118,10 +114,12 @@ namespace ATLAS_Mapper
             listRoverPoints = new List<Point>();
             listRoverGyroPoints = new List<Point>();
             listSonarPoints = new List<Point>();
-            newRoverPoint = new Point();
-            listNewSonarPoints = new List<Point>();
             listCalibrationValues = new List<double>();
             btnStartStop.Enabled = false;
+
+            // Initial rover position on map
+            newRoverPosX = (int)(newRoverPosX / mapZoom);
+            newRoverPosY = (int)(newRoverPosY / mapZoom);
 
             // Initialize the bitmap for the PictureBox
             mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
@@ -443,26 +441,31 @@ namespace ATLAS_Mapper
             int tmpSonarX = 0,
                 tmpSonarY = 0;
 
-            //newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
-            //newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
+            // Calculate the Rover postion based on Compass data
+            //newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts);
+            //newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts);
             //listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));
 
             // Calculate the Rover position point basd on gyro data
-            newRoverGyroPosX += (int)(Math.Cos(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
-            newRoverGyroPosY += (int)(Math.Sin(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
-            newRoverPoint.X = newRoverGyroPosX;
-            newRoverPoint.Y = newRoverGyroPosY;
+            newRoverGyroPosX += (int)(Math.Cos(roverGyroDir * Math.PI / 180) * pCounts);
+            newRoverGyroPosY += (int)(Math.Sin(roverGyroDir * Math.PI / 180) * pCounts);
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
             // Calculate the sonar points
-            tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
-            tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
-            listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
-            tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
-            listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            //tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
-            //tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
+            if (sonarLeft < SONAR_DISTANCE_MAX)
+            {
+                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION));
+                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION));
+                listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
+            }
+            if (sonarRight < SONAR_DISTANCE_MAX)
+            {
+                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION));
+                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION));
+                listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
+            }
+            //tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION));
+            //tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION));
             //listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             
             DrawMap();
@@ -493,67 +496,44 @@ namespace ATLAS_Mapper
                             2, 2);
                     }
                     */
-
-                    // Only redraw all points if the zoom factor or mapshift has changed
-                    if (drawAllPoints)
+                    
+                    // Draw the GYRO position
+                    for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
                     {
-                        // Draw the GYRO position
-                        for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
-                        {
-                            g.FillRectangle(Brushes.Blue,
-                                (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
-                                (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
-                                2, 2);
-                        }
-
-                        // Draw the SONAR points
-                        for (int i = 0; i < (listSonarPoints.Count - 1); i++)
-                        {
-                            g.FillRectangle(Brushes.Black,
-                                (listSonarPoints[i].X + mapShiftX) * mapZoom,
-                                (listSonarPoints[i].Y + mapShiftY) * mapZoom,
-                                2, 2);
-                        }
-
-                        // Draw the scale legend
-                        g.DrawLine(new Pen(Color.Brown, 2),
-                            (pbMap.Width - 35),
-                            (pbMap.Height - 30),
-                            (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
-                            (pbMap.Height - 30));
-                        g.DrawLine(new Pen(Color.Brown, 2),
-                            (pbMap.Width - 35),
-                            (pbMap.Height - 35),
-                            (pbMap.Width - 35),
-                            (pbMap.Height - 25));
-                        g.DrawLine(new Pen(Color.Brown, 2),
-                            (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
-                            (pbMap.Height - 35),
-                            (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
-                            (pbMap.Height - 25));
-                        g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-                        g.DrawString("1 Meter", new Font("Arial", 12.0f, FontStyle.Bold),
-                            Brushes.Brown, pbMap.Width - 95, pbMap.Height - 23);
-
-                        drawAllPoints = false;
-                    }
-                    else
-                    {
-                        // Draw new Rover point
                         g.FillRectangle(Brushes.Blue,
-                                (newRoverPoint.X + mapShiftX) * mapZoom,
-                                (newRoverPoint.Y + mapShiftY) * mapZoom,
-                                2, 2);
-
-                        // Draw the SONAR points
-                        for (int i = 0; i < (listNewSonarPoints.Count - 1); i++)
-                        {
-                            g.FillRectangle(Brushes.Black,
-                                (listNewSonarPoints[i].X + mapShiftX) * mapZoom,
-                                (listNewSonarPoints[i].Y + mapShiftY) * mapZoom,
-                                2, 2);
-                        }
+                            (listRoverGyroPoints[i].X + mapShiftX) * mapZoom,
+                            (listRoverGyroPoints[i].Y + mapShiftY) * mapZoom,
+                            2, 2);
                     }
+
+                    // Draw the SONAR points
+                    for (int i = 0; i < (listSonarPoints.Count - 1); i++)
+                    {
+                        g.FillRectangle(Brushes.Black,
+                            (listSonarPoints[i].X + mapShiftX) * mapZoom,
+                            (listSonarPoints[i].Y + mapShiftY) * mapZoom,
+                            2, 2);
+                    }
+
+                    // Draw the scale legend
+                    g.DrawLine(new Pen(Color.Brown, 2),
+                        (pbMap.Width - 35),
+                        (pbMap.Height - 30),
+                        (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
+                        (pbMap.Height - 30));
+                    g.DrawLine(new Pen(Color.Brown, 2),
+                        (pbMap.Width - 35),
+                        (pbMap.Height - 35),
+                        (pbMap.Width - 35),
+                        (pbMap.Height - 25));
+                    g.DrawLine(new Pen(Color.Brown, 2),
+                        (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
+                        (pbMap.Height - 35),
+                        (pbMap.Width - 35) - (int)((double)COUNT_CONVERSION * (double)mapZoom * 12.0 * CONVERSION_FEET_TO_METER),
+                        (pbMap.Height - 25));
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                    g.DrawString("1 Meter", new Font("Arial", 12.0f, FontStyle.Bold),
+                        Brushes.Brown, pbMap.Width - 95, pbMap.Height - 23);
                 }
                 pbMap.Image = mapBitmap;
             }
@@ -601,7 +581,6 @@ namespace ATLAS_Mapper
             {
                 mapShiftX = (int)((prevMapShiftX - (prevMouseX - (e.X / mapZoom))));
                 mapShiftY = (int)((prevMapShiftY - (prevMouseY - (e.Y / mapZoom))));
-                drawAllPoints = true;
                 DrawMap();
             }
         }
@@ -629,7 +608,6 @@ namespace ATLAS_Mapper
 
             prevMapShiftX = mapShiftX;
             prevMapShiftY = mapShiftY;
-            drawAllPoints = true;
             DrawMap();
         }
         private void pbMap_MouseEnter(object sender, EventArgs e)
@@ -669,7 +647,6 @@ namespace ATLAS_Mapper
 
         private void MapperForm_Resize(object sender, EventArgs e)
         {
-            drawAllPoints = true;
             DrawMap();
         }
     }
