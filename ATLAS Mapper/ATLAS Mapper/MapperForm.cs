@@ -10,6 +10,7 @@ using System.Threading;
 using System.IO.Ports;
 using System.Diagnostics;
 using SlimDX.DirectInput;
+using Microsoft.VisualBasic;
 
 namespace ATLAS_Mapper
 {
@@ -22,7 +23,6 @@ namespace ATLAS_Mapper
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
         private volatile bool joystickActive = false;
         private volatile bool initialData = true;
-        private volatile bool recvAck = true;
         private volatile bool calibrating = false;
         private int packetDropCount = 0;
         private int packetSentCount = 0;
@@ -31,7 +31,7 @@ namespace ATLAS_Mapper
 
         private int calibrationCount = 0;
         private int maxCalibrations = 5;
-        private List<double> calibrationValue;
+        private List<double> listCalibrationValues;
 
         // Rover Variables
         private int curRoverPosX = 200,
@@ -46,6 +46,7 @@ namespace ATLAS_Mapper
                     gyroX = 0,
                     gyroY = 0,
                     gyroZ = 0;
+        private double gyroZOffset = 0.0;
         private double sonarLeft = 0.0,
                        sonarRight = 0.0,
                        sonarFront = 0.0;
@@ -112,6 +113,8 @@ namespace ATLAS_Mapper
             jsThread = new Thread(new ThreadStart(this.UpdateJoystick));
             listRoverPoints = new List<Point>();
             listRoverGyroPoints = new List<Point>();
+            listSonarPoints = new List<Point>();
+            listCalibrationValues = new List<double>();
             btnStartStop.Enabled = false;
 
             // Initialize the bitmap for the PictureBox
@@ -276,6 +279,7 @@ namespace ATLAS_Mapper
                         else
                             jsSignX = '+';
 
+                        // If we are calibrating the gyroscopes, don't send actual driving data
                         if (!calibrating)
                             sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
                         else
@@ -283,15 +287,7 @@ namespace ATLAS_Mapper
 
                         tbSentCmd.Text = sendCmd;
 
-                        // Check if recieved response from Rover
-                        if (recvAck == false)
-                        {
-                            packetDropCount++;
-                           // rtbDataIn.AppendText("\n    ** Dropped Packet **  (" + packetRecvCount + "/" + packetSentCount + ")");
-                        }
-
                         SendData(sendCmd);
-                        recvAck = false;
                         packetSentCount++;
                     });
 
@@ -319,7 +315,6 @@ namespace ATLAS_Mapper
             try
             {
                 string data = sPort.ReadLine();
-
                 var parts = data.Split('_');
 
                 sonarFront = Convert.ToDouble(parts[0]);
@@ -332,9 +327,7 @@ namespace ATLAS_Mapper
                 accelZ = Convert.ToInt16(parts[7]);
                 gyroX = Convert.ToInt16(parts[8]) / 131.0;
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
-                
                 gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;
-
 
                 //else
                 //    gyroZ = 0.0;
@@ -346,6 +339,7 @@ namespace ATLAS_Mapper
                     roverGyroDir = driveDir * -1;
                 }
 
+                // Throw out the bugged data from gyro if recieved
                 if (gyroZ >= 3.0)
                 {
                     this.BeginInvoke(new MethodInvoker(delegate()
@@ -355,26 +349,53 @@ namespace ATLAS_Mapper
                 gyroZ *= ((double)(HEART_RATE) / 1000);
                 gyroZ = Math.Round(gyroZ, 4);
 
+                // Calibrate the gyro offset value
                 if (calibrating)
                 {
                     if (calibrationCount < maxCalibrations)
                     {
-                        calibrationValue.Add(gyroZ);
+                        listCalibrationValues.Add(gyroZ);
                         calibrationCount++;
                     }
                     else
                     {
                         double calAverage = 0;
-                        foreach (double p in calibrationValue)
+                        foreach (double p in listCalibrationValues)
                         {
                             calAverage += p;
                         }
                         calAverage /= maxCalibrations;
-
+                        gyroZOffset = calAverage;
+                        jsThread.Abort();                   // Stop communication with Rover for now
+                        this.Invoke(new MethodInvoker(delegate
+                        {
+                            if (DialogResult.No == MessageBox.Show(this, "gyroZOffset = " + gyroZOffset + "\r\nAcceptable?",
+                                "Calibration result", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+                            {
+                                string input = Interaction.InputBox("How many data poitns?", "Calibration", "10", 0, 0);
+                                maxCalibrations = Convert.ToInt32(input);
+                                listCalibrationValues.Clear();
+                                calAverage = 0.0;
+                                gyroZOffset = 0.0;
+                                calibrationCount = 0;
+                                calibrating = true;
+                                jsThread = new Thread(this.UpdateJoystick);
+                                jsThread.Start();
+                            }
+                            else
+                            {
+                                calibrating = false;
+                                jsThread = new Thread(this.UpdateJoystick);
+                                jsThread.Start();                   // Calibration is accepted, continue communciation
+                            }
+                        }));
                     }
                 }
                 else
-                    gyroZ += GYRO_OFFSET_Z;
+                {
+                    //gyroZ += GYRO_OFFSET_Z;
+                    gyroZ += gyroZOffset;
+                }
 
                 roverGyroDir += gyroZ;
 
@@ -398,11 +419,9 @@ namespace ATLAS_Mapper
 
                     UpdateMap(driveDir, driveCnt);
                 }));
-
-                recvAck = true;
                 packetRecvCount++;
             }
-            catch (Exception){}
+            catch (IndexOutOfRangeException){}
         }
 
         private void UpdateMap(int rDir, int pCounts)
@@ -609,6 +628,7 @@ namespace ATLAS_Mapper
         {
             listRoverGyroPoints.Clear();
             listRoverPoints.Clear();
+            listSonarPoints.Clear();
             Bitmap tmpImg = new Bitmap(pbMap.Width, pbMap.Height);
             pbMap.Image = tmpImg;
         }
