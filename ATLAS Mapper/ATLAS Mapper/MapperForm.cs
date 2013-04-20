@@ -438,8 +438,8 @@ namespace ATLAS_Mapper
             int tmpSonarX = 0,
                 tmpSonarY = 0;
 
-            newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
-            newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
+            //newRoverPosX += (int)(Math.Cos(pDir * Math.PI / 180) * pCounts / mapScale);
+            //newRoverPosY += (int)(Math.Sin(pDir * Math.PI / 180) * pCounts / mapScale);
 
             newRoverGyroPosX += (int)(Math.Cos(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
             newRoverGyroPosY += (int)(Math.Sin(roverGyroDir * Math.PI / 180) * pCounts / mapScale);
@@ -448,14 +448,14 @@ namespace ATLAS_Mapper
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
             // Calculate te sonar points
-            tmpSonarX = newRoverPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
-            tmpSonarY = newRoverPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
+            tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
+            tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION / mapScale));
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = newRoverPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
-            tmpSonarY = newRoverPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
+            tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
+            tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION / mapScale));
             listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
-            tmpSonarX = newRoverPosX + ((int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
-            tmpSonarY = newRoverPosY + ((int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
+            tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
+            tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION / mapScale));
             //listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             
             DrawMap();
