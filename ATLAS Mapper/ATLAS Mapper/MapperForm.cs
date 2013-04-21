@@ -23,7 +23,12 @@ namespace ATLAS_Mapper
         private const double CONVERSION_FEET_TO_METER = 3.28084;
         private const float ZOOM_MAX = 0.060f;
         private const float ZOOM_MIN = 0.0005f;
-
+        private DateTime timeOld = DateTime.Now,
+                         timeNew = DateTime.Now,
+                         timeOldS = DateTime.Now,
+                         timeNewS = DateTime.Now;
+        private TimeSpan timeDif,
+                         timeDifS;
         private double convFact = (5.0 / 512.0);     // Defaults to inches
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
@@ -35,7 +40,7 @@ namespace ATLAS_Mapper
         private int totalEncoderCnt = 0;
 
         private int calibrationCount = 0;
-        private int maxCalibrations = 5;
+        private int maxCalibrations = 50;
         private List<double> listCalibrationValues;
 
         // Rover Variables
@@ -71,7 +76,7 @@ namespace ATLAS_Mapper
                     jsTolX = 250,               // Tolerance for Turning
                     jsTolY = 250,               // Tolerance for Driving
                     jsScaleX = 75,
-                    jsScaleY = 102;
+                    jsScaleY = 75;
         private char jsSignX = '+',
                      jsSignY = '+';
         private string jsCharX = "",
@@ -320,6 +325,9 @@ namespace ATLAS_Mapper
         {
             try
             {
+                timeOld = timeNew;
+                timeNew = DateTime.Now;
+                timeDif = timeNew - timeOld;
                 string data = sPort.ReadLine();
                 var parts = data.Split('_');
 
@@ -344,9 +352,6 @@ namespace ATLAS_Mapper
                     initialData = false;
                     roverGyroDir = driveDir * -1;
                 }
-
-                // Adjust gyro values based on HEART_BEAT.
-                gyroZ *= ((double)(HEART_RATE) / 1000);
 
                 // Calibrate the gyro offset value
                 if (calibrating)
@@ -397,8 +402,13 @@ namespace ATLAS_Mapper
                     gyroZ = Math.Round(gyroZ, 5);
                 }
 
+                // Adjust gyro values based on HEART_BEAT.
+                gyroZ *= ((double)(timeDif.Milliseconds) / 1000);
+
+                //gyroZ = Math.Round(gyroZ, 5);
+
                 // Throw out the bugged data from gyro if recieved
-                if (Math.Abs(gyroZ) >= 3.0)
+                if (Math.Abs(gyroZ) >= 3.0 && jsCurrX == 0)
                 {
                     gyroZ = gyroZprev;
                     this.BeginInvoke(new MethodInvoker(delegate()
@@ -406,6 +416,15 @@ namespace ATLAS_Mapper
                 }
                 else
                 {
+                    /*
+                    double tmp = Convert.ToDouble(turnFactor.Text) * jsCurrX * jsCurrY;
+                    if (jsCharX == "-")
+                        tmp *= -1;
+                    if (jsCharY == "-")
+                        tmp *= -1;
+                    if (jsCurrX >= 3)        // if turn mag
+                        gyroZ += tmp;
+                    */
                     gyroZprev = gyroZ;
                 }
                 roverGyroDir += gyroZ;
@@ -420,7 +439,7 @@ namespace ATLAS_Mapper
                     tbSensorRight.Text = sonarRight.ToString("F2");
                     encoderDelta.Text = driveCnt.ToString();
                     tbTotalEncCnt.Text = totalEncoderCnt.ToString();
-                    compassDirection.Text = (driveDir * -1).ToString();
+                    compassDirection.Text = roverGyroDir.ToString();
                     accelBoxX.Text = accelX.ToString();
                     accelBoxY.Text = accelY.ToString();
                     accelBoxZ.Text = accelZ.ToString();
@@ -428,16 +447,16 @@ namespace ATLAS_Mapper
                     gyroBoxY.Text = gyroY.ToString();
                     gyroBoxZ.Text = gyroZ.ToString();
 
-                    UpdateMapPoints(driveDir, driveCnt);
+                    UpdateMapPoints(roverGyroDir, driveCnt, sonarLeft, sonarRight, sonarFront);
                 }));
                 packetRecvCount++;
             }
             catch (IndexOutOfRangeException){}
         }
 
-        private void UpdateMapPoints(int rDir, int pCounts)
+        private void UpdateMapPoints(double rDir, int pCounts, double sonarLeftT, double sonarRightT, double sonarFrontT)
         {
-            int pDir = rDir * -1;
+            //int pDir = rDir * -1;
             int tmpSonarX = 0,
                 tmpSonarY = 0;
 
@@ -447,32 +466,32 @@ namespace ATLAS_Mapper
             //listRoverPoints.Add(new Point(newRoverPosX, newRoverPosY));
 
             // Calculate the Rover position point basd on gyro data
-            newRoverGyroPosX += (int)(Math.Cos(roverGyroDir * Math.PI / 180) * pCounts);
-            newRoverGyroPosY += (int)(Math.Sin(roverGyroDir * Math.PI / 180) * pCounts);
+            newRoverGyroPosX += (int)(Math.Cos(rDir * Math.PI / 180) * pCounts);
+            newRoverGyroPosY += (int)(Math.Sin(rDir * Math.PI / 180) * pCounts);
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
             // Calculate the sonar points
             if (sonarLeft < SONAR_DISTANCE_MAX && jsCurrY != 0)
             {
-                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION));
-                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir - 90) * Math.PI / 180) * sonarLeft * COUNT_CONVERSION));
+                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir - 90) * Math.PI / 180) * sonarLeftT * COUNT_CONVERSION));
+                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir - 90) * Math.PI / 180) * sonarLeftT * COUNT_CONVERSION));
                 listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             }
             if (sonarRight < SONAR_DISTANCE_MAX && jsCurrY != 0)
             {
-                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION));
-                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir + 90) * Math.PI / 180) * sonarRight * COUNT_CONVERSION));
+                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir + 90) * Math.PI / 180) * sonarRightT * COUNT_CONVERSION));
+                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir + 90) * Math.PI / 180) * sonarRightT * COUNT_CONVERSION));
                 listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             }
-            //tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION));
-            //tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((roverGyroDir) * Math.PI / 180) * sonarFront * COUNT_CONVERSION));
+            //tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir) * Math.PI / 180) * sonarFrontT * COUNT_CONVERSION));
+            //tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir) * Math.PI / 180) * sonarFrontT * COUNT_CONVERSION));
             //listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             
             DrawMap();
 
             curRoverPosX = newRoverPosX;
             curRoverPosY = newRoverPosY;
-            prevDriveDir = pDir;
+            //prevDriveDir = pDir;
         }
 
         private void DrawMap()

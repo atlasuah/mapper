@@ -196,8 +196,8 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
             this.rtbDataIn.Location = new System.Drawing.Point(348, 446);
             this.rtbDataIn.Name = "rtbDataIn";
@@ -309,7 +309,7 @@
             // 
             this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnStartStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartStop.Location = new System.Drawing.Point(227, 527);
+            this.btnStartStop.Location = new System.Drawing.Point(227, 501);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -339,7 +339,7 @@
             // btnAcquireJs
             // 
             this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(227, 491);
+            this.btnAcquireJs.Location = new System.Drawing.Point(227, 465);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -367,9 +367,9 @@
             // 
             // pbMap
             // 
-            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbMap.BackColor = System.Drawing.SystemColors.Window;
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
@@ -518,7 +518,7 @@
             this.gyroGroupBox.Controls.Add(this.label19);
             this.gyroGroupBox.Location = new System.Drawing.Point(835, 573);
             this.gyroGroupBox.Name = "gyroGroupBox";
-            this.gyroGroupBox.Size = new System.Drawing.Size(95, 103);
+            this.gyroGroupBox.Size = new System.Drawing.Size(113, 103);
             this.gyroGroupBox.TabIndex = 38;
             this.gyroGroupBox.TabStop = false;
             this.gyroGroupBox.Text = "Gyroscope";
@@ -547,7 +547,7 @@
             this.gyroBoxZ.Location = new System.Drawing.Point(21, 71);
             this.gyroBoxZ.Name = "gyroBoxZ";
             this.gyroBoxZ.ReadOnly = true;
-            this.gyroBoxZ.Size = new System.Drawing.Size(62, 20);
+            this.gyroBoxZ.Size = new System.Drawing.Size(86, 20);
             this.gyroBoxZ.TabIndex = 19;
             // 
             // label17
