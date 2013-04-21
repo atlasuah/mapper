@@ -1,4 +1,4 @@
-﻿namespace ATLAS_Mapper
+namespace ATLAS_Mapper
 {
     partial class MapperForm
     {
@@ -115,9 +115,9 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(280, 446);
+            this.label2.Location = new System.Drawing.Point(685, 553);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 4;
@@ -196,20 +196,19 @@
             // 
             // rtbDataIn
             // 
-            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbDataIn.Location = new System.Drawing.Point(348, 446);
+            this.rtbDataIn.Location = new System.Drawing.Point(753, 553);
             this.rtbDataIn.Name = "rtbDataIn";
             this.rtbDataIn.ReadOnly = true;
-            this.rtbDataIn.Size = new System.Drawing.Size(282, 232);
+            this.rtbDataIn.Size = new System.Drawing.Size(185, 160);
             this.rtbDataIn.TabIndex = 13;
             this.rtbDataIn.Text = "";
             this.rtbDataIn.TextChanged += new System.EventHandler(this.rtbDataIn_TextChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbPort);
             this.groupBox1.Controls.Add(this.label6);
@@ -222,7 +221,7 @@
             this.groupBox1.Controls.Add(this.tbParity);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnClosePort);
-            this.groupBox1.Location = new System.Drawing.Point(12, 446);
+            this.groupBox1.Location = new System.Drawing.Point(702, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(201, 230);
             this.groupBox1.TabIndex = 14;
@@ -242,10 +241,10 @@
             // 
             // btnClearText
             // 
-            this.btnClearText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClearText.Location = new System.Drawing.Point(267, 653);
+            this.btnClearText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearText.Location = new System.Drawing.Point(688, 690);
             this.btnClearText.Name = "btnClearText";
-            this.btnClearText.Size = new System.Drawing.Size(75, 23);
+            this.btnClearText.Size = new System.Drawing.Size(59, 23);
             this.btnClearText.TabIndex = 16;
             this.btnClearText.Text = "Clear";
             this.btnClearText.UseVisualStyleBackColor = true;
@@ -307,9 +306,9 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStartStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartStop.Location = new System.Drawing.Point(227, 501);
+            this.btnStartStop.Location = new System.Drawing.Point(806, 251);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -338,8 +337,8 @@
             // 
             // btnAcquireJs
             // 
-            this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(227, 465);
+            this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAcquireJs.Location = new System.Drawing.Point(699, 251);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -349,17 +348,17 @@
             // 
             // tbSentCmd
             // 
-            this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbSentCmd.Location = new System.Drawing.Point(228, 618);
+            this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSentCmd.Location = new System.Drawing.Point(670, 633);
             this.tbSentCmd.Name = "tbSentCmd";
-            this.tbSentCmd.Size = new System.Drawing.Size(100, 20);
+            this.tbSentCmd.Size = new System.Drawing.Size(80, 20);
             this.tbSentCmd.TabIndex = 33;
             // 
             // label12
             // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(251, 599);
+            this.label12.Location = new System.Drawing.Point(684, 617);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(52, 13);
             this.label12.TabIndex = 34;
@@ -374,7 +373,7 @@
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
             this.pbMap.Name = "pbMap";
-            this.pbMap.Size = new System.Drawing.Size(824, 417);
+            this.pbMap.Size = new System.Drawing.Size(649, 672);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
             this.pbMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseDown);
@@ -394,7 +393,7 @@
             this.sonarGroupBox.Controls.Add(this.label11);
             this.sonarGroupBox.Controls.Add(this.label9);
             this.sonarGroupBox.Controls.Add(this.label8);
-            this.sonarGroupBox.Location = new System.Drawing.Point(659, 446);
+            this.sonarGroupBox.Location = new System.Drawing.Point(667, 295);
             this.sonarGroupBox.Name = "sonarGroupBox";
             this.sonarGroupBox.Size = new System.Drawing.Size(271, 106);
             this.sonarGroupBox.TabIndex = 36;
@@ -404,7 +403,7 @@
             // encoderDelta
             // 
             this.encoderDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.encoderDelta.Location = new System.Drawing.Point(761, 589);
+            this.encoderDelta.Location = new System.Drawing.Point(769, 438);
             this.encoderDelta.Name = "encoderDelta";
             this.encoderDelta.Size = new System.Drawing.Size(61, 20);
             this.encoderDelta.TabIndex = 37;
@@ -413,7 +412,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(754, 573);
+            this.label7.Location = new System.Drawing.Point(762, 422);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 13);
             this.label7.TabIndex = 29;
@@ -423,7 +422,7 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(766, 642);
+            this.label13.Location = new System.Drawing.Point(774, 491);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 38;
@@ -432,7 +431,7 @@
             // compassDirection
             // 
             this.compassDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.compassDirection.Location = new System.Drawing.Point(761, 658);
+            this.compassDirection.Location = new System.Drawing.Point(769, 507);
             this.compassDirection.Name = "compassDirection";
             this.compassDirection.Size = new System.Drawing.Size(61, 20);
             this.compassDirection.TabIndex = 39;
@@ -446,7 +445,7 @@
             this.accelGroupBox.Controls.Add(this.label15);
             this.accelGroupBox.Controls.Add(this.label14);
             this.accelGroupBox.Controls.Add(this.label16);
-            this.accelGroupBox.Location = new System.Drawing.Point(659, 573);
+            this.accelGroupBox.Location = new System.Drawing.Point(667, 422);
             this.accelGroupBox.Name = "accelGroupBox";
             this.accelGroupBox.Size = new System.Drawing.Size(95, 103);
             this.accelGroupBox.TabIndex = 37;
@@ -516,7 +515,7 @@
             this.gyroGroupBox.Controls.Add(this.label17);
             this.gyroGroupBox.Controls.Add(this.label18);
             this.gyroGroupBox.Controls.Add(this.label19);
-            this.gyroGroupBox.Location = new System.Drawing.Point(835, 573);
+            this.gyroGroupBox.Location = new System.Drawing.Point(843, 422);
             this.gyroGroupBox.Name = "gyroGroupBox";
             this.gyroGroupBox.Size = new System.Drawing.Size(113, 103);
             this.gyroGroupBox.TabIndex = 38;
@@ -579,8 +578,8 @@
             // 
             // btnClearMap
             // 
-            this.btnClearMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearMap.Location = new System.Drawing.Point(855, 123);
+            this.btnClearMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearMap.Location = new System.Drawing.Point(12, 690);
             this.btnClearMap.Name = "btnClearMap";
             this.btnClearMap.Size = new System.Drawing.Size(75, 23);
             this.btnClearMap.TabIndex = 40;
@@ -590,8 +589,8 @@
             // 
             // btnSaveMap
             // 
-            this.btnSaveMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveMap.Location = new System.Drawing.Point(855, 165);
+            this.btnSaveMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveMap.Location = new System.Drawing.Point(286, 690);
             this.btnSaveMap.Name = "btnSaveMap";
             this.btnSaveMap.Size = new System.Drawing.Size(75, 23);
             this.btnSaveMap.TabIndex = 41;
@@ -602,7 +601,7 @@
             // tbTotalEncCnt
             // 
             this.tbTotalEncCnt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTotalEncCnt.Location = new System.Drawing.Point(761, 615);
+            this.tbTotalEncCnt.Location = new System.Drawing.Point(769, 464);
             this.tbTotalEncCnt.Name = "tbTotalEncCnt";
             this.tbTotalEncCnt.Size = new System.Drawing.Size(61, 20);
             this.tbTotalEncCnt.TabIndex = 42;
@@ -611,7 +610,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(950, 699);
+            this.ClientSize = new System.Drawing.Size(950, 725);
             this.Controls.Add(this.tbTotalEncCnt);
             this.Controls.Add(this.btnSaveMap);
             this.Controls.Add(this.btnClearMap);
