@@ -59,8 +59,8 @@ namespace ATLAS_Mapper
         private int prevDriveDir = 0;
         private int curRoverGyroPosX = 200,
                     curRoverGyroPosY = 200,
-                    newRoverGyroPosX = 350,
-                    newRoverGyroPosY = 350;
+                    newRoverGyroPosX = 450,
+                    newRoverGyroPosY = 450;
         private double roverGyroDir = 0;
 
         // Joystick Variables
@@ -117,9 +117,11 @@ namespace ATLAS_Mapper
             listCalibrationValues = new List<double>();
             btnStartStop.Enabled = false;
 
+            this.WindowState = FormWindowState.Maximized;
+
             // Initial rover position on map
-            newRoverPosX = (int)(newRoverPosX / mapZoom);
-            newRoverPosY = (int)(newRoverPosY / mapZoom);
+            newRoverPosX = (int)((pbMap.Width / 2) / mapZoom);
+            newRoverPosY = (int)((pbMap.Height / 2) / mapZoom);
 
             // Initialize the bitmap for the PictureBox
             mapBitmap = new Bitmap(pbMap.Width, pbMap.Height);
