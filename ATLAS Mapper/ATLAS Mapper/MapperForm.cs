@@ -40,7 +40,7 @@ namespace ATLAS_Mapper
         private int totalEncoderCnt = 0;
 
         private int calibrationCount = 0;
-        private int maxCalibrations = 50;
+        private int maxCalibrations = 100;
         private List<double> listCalibrationValues;
 
         // Rover Variables
@@ -57,7 +57,7 @@ namespace ATLAS_Mapper
                     gyroY = 0.0,
                     gyroZ = 0.0,
                     gyroZprev = 0.0;
-        private double gyroZOffset = 0.0;
+        private double gyroZOffset = 0.46000;
         private double sonarLeft = 0.0,
                        sonarRight = 0.0,
                        sonarFront = 0.0;

@@ -318,6 +318,7 @@ namespace ATLAS_Mapper
             // 
             // btnUnits
             // 
+            this.btnUnits.Enabled = false;
             this.btnUnits.Location = new System.Drawing.Point(101, 75);
             this.btnUnits.Name = "btnUnits";
             this.btnUnits.Size = new System.Drawing.Size(60, 23);
@@ -424,9 +425,9 @@ namespace ATLAS_Mapper
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(774, 491);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(50, 13);
+            this.label13.Size = new System.Drawing.Size(47, 13);
             this.label13.TabIndex = 38;
-            this.label13.Text = "Compass";
+            this.label13.Text = "Heading";
             // 
             // compassDirection
             // 
