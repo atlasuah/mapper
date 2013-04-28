@@ -27,8 +27,7 @@ namespace ATLAS_Mapper
                          timeNew = DateTime.Now,
                          timeOldS = DateTime.Now,
                          timeNewS = DateTime.Now;
-        private TimeSpan timeDif,
-                         timeDifS;
+        private TimeSpan timeDif;
         private double convFact = (5.0 / 512.0);     // Defaults to inches
         private SerialPort sPort;
         private volatile int sendCmdCount = 8;          // Number of commands to send with every heartbeat
@@ -61,10 +60,7 @@ namespace ATLAS_Mapper
         private double sonarLeft = 0.0,
                        sonarRight = 0.0,
                        sonarFront = 0.0;
-        private int prevDriveDir = 0;
-        private int curRoverGyroPosX = 200,
-                    curRoverGyroPosY = 200,
-                    newRoverGyroPosX = 450,
+        private int newRoverGyroPosX = 450,
                     newRoverGyroPosY = 450;
         private double roverGyroDir = 0;
 
@@ -202,19 +198,6 @@ namespace ATLAS_Mapper
                 btnStartStop.Text = "Start Driving";
             }
         }
-        private void btnUnits_Click(object sender, EventArgs e)
-        {
-            if (btnUnits.Text == "cm")
-            {
-                //convFact = 147.04;
-                btnUnits.Text = "inches";
-            }
-            else if (btnUnits.Text == "inches")
-            {
-                //convFact = 57.89;
-                btnUnits.Text = "cm";
-            }
-        }
         private void btnAcquireJs_Click(object sender, EventArgs e)
         {
             // Search for device
@@ -296,7 +279,7 @@ namespace ATLAS_Mapper
                         if (!calibrating)
                             sendCmd = "<d" + jsSignY + jsCharY + "t" + jsSignX + jsCharX + ">";
                         else
-                            sendCmd = "<d+0t+0>";
+                            sendCmd = "<d+0t+0>";       // Forces the rover not to drive
 
                         tbSentCmd.Text = sendCmd;
 
@@ -345,8 +328,6 @@ namespace ATLAS_Mapper
                 gyroY = Convert.ToInt16(parts[9]) / 131.0;
                 gyroZ = (Convert.ToInt16(parts[10]) / 131.0) * -1;
 
-                //else
-                //    gyroZ = 0.0;
                 // Assign initial value for gyroscope to initial compass heading
                 if (initialData)
                 {
@@ -355,7 +336,7 @@ namespace ATLAS_Mapper
                     roverGyroDir = driveDir * -1;
                 }
 
-                // Calibrate the gyro offset value
+                // Calibrate the gyro offset value on startup
                 if (calibrating)
                 {
                     if (calibrationCount < maxCalibrations)
@@ -399,18 +380,15 @@ namespace ATLAS_Mapper
                 }
                 else
                 {
-                    //gyroZ += GYRO_OFFSET_Z;
-                    gyroZ -= gyroZOffset;
-                    gyroZ = Math.Round(gyroZ, 5);
+                    gyroZ -= gyroZOffset;       // Subtract out the noise
+                    gyroZ = Math.Round(gyroZ, 5);       // Limit number of digits we're considering
                 }
 
-                // Adjust gyro values based on HEART_BEAT.
+                // Adjust gyroZ value based on the time between heartbeats from the rover
                 gyroZ *= ((double)(timeDif.Milliseconds) / 1000);
 
-                //gyroZ = Math.Round(gyroZ, 5);
-
                 // Throw out the bugged data from gyro if recieved
-                if (Math.Abs(gyroZ) >= 3.0 && jsCurrX == 0)
+                if (Math.Abs(gyroZ) >= 3.0 && jsCurrX == 0)     // Should not be greater than 3 during normal use
                 {
                     gyroZ = gyroZprev;
                     this.BeginInvoke(new MethodInvoker(delegate()
@@ -418,23 +396,16 @@ namespace ATLAS_Mapper
                 }
                 else
                 {
-                    /*
-                    double tmp = Convert.ToDouble(turnFactor.Text) * jsCurrX * jsCurrY;
-                    if (jsCharX == "-")
-                        tmp *= -1;
-                    if (jsCharY == "-")
-                        tmp *= -1;
-                    if (jsCurrX >= 3)        // if turn mag
-                        gyroZ += tmp;
-                    */
                     gyroZprev = gyroZ;
                 }
+
+                // Update rover heading
                 roverGyroDir += gyroZ;
 
                 // Update total counts
                 totalEncoderCnt += driveCnt;
 
-                this.BeginInvoke(new MethodInvoker(delegate()
+                this.BeginInvoke(new MethodInvoker(delegate()       // Make the changes to the GUI
                 {
                     tbSensorFront.Text = sonarFront.ToString("F2");
                     tbSensorLeft.Text = sonarLeft.ToString("F2");
@@ -456,9 +427,8 @@ namespace ATLAS_Mapper
             catch (IndexOutOfRangeException){}
         }
 
-        private void UpdateMapPoints(double rDir, int pCounts, double sonarLeftT, double sonarRightT, double sonarFrontT)
+        private void UpdateMapPoints(double rDir, int pCounts, double sLeft, double sRight, double sFront)
         {
-            //int pDir = rDir * -1;
             int tmpSonarX = 0,
                 tmpSonarY = 0;
 
@@ -473,27 +443,23 @@ namespace ATLAS_Mapper
             listRoverGyroPoints.Add(new Point(newRoverGyroPosX, newRoverGyroPosY));
 
             // Calculate the sonar points
-            if (sonarLeft < SONAR_DISTANCE_MAX && jsCurrY != 0)
+            if (sonarLeft < SONAR_DISTANCE_MAX && jsCurrY != 0)     // Draw point if closer than max distance and not moving
             {
-                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir - 90) * Math.PI / 180) * sonarLeftT * COUNT_CONVERSION));
-                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir - 90) * Math.PI / 180) * sonarLeftT * COUNT_CONVERSION));
+                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir - 90) * Math.PI / 180) * sLeft * COUNT_CONVERSION));
+                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir - 90) * Math.PI / 180) * sLeft * COUNT_CONVERSION));
                 listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             }
-            if (sonarRight < SONAR_DISTANCE_MAX && jsCurrY != 0)
+            if (sonarRight < SONAR_DISTANCE_MAX && jsCurrY != 0)    // Draw point if closer than max distance and not moving
             {
-                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir + 90) * Math.PI / 180) * sonarRightT * COUNT_CONVERSION));
-                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir + 90) * Math.PI / 180) * sonarRightT * COUNT_CONVERSION));
+                tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir + 90) * Math.PI / 180) * sRight * COUNT_CONVERSION));
+                tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir + 90) * Math.PI / 180) * sRight * COUNT_CONVERSION));
                 listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             }
-            //tmpSonarX = newRoverGyroPosX + ((int)(Math.Cos((rDir) * Math.PI / 180) * sonarFrontT * COUNT_CONVERSION));
-            //tmpSonarY = newRoverGyroPosY + ((int)(Math.Sin((rDir) * Math.PI / 180) * sonarFrontT * COUNT_CONVERSION));
-            //listSonarPoints.Add(new Point(tmpSonarX, tmpSonarY));
             
             DrawMap();
 
             curRoverPosX = newRoverPosX;
             curRoverPosY = newRoverPosY;
-            //prevDriveDir = pDir;
         }
 
         private void DrawMap()
@@ -504,19 +470,20 @@ namespace ATLAS_Mapper
                 using (Graphics g = Graphics.FromImage(mapBitmap))
                 {
                     // Draw the COMPASS position
-                /*       for (int i = 0; i < (listRoverPoints.Count - 1); i++)
-                    {
-                        //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
-                        //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
-                        //    (listRoverPoints[i].Y + mapShiftY) * mapZoo
-                        //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
-                        //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
-                        g.FillRectangle(Brushes.Black,
-                            (listRoverPoints[i].X + mapShiftX) * mapZoom,
-                            (listRoverPoints[i].Y + mapShiftY) * mapZoom,
-                            2, 2);
-                    }
-                    */
+                /*  
+                 *   for (int i = 0; i < (listRoverPoints.Count - 1); i++)
+                 *   {
+                 *       //g.DrawLine(new Pen(Color.Black, (int)(5 * mapZoom)),
+                 *       //    (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                 *       //    (listRoverPoints[i].Y + mapShiftY) * mapZoo
+                 *       //    (listRoverPoints[i + 1].X + mapShiftX) * mapZoom,
+                 *       //    (listRoverPoints[i + 1].Y + mapShiftY) * mapZoom);
+                 *       g.FillRectangle(Brushes.Black,
+                 *           (listRoverPoints[i].X + mapShiftX) * mapZoom,
+                 *           (listRoverPoints[i].Y + mapShiftY) * mapZoom,
+                 *           2, 2);
+                 *   }
+                */
                     
                     // Draw the GYRO position
                     for (int i = 0; i < (listRoverGyroPoints.Count - 1); i++)
@@ -556,7 +523,7 @@ namespace ATLAS_Mapper
                     g.DrawString("1 Meter", new Font("Arial", 12.0f, FontStyle.Bold),
                         Brushes.Brown, pbMap.Width - 95, pbMap.Height - 23);
                 }
-                pbMap.Image = mapBitmap;
+                pbMap.Image = mapBitmap;        // Update screen image
             }
             catch (Exception) { }
         }
@@ -578,8 +545,8 @@ namespace ATLAS_Mapper
         }
         private void rtbDataIn_TextChanged(object sender, EventArgs e)
         {
-            rtbDataIn.SelectionStart = rtbDataIn.Text.Length; //Set the current caret position to the end
-            rtbDataIn.ScrollToCaret(); //Now scroll it automatically
+            rtbDataIn.SelectionStart = rtbDataIn.Text.Length;   // Set the current caret position to the end
+            rtbDataIn.ScrollToCaret();      // Now scroll it automatically
         }
 
         private void pbMap_MouseDown(object sender, MouseEventArgs e)

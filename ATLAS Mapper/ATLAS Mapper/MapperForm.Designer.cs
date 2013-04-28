@@ -51,8 +51,6 @@ namespace ATLAS_Mapper
             this.tbSensorLeft = new System.Windows.Forms.TextBox();
             this.tbSensorFront = new System.Windows.Forms.TextBox();
             this.btnStartStop = new System.Windows.Forms.Button();
-            this.btnUnits = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
             this.btnAcquireJs = new System.Windows.Forms.Button();
             this.tbSentCmd = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -79,6 +77,7 @@ namespace ATLAS_Mapper
             this.btnClearMap = new System.Windows.Forms.Button();
             this.btnSaveMap = new System.Windows.Forms.Button();
             this.tbTotalEncCnt = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
             this.sonarGroupBox.SuspendLayout();
@@ -96,7 +95,7 @@ namespace ATLAS_Mapper
             // 
             // btnOpenPort
             // 
-            this.btnOpenPort.Location = new System.Drawing.Point(63, 165);
+            this.btnOpenPort.Location = new System.Drawing.Point(66, 156);
             this.btnOpenPort.Name = "btnOpenPort";
             this.btnOpenPort.Size = new System.Drawing.Size(75, 23);
             this.btnOpenPort.TabIndex = 1;
@@ -117,7 +116,7 @@ namespace ATLAS_Mapper
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(685, 553);
+            this.label2.Location = new System.Drawing.Point(719, 553);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 4;
@@ -198,7 +197,7 @@ namespace ATLAS_Mapper
             // 
             this.rtbDataIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbDataIn.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbDataIn.Location = new System.Drawing.Point(753, 553);
+            this.rtbDataIn.Location = new System.Drawing.Point(787, 553);
             this.rtbDataIn.Name = "rtbDataIn";
             this.rtbDataIn.ReadOnly = true;
             this.rtbDataIn.Size = new System.Drawing.Size(185, 160);
@@ -221,9 +220,9 @@ namespace ATLAS_Mapper
             this.groupBox1.Controls.Add(this.tbParity);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnClosePort);
-            this.groupBox1.Location = new System.Drawing.Point(702, 12);
+            this.groupBox1.Location = new System.Drawing.Point(736, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(201, 230);
+            this.groupBox1.Size = new System.Drawing.Size(201, 219);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Serial Port";
@@ -231,7 +230,7 @@ namespace ATLAS_Mapper
             // btnClosePort
             // 
             this.btnClosePort.Enabled = false;
-            this.btnClosePort.Location = new System.Drawing.Point(63, 194);
+            this.btnClosePort.Location = new System.Drawing.Point(66, 185);
             this.btnClosePort.Name = "btnClosePort";
             this.btnClosePort.Size = new System.Drawing.Size(75, 23);
             this.btnClosePort.TabIndex = 15;
@@ -242,7 +241,7 @@ namespace ATLAS_Mapper
             // btnClearText
             // 
             this.btnClearText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearText.Location = new System.Drawing.Point(688, 690);
+            this.btnClearText.Location = new System.Drawing.Point(722, 690);
             this.btnClearText.Name = "btnClearText";
             this.btnClearText.Size = new System.Drawing.Size(59, 23);
             this.btnClearText.TabIndex = 16;
@@ -308,7 +307,7 @@ namespace ATLAS_Mapper
             // 
             this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStartStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartStop.Location = new System.Drawing.Point(806, 251);
+            this.btnStartStop.Location = new System.Drawing.Point(840, 239);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(100, 23);
             this.btnStartStop.TabIndex = 25;
@@ -316,30 +315,10 @@ namespace ATLAS_Mapper
             this.btnStartStop.UseVisualStyleBackColor = true;
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
-            // btnUnits
-            // 
-            this.btnUnits.Enabled = false;
-            this.btnUnits.Location = new System.Drawing.Point(101, 75);
-            this.btnUnits.Name = "btnUnits";
-            this.btnUnits.Size = new System.Drawing.Size(60, 23);
-            this.btnUnits.TabIndex = 27;
-            this.btnUnits.Text = "inches";
-            this.btnUnits.UseVisualStyleBackColor = true;
-            this.btnUnits.Click += new System.EventHandler(this.btnUnits_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(115, 59);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(31, 13);
-            this.label11.TabIndex = 28;
-            this.label11.Text = "Units";
-            // 
             // btnAcquireJs
             // 
             this.btnAcquireJs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAcquireJs.Location = new System.Drawing.Point(699, 251);
+            this.btnAcquireJs.Location = new System.Drawing.Point(733, 239);
             this.btnAcquireJs.Name = "btnAcquireJs";
             this.btnAcquireJs.Size = new System.Drawing.Size(101, 23);
             this.btnAcquireJs.TabIndex = 29;
@@ -350,8 +329,10 @@ namespace ATLAS_Mapper
             // tbSentCmd
             // 
             this.tbSentCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSentCmd.Location = new System.Drawing.Point(670, 633);
+            this.tbSentCmd.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSentCmd.Location = new System.Drawing.Point(704, 633);
             this.tbSentCmd.Name = "tbSentCmd";
+            this.tbSentCmd.ReadOnly = true;
             this.tbSentCmd.Size = new System.Drawing.Size(80, 20);
             this.tbSentCmd.TabIndex = 33;
             // 
@@ -359,7 +340,7 @@ namespace ATLAS_Mapper
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(684, 617);
+            this.label12.Location = new System.Drawing.Point(718, 617);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(52, 13);
             this.label12.TabIndex = 34;
@@ -374,7 +355,7 @@ namespace ATLAS_Mapper
             this.pbMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbMap.Location = new System.Drawing.Point(12, 12);
             this.pbMap.Name = "pbMap";
-            this.pbMap.Size = new System.Drawing.Size(649, 672);
+            this.pbMap.Size = new System.Drawing.Size(683, 672);
             this.pbMap.TabIndex = 35;
             this.pbMap.TabStop = false;
             this.pbMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseDown);
@@ -386,17 +367,15 @@ namespace ATLAS_Mapper
             // sonarGroupBox
             // 
             this.sonarGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sonarGroupBox.Controls.Add(this.btnUnits);
             this.sonarGroupBox.Controls.Add(this.tbSensorFront);
             this.sonarGroupBox.Controls.Add(this.tbSensorLeft);
             this.sonarGroupBox.Controls.Add(this.tbSensorRight);
             this.sonarGroupBox.Controls.Add(this.label10);
-            this.sonarGroupBox.Controls.Add(this.label11);
             this.sonarGroupBox.Controls.Add(this.label9);
             this.sonarGroupBox.Controls.Add(this.label8);
-            this.sonarGroupBox.Location = new System.Drawing.Point(667, 295);
+            this.sonarGroupBox.Location = new System.Drawing.Point(701, 347);
             this.sonarGroupBox.Name = "sonarGroupBox";
-            this.sonarGroupBox.Size = new System.Drawing.Size(271, 106);
+            this.sonarGroupBox.Size = new System.Drawing.Size(271, 69);
             this.sonarGroupBox.TabIndex = 36;
             this.sonarGroupBox.TabStop = false;
             this.sonarGroupBox.Text = "Sonar Data";
@@ -404,8 +383,10 @@ namespace ATLAS_Mapper
             // encoderDelta
             // 
             this.encoderDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.encoderDelta.Location = new System.Drawing.Point(769, 438);
+            this.encoderDelta.BackColor = System.Drawing.SystemColors.Window;
+            this.encoderDelta.Location = new System.Drawing.Point(799, 438);
             this.encoderDelta.Name = "encoderDelta";
+            this.encoderDelta.ReadOnly = true;
             this.encoderDelta.Size = new System.Drawing.Size(61, 20);
             this.encoderDelta.TabIndex = 37;
             // 
@@ -413,7 +394,7 @@ namespace ATLAS_Mapper
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(762, 422);
+            this.label7.Location = new System.Drawing.Point(791, 422);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 13);
             this.label7.TabIndex = 29;
@@ -423,7 +404,7 @@ namespace ATLAS_Mapper
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(774, 491);
+            this.label13.Location = new System.Drawing.Point(805, 497);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(47, 13);
             this.label13.TabIndex = 38;
@@ -432,8 +413,10 @@ namespace ATLAS_Mapper
             // compassDirection
             // 
             this.compassDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.compassDirection.Location = new System.Drawing.Point(769, 507);
+            this.compassDirection.BackColor = System.Drawing.SystemColors.Window;
+            this.compassDirection.Location = new System.Drawing.Point(799, 513);
             this.compassDirection.Name = "compassDirection";
+            this.compassDirection.ReadOnly = true;
             this.compassDirection.Size = new System.Drawing.Size(61, 20);
             this.compassDirection.TabIndex = 39;
             // 
@@ -446,9 +429,9 @@ namespace ATLAS_Mapper
             this.accelGroupBox.Controls.Add(this.label15);
             this.accelGroupBox.Controls.Add(this.label14);
             this.accelGroupBox.Controls.Add(this.label16);
-            this.accelGroupBox.Location = new System.Drawing.Point(667, 422);
+            this.accelGroupBox.Location = new System.Drawing.Point(701, 422);
             this.accelGroupBox.Name = "accelGroupBox";
-            this.accelGroupBox.Size = new System.Drawing.Size(95, 103);
+            this.accelGroupBox.Size = new System.Drawing.Size(89, 103);
             this.accelGroupBox.TabIndex = 37;
             this.accelGroupBox.TabStop = false;
             this.accelGroupBox.Text = "Accelerometer";
@@ -459,7 +442,7 @@ namespace ATLAS_Mapper
             this.accelBoxY.Location = new System.Drawing.Point(21, 45);
             this.accelBoxY.Name = "accelBoxY";
             this.accelBoxY.ReadOnly = true;
-            this.accelBoxY.Size = new System.Drawing.Size(62, 20);
+            this.accelBoxY.Size = new System.Drawing.Size(59, 20);
             this.accelBoxY.TabIndex = 17;
             // 
             // accelBoxX
@@ -467,8 +450,7 @@ namespace ATLAS_Mapper
             this.accelBoxX.BackColor = System.Drawing.SystemColors.Window;
             this.accelBoxX.Location = new System.Drawing.Point(21, 19);
             this.accelBoxX.Name = "accelBoxX";
-            this.accelBoxX.ReadOnly = true;
-            this.accelBoxX.Size = new System.Drawing.Size(62, 20);
+            this.accelBoxX.Size = new System.Drawing.Size(59, 20);
             this.accelBoxX.TabIndex = 18;
             // 
             // accelBoxZ
@@ -477,7 +459,7 @@ namespace ATLAS_Mapper
             this.accelBoxZ.Location = new System.Drawing.Point(21, 71);
             this.accelBoxZ.Name = "accelBoxZ";
             this.accelBoxZ.ReadOnly = true;
-            this.accelBoxZ.Size = new System.Drawing.Size(62, 20);
+            this.accelBoxZ.Size = new System.Drawing.Size(59, 20);
             this.accelBoxZ.TabIndex = 19;
             // 
             // label15
@@ -516,9 +498,9 @@ namespace ATLAS_Mapper
             this.gyroGroupBox.Controls.Add(this.label17);
             this.gyroGroupBox.Controls.Add(this.label18);
             this.gyroGroupBox.Controls.Add(this.label19);
-            this.gyroGroupBox.Location = new System.Drawing.Point(843, 422);
+            this.gyroGroupBox.Location = new System.Drawing.Point(867, 422);
             this.gyroGroupBox.Name = "gyroGroupBox";
-            this.gyroGroupBox.Size = new System.Drawing.Size(113, 103);
+            this.gyroGroupBox.Size = new System.Drawing.Size(105, 103);
             this.gyroGroupBox.TabIndex = 38;
             this.gyroGroupBox.TabStop = false;
             this.gyroGroupBox.Text = "Gyroscope";
@@ -526,7 +508,7 @@ namespace ATLAS_Mapper
             // gyroBoxY
             // 
             this.gyroBoxY.BackColor = System.Drawing.SystemColors.Window;
-            this.gyroBoxY.Location = new System.Drawing.Point(21, 45);
+            this.gyroBoxY.Location = new System.Drawing.Point(37, 74);
             this.gyroBoxY.Name = "gyroBoxY";
             this.gyroBoxY.ReadOnly = true;
             this.gyroBoxY.Size = new System.Drawing.Size(62, 20);
@@ -535,7 +517,7 @@ namespace ATLAS_Mapper
             // gyroBoxX
             // 
             this.gyroBoxX.BackColor = System.Drawing.SystemColors.Window;
-            this.gyroBoxX.Location = new System.Drawing.Point(21, 19);
+            this.gyroBoxX.Location = new System.Drawing.Point(37, 48);
             this.gyroBoxX.Name = "gyroBoxX";
             this.gyroBoxX.ReadOnly = true;
             this.gyroBoxX.Size = new System.Drawing.Size(62, 20);
@@ -544,42 +526,42 @@ namespace ATLAS_Mapper
             // gyroBoxZ
             // 
             this.gyroBoxZ.BackColor = System.Drawing.SystemColors.Window;
-            this.gyroBoxZ.Location = new System.Drawing.Point(21, 71);
+            this.gyroBoxZ.Location = new System.Drawing.Point(37, 22);
             this.gyroBoxZ.Name = "gyroBoxZ";
             this.gyroBoxZ.ReadOnly = true;
-            this.gyroBoxZ.Size = new System.Drawing.Size(86, 20);
+            this.gyroBoxZ.Size = new System.Drawing.Size(62, 20);
             this.gyroBoxZ.TabIndex = 19;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 74);
+            this.label17.Location = new System.Drawing.Point(6, 25);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(14, 13);
+            this.label17.Size = new System.Drawing.Size(28, 13);
             this.label17.TabIndex = 21;
-            this.label17.Text = "Z";
+            this.label17.Text = "Yaw";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 48);
+            this.label18.Location = new System.Drawing.Point(6, 77);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(14, 13);
+            this.label18.Size = new System.Drawing.Size(25, 13);
             this.label18.TabIndex = 21;
-            this.label18.Text = "Y";
+            this.label18.Text = "Roll";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 22);
+            this.label19.Location = new System.Drawing.Point(6, 51);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(14, 13);
+            this.label19.Size = new System.Drawing.Size(31, 13);
             this.label19.TabIndex = 21;
-            this.label19.Text = "X";
+            this.label19.Text = "Pitch";
             // 
             // btnClearMap
             // 
-            this.btnClearMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnClearMap.Location = new System.Drawing.Point(12, 690);
             this.btnClearMap.Name = "btnClearMap";
             this.btnClearMap.Size = new System.Drawing.Size(75, 23);
@@ -590,8 +572,8 @@ namespace ATLAS_Mapper
             // 
             // btnSaveMap
             // 
-            this.btnSaveMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveMap.Location = new System.Drawing.Point(286, 690);
+            this.btnSaveMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSaveMap.Location = new System.Drawing.Point(184, 690);
             this.btnSaveMap.Name = "btnSaveMap";
             this.btnSaveMap.Size = new System.Drawing.Size(75, 23);
             this.btnSaveMap.TabIndex = 41;
@@ -602,16 +584,28 @@ namespace ATLAS_Mapper
             // tbTotalEncCnt
             // 
             this.tbTotalEncCnt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTotalEncCnt.Location = new System.Drawing.Point(769, 464);
+            this.tbTotalEncCnt.BackColor = System.Drawing.SystemColors.Window;
+            this.tbTotalEncCnt.Location = new System.Drawing.Point(799, 475);
             this.tbTotalEncCnt.Name = "tbTotalEncCnt";
+            this.tbTotalEncCnt.ReadOnly = true;
             this.tbTotalEncCnt.Size = new System.Drawing.Size(61, 20);
             this.tbTotalEncCnt.TabIndex = 42;
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(791, 460);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(74, 13);
+            this.label11.TabIndex = 29;
+            this.label11.Text = "Encoder Total";
             // 
             // MapperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(950, 725);
+            this.ClientSize = new System.Drawing.Size(984, 725);
             this.Controls.Add(this.tbTotalEncCnt);
             this.Controls.Add(this.btnSaveMap);
             this.Controls.Add(this.btnClearMap);
@@ -619,6 +613,7 @@ namespace ATLAS_Mapper
             this.Controls.Add(this.accelGroupBox);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.compassDirection);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.encoderDelta);
             this.Controls.Add(this.sonarGroupBox);
@@ -632,7 +627,7 @@ namespace ATLAS_Mapper
             this.Controls.Add(this.rtbDataIn);
             this.Controls.Add(this.label2);
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(958, 726);
+            this.MinimumSize = new System.Drawing.Size(1000, 700);
             this.Name = "MapperForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ATLAS Mapper";
@@ -680,8 +675,6 @@ namespace ATLAS_Mapper
         private System.Windows.Forms.TextBox tbSensorLeft;
         private System.Windows.Forms.TextBox tbSensorFront;
         private System.Windows.Forms.Button btnStartStop;
-        private System.Windows.Forms.Button btnUnits;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnAcquireJs;
         private System.Windows.Forms.TextBox tbSentCmd;
         private System.Windows.Forms.Label label12;
@@ -708,6 +701,7 @@ namespace ATLAS_Mapper
         private System.Windows.Forms.Button btnClearMap;
         private System.Windows.Forms.Button btnSaveMap;
         private System.Windows.Forms.TextBox tbTotalEncCnt;
+        private System.Windows.Forms.Label label11;
     }
 }
 
